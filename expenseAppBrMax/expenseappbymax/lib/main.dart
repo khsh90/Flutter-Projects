@@ -51,12 +51,28 @@ class ExpenseApp extends StatelessWidget {
                                   border:
                                       Border.all(color: Colors.blue, width: 2)),
                               padding: const EdgeInsets.all(5),
-                              child: Text('${tx.amount.toString()} JD'),
+                              child: Text(
+                                '${tx.amount.toString()} JD',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    fontSize: 16),
+                              ),
                             ),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(tx.title),
-                                Text(tx.date.toString())
+                                Text(
+                                  tx.title,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  tx.date.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 11),
+                                )
                               ],
                             )
                           ],
