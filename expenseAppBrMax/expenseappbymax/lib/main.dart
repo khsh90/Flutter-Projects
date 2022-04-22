@@ -23,18 +23,20 @@ class ExpenseApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Expense App'),
         ),
-        body: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              child: const Card(
-                child: Text('DashBoard'),
-                elevation: 5,
-                color: Colors.blue,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                child: const Card(
+                  child: Text('DashBoard'),
+                  elevation: 5,
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            UserTransaction()
-          ],
+              UserTransaction()
+            ],
+          ),
         ));
   }
 }
