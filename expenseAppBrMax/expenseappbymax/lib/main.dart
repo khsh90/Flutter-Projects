@@ -1,6 +1,9 @@
-import '../widgets/userTransaction.dart';
+import 'package:expenseappbymax/widgets/newTransaction.dart';
+import 'package:expenseappbymax/widgets/transactionList.dart';
 
 import 'package:flutter/material.dart';
+
+import 'models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,12 +18,45 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ExpenseApp extends StatelessWidget {
+class ExpenseApp extends StatefulWidget {
+  @override
+  State<ExpenseApp> createState() => _ExpenseAppState();
+}
+
+class _ExpenseAppState extends State<ExpenseApp> {
+  final List<Transaction> transactions = [
+    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
+    // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
+    // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
+    // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
+  ];
+
+  void addNewTX(String Newtitle, double Newamount) {
+    final newTX = Transaction(
+        id: DateTime.now().toString(),
+        title: Newtitle,
+        amount: Newamount,
+        date: DateTime.now());
+    setState(() {
+      transactions.add(newTX);
+    });
+  }
+
+  void creatModalSheet(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx, builder: (_) => NewTransaction(addNewTX));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
+        ],
         title: const Text('Expense App'),
       ),
       body: SingleChildScrollView(
@@ -34,13 +70,13 @@ class ExpenseApp extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            UserTransaction()
+            TransactionsList(transactions: transactions)
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => creatModalSheet(context), child: Icon(Icons.add)),
     );
   }
 }
