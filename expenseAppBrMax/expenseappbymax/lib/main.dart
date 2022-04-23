@@ -1,4 +1,5 @@
-import '../widgets/userTransaction.dart';
+import 'package:expenseappbymax/widgets/newTransaction.dart';
+import 'package:expenseappbymax/widgets/transactionList.dart';
 
 import 'models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -16,27 +17,71 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ExpenseApp extends StatelessWidget {
+class ExpenseApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ExpenseApp();
+}
+
+class _ExpenseApp extends State<ExpenseApp> {
+  final List<Transaction> transactions = [
+    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
+    // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
+    // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
+    // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
+  ];
+  void addNewTX(String Newtitle, double Newamount) {
+    final newTX = Transaction(
+        id: DateTime.now().toString(),
+        title: Newtitle,
+        amount: Newamount,
+        date: DateTime.now());
+    setState(() {
+      transactions.add(newTX);
+    });
+  }
+
+  void popupMenueWhenClickOnPlus(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) => GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: NewTransaction(addNewTX)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Expense App'),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                child: const Card(
-                  child: Text('DashBoard'),
-                  elevation: 5,
-                  color: Colors.blue,
-                ),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () => popupMenueWhenClickOnPlus(context),
+              icon: Icon(Icons.add))
+        ],
+        title: const Text('Expense App'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              child: const Card(
+                child: Text('DashBoard'),
+                elevation: 5,
+                color: Colors.blue,
               ),
-              UserTransaction()
-            ],
-          ),
-        ));
+            ),
+            TransactionsList(transactions: transactions)
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => popupMenueWhenClickOnPlus(context),
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
