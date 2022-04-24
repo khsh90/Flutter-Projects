@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
 
@@ -13,12 +15,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ExpenseApp(),
-      theme: ThemeData(
-        primaryColor: Colors.green,
-        primarySwatch: Colors.green,
-      ),
-    );
+        home: ExpenseApp(),
+        theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+                titleTextStyle: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold)),
+            textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: const TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold)),
+            fontFamily: 'Quicksand',
+            primaryColor: Colors.green,
+            primarySwatch: Colors.green,
+            colorScheme: ColorScheme.fromSwatch()
+                .copyWith(secondary: Colors.amber, primary: Colors.green)));
   }
 }
 
@@ -61,7 +74,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
           IconButton(
               onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
         ],
-        title: const Text('Expense App'),
+        title: const Text(
+          'Expense App',
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
