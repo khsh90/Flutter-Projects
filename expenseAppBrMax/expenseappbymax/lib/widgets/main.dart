@@ -1,8 +1,9 @@
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
 
-import 'models/transaction.dart';
 import 'package:flutter/material.dart';
+
+import '/models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,16 +14,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: ExpenseApp(),
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        primarySwatch: Colors.green,
+      ),
     );
   }
 }
 
 class ExpenseApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ExpenseApp();
+  State<ExpenseApp> createState() => _ExpenseAppState();
 }
 
-class _ExpenseApp extends State<ExpenseApp> {
+class _ExpenseAppState extends State<ExpenseApp> {
   final List<Transaction> transactions = [
     Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
     Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
@@ -31,6 +36,7 @@ class _ExpenseApp extends State<ExpenseApp> {
     // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
     // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
   ];
+
   void addNewTX(String Newtitle, double Newamount) {
     final newTX = Transaction(
         id: DateTime.now().toString(),
@@ -42,13 +48,9 @@ class _ExpenseApp extends State<ExpenseApp> {
     });
   }
 
-  void popupMenueWhenClickOnPlus(BuildContext ctx) {
+  void creatModalSheet(BuildContext ctx) {
     showModalBottomSheet(
-        context: ctx,
-        builder: (_) => GestureDetector(
-            onTap: () {},
-            behavior: HitTestBehavior.opaque,
-            child: NewTransaction(addNewTX)));
+        context: ctx, builder: (_) => NewTransaction(addNewTX));
   }
 
   @override
@@ -57,8 +59,7 @@ class _ExpenseApp extends State<ExpenseApp> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () => popupMenueWhenClickOnPlus(context),
-              icon: Icon(Icons.add))
+              onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
         ],
         title: const Text('Expense App'),
       ),
@@ -79,9 +80,7 @@ class _ExpenseApp extends State<ExpenseApp> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => popupMenueWhenClickOnPlus(context),
-        child: Icon(Icons.add),
-      ),
+          onPressed: () => creatModalSheet(context), child: Icon(Icons.add)),
     );
   }
 }
