@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:expenseappbymax/widgets/chart.dart';
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
 
@@ -59,6 +60,13 @@ class _ExpenseAppState extends State<ExpenseApp> {
     });
   }
 
+  List<Transaction> get recentTransaction {
+    return transactions
+        .where((eachTx) => eachTx.date
+            .isAfter(DateTime.now().subtract(const Duration(days: 7))))
+        .toList();
+  }
+
   void creatModalSheet(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx, builder: (_) => NewTransaction(addNewTX));
@@ -81,11 +89,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
           children: [
             Container(
               width: double.infinity,
-              child: const Card(
-                child: Text('DashBoard'),
-                elevation: 5,
-                color: Colors.blue,
-              ),
+              child: Chart(recentTransaction),
             ),
             TransactionsList(transactions: transactions)
           ],
