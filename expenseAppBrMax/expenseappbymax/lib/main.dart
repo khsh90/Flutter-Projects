@@ -23,10 +23,8 @@ class MyApp extends StatelessWidget {
                     fontSize: 22,
                     fontWeight: FontWeight.bold)),
             textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: const TextStyle(
-                    fontFamily: 'Quicksand',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold)),
+                headline6:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             fontFamily: 'Quicksand',
             primaryColor: Colors.green,
             primarySwatch: Colors.green,
@@ -42,8 +40,8 @@ class ExpenseApp extends StatefulWidget {
 
 class _ExpenseAppState extends State<ExpenseApp> {
   final List<Transaction> transactions = [
-    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
-    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    // Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
     // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
     // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
     // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
