@@ -28,7 +28,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(workday).toString().substring(0, 1),
         'amount': totalAmount
       };
-    });
+    }).reversed.toList();
   }
 
   double get totalExpenses {

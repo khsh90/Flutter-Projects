@@ -33,39 +33,27 @@ class TransactionsList extends StatelessWidget {
               itemCount: transactions.length,
               itemBuilder: (ctx, tx) {
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2)),
-                        padding: const EdgeInsets.all(5),
+                  elevation: 5,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: FittedBox(
                         child: Text(
-                          '${transactions[tx].amount.toStringAsFixed(2)} JD',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16),
+                          '${transactions[tx].amount.toString()}JD',
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(transactions[tx].title,
-                              style: Theme.of(context).textTheme.headline6),
-                          Text(
-                            DateFormat()
-                                .add_yMMMd()
-                                .format(transactions[tx].date),
-                            style: const TextStyle(
-                                color: Colors.grey, fontSize: 11),
-                          )
-                        ],
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      transactions[tx].title,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[tx].date),
+                      style: TextStyle(fontSize: 11),
+                    ),
                   ),
                 );
               },
