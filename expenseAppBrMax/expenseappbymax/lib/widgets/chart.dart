@@ -1,3 +1,4 @@
+import 'package:expenseappbymax/widgets/chartbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,18 @@ class Chart extends StatelessWidget {
       }
       print(DateFormat.E().format(workday));
       print(totalAmount);
-      return {'day': DateFormat.E().format(workday), 'amount': totalAmount};
+      return {
+        'day': DateFormat.E().format(workday).toString().substring(0, 1),
+        'amount': totalAmount
+      };
     });
+  }
+
+  double get totalExpenses {
+    return dashboardTransactions.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue + (element['amount'] as double));
   }
 
   @override
@@ -32,9 +43,23 @@ class Chart extends StatelessWidget {
     print(dashboardTransactions);
     return Card(
       elevation: 5,
-      margin: const EdgeInsets.all(7),
-      child: Row(
-        children: const [],
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: dashboardTransactions
+              .map((data) => Flexible(
+                    fit: FlexFit.tight,
+                    child: ChartBar(
+                        data['day'] as String,
+                        data['amount'] as double,
+                        totalExpenses == 0.0
+                            ? 0.0
+                            : (data['amount'] as double) / totalExpenses),
+                  ))
+              .toList(),
+        ),
       ),
     );
   }
