@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function newTX;
@@ -14,16 +15,35 @@ class _NewTransactionState extends State<NewTransaction> {
 
   final textAmountController = TextEditingController();
 
+  var selectedDate;
+
   void addNewTransaction() {
     final enteredTitle = textTitleControllrt.text;
     final entredAmount = double.parse(textAmountController.text);
 
-    if (enteredTitle.isEmpty && entredAmount <= 0) {
+    if (enteredTitle.isEmpty && entredAmount <= 1 && selectedDate == null) {
       return;
     } else {
-      widget.newTX(enteredTitle, entredAmount);
+      widget.newTX(enteredTitle, entredAmount, selectedDate);
     }
     Navigator.of(context).pop();
+  }
+
+  void pickedDateForNewTx() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2022),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      } else {
+        setState(() {
+          selectedDate = pickedDate;
+        });
+      }
+    });
   }
 
   @override
@@ -48,12 +68,30 @@ class _NewTransactionState extends State<NewTransaction> {
                 label: Text('Amount'),
               ),
             ),
-            TextButton(
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Picked Date: ${selectedDate == null ? 'No date choosen' : DateFormat.yMd().format(selectedDate)}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextButton(
+                    onPressed: pickedDateForNewTx,
+                    child: const Text(
+                      'Select a date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))
+              ],
+            ),
+            ElevatedButton(
                 onPressed: addNewTransaction,
                 child: const Text('Add'),
                 style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor)))
+                    foregroundColor: MaterialStateProperty.all(Colors.white)))
           ],
         ),
       ),

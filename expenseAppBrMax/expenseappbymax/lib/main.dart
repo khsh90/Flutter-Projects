@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:expenseappbymax/widgets/chart.dart';
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
@@ -49,12 +47,12 @@ class _ExpenseAppState extends State<ExpenseApp> {
     Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
   ];
 
-  void addNewTX(String Newtitle, double Newamount) {
+  void addNewTX(String Newtitle, double Newamount, DateTime choosenDate) {
     final newTX = Transaction(
         id: DateTime.now().toString(),
         title: Newtitle,
         amount: Newamount,
-        date: DateTime.now());
+        date: choosenDate);
     setState(() {
       transactions.add(newTX);
     });
@@ -70,6 +68,12 @@ class _ExpenseAppState extends State<ExpenseApp> {
   void creatModalSheet(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx, builder: (_) => NewTransaction(addNewTX));
+  }
+
+  void removeTx(String id) {
+    setState(() {
+      transactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -91,13 +95,17 @@ class _ExpenseAppState extends State<ExpenseApp> {
               width: double.infinity,
               child: Chart(recentTransaction),
             ),
-            TransactionsList(transactions: transactions)
+            TransactionsList(
+              transactions: transactions,
+              removeTX: removeTx,
+            )
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-          onPressed: () => creatModalSheet(context), child: Icon(Icons.add)),
+          onPressed: () => creatModalSheet(context),
+          child: const Icon(Icons.add)),
     );
   }
 }
