@@ -1,7 +1,7 @@
 import 'package:expense_app/model/transaction.dart';
-import 'package:expense_app/widgets/transactionList.dart';
+import '../widgets/titleandamountwidget.dart';
+import '../widgets/transactionList.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   return runApp(MyApp());
@@ -13,11 +13,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           primaryColor: Colors.green,
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
               color: Colors.green,
               titleTextStyle: TextStyle(
                   fontFamily: 'Acme',
                   fontSize: 25,
+                  fontWeight: FontWeight.bold)),
+          textTheme: const TextTheme(
+              headline1: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 16,
                   fontWeight: FontWeight.bold)),
           colorScheme: ColorScheme.fromSwatch().copyWith(
             secondary: Colors.green,
@@ -74,6 +79,7 @@ class _ExpenseApp extends State<ExpneseApp> {
         children: [
           Text('DashBoard'),
           TransactionList(transactions),
+          TitleAndAmountWidget(),
 
           // ListView.builder(itemBuilder: ((context, index) => ListTile()))
         ],

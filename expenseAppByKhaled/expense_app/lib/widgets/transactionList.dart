@@ -10,7 +10,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 550,
+      height: 300,
       child: transactions.isEmpty
           ? Center(
               child: Container(child: Image.asset('assets/images/waiting.png')))
@@ -31,14 +31,17 @@ class TransactionList extends StatelessWidget {
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Quicksand'),
                             ),
                             const Text(
                               'JD',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Acme',
+                              ),
                             )
                           ],
                         ),
@@ -46,11 +49,8 @@ class TransactionList extends StatelessWidget {
                       maxRadius: 29,
                     );
                   }),
-                  title: Text(
-                    transactions[index].item,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  title: Text(transactions[index].item,
+                      style: Theme.of(context).textTheme.headline1),
                   subtitle: Text(
                     DateFormat.yMMMd()
                         .format(transactions[index].transactionDate)
