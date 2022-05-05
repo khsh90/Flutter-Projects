@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 
 class TitleAndAmountWidget extends StatefulWidget {
   @override
@@ -17,6 +17,10 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
     print(title);
     print(amount);
   }
+
+  var dateTimePicker = DateTimePicker(
+    initialDate: DateTime.now(),
+  );
 
   @override
   Widget build(BuildContext context) {
