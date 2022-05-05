@@ -62,13 +62,20 @@ final List<Transaction> transactions = [
 ];
 
 class _ExpenseApp extends State<ExpneseApp> {
+  void showModal(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) => TitleAndAmountWidget(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () => showModal(context),
               icon: const Icon(
                 Icons.add,
                 size: 27,
@@ -79,14 +86,14 @@ class _ExpenseApp extends State<ExpneseApp> {
       body: Column(
         children: [
           Text('DashBoard'),
-          //TransactionList(transactions),
-          TitleAndAmountWidget(),
+          TransactionList(transactions),
+          //TitleAndAmountWidget(),
 
           // ListView.builder(itemBuilder: ((context, index) => ListTile()))
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => showModal(context),
         elevation: 5,
         child: const Icon(Icons.add, size: 27),
       ),

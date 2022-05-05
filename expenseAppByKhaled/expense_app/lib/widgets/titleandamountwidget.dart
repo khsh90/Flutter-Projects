@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:intl/intl.dart';
 
 class TitleAndAmountWidget extends StatefulWidget {
   @override
@@ -9,18 +10,20 @@ class TitleAndAmountWidget extends StatefulWidget {
 class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
   var titleConroller = TextEditingController();
   var amountConroller = TextEditingController();
+  var _pickedDateTime;
 
   void enteredAmountAndTitle() {
-    var title = titleConroller.text;
+    String title = titleConroller.text;
     double amount = double.parse(amountConroller.text);
 
     print(title);
     print(amount);
+    print(DateFormat.yMMMd().format(_pickedDateTime));
   }
 
-  var dateTimePicker = DateTimePicker(
-    initialDate: DateTime.now(),
-  );
+  // var dateTimePicker = DateTimePicker(
+  //   initialDate: DateTime.now(),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,9 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          const SizedBox(
+            height: 14,
+          ),
           TextFormField(
             controller: titleConroller,
             decoration: const InputDecoration(
@@ -36,7 +42,7 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
             ),
           ),
           const SizedBox(
-            height: 22,
+            height: 14,
           ),
           TextFormField(
             controller: amountConroller,
@@ -51,12 +57,28 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Pick Date : No date choosen',
-                    style: TextStyle(fontFamily: 'Acme', fontSize: 16),
+                  Text(
+                    "Pick Date : ${_pickedDateTime == null ? 'No date choosen' : DateFormat.yMMMd().format(_pickedDateTime)}",
+                    style: const TextStyle(
+                        fontFamily: 'Acme', fontSize: 16, color: Colors.grey),
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () => showDatePicker(
+                            builder: (context, child) => Theme(
+                              data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                      primary: Theme.of(context).primaryColor)),
+                              child: child!,
+                            ),
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2021),
+                            lastDate: DateTime(2023),
+                          ).then((date) {
+                            setState(() {
+                              _pickedDateTime = date;
+                            });
+                          }),
                       child: Text(
                         'Select Date',
                         style: TextStyle(
