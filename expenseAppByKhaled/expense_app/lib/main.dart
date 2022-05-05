@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+          fontFamily: 'Acme',
           primaryColor: Colors.green,
           appBarTheme: const AppBarTheme(
               color: Colors.green,
@@ -78,7 +79,7 @@ class _ExpenseApp extends State<ExpneseApp> {
       body: Column(
         children: [
           Text('DashBoard'),
-          TransactionList(transactions),
+          //TransactionList(transactions),
           TitleAndAmountWidget(),
 
           // ListView.builder(itemBuilder: ((context, index) => ListTile()))
