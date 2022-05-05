@@ -1,3 +1,4 @@
+import 'package:expense_app/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:intl/intl.dart';
@@ -5,32 +6,16 @@ import 'package:intl/intl.dart';
 class TitleAndAmountWidget extends StatefulWidget {
   @override
   State<TitleAndAmountWidget> createState() => _TitleAndAmountWidget();
-  String title;
-  double amount;
-  var _pickedDateTime;
-  TitleAndAmountWidget(this.title, this.amount, this._pickedDateTime);
+
+  final Function addTransaction;
+
+  TitleAndAmountWidget(this.addTransaction);
 }
 
 class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
   var titleConroller = TextEditingController();
   var amountConroller = TextEditingController();
   var _pickedDateTime;
-
-  void enteredAmountAndTitle() {
-    String title = titleConroller.text;
-    double amount = double.parse(amountConroller.text);
-
-    widget.title = title;
-    widget.amount = amount;
-    widget._pickedDateTime = _pickedDateTime;
-    print(widget.title);
-    print(widget.title);
-    print(DateFormat.yMMMd().format(widget._pickedDateTime));
-  }
-
-  // var dateTimePicker = DateTimePicker(
-  //   initialDate: DateTime.now(),
-  // );
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +90,8 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
                   'Add',
                   style: TextStyle(fontFamily: 'Acme', fontSize: 16),
                 ),
-                onPressed: enteredAmountAndTitle,
+                onPressed: () => widget.addTransaction(
+                    titleConroller.text, double.parse(amountConroller.text),_pickedDateTime),
               ),
             ],
           ),

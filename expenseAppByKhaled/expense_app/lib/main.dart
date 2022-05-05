@@ -39,42 +39,53 @@ class ExpneseApp extends StatefulWidget {
 }
 
 final List<Transaction> transactions = [
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Shoes',
-      amount: 20.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Bag',
-      amount: 60.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Tshirt',
-      amount: 80.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'House Need',
-      amount: 150,
-      transactionDate: DateTime.now()),
+  // Transaction(
+  //     id: DateTime.now().toString(),
+  //     item: 'Shoes',
+  //     amount: 20.99,
+  //     transactionDate: DateTime.now()),
+  // Transaction(
+  //     id: DateTime.now().toString(),
+  //     item: 'Bag',
+  //     amount: 60.99,
+  //     transactionDate: DateTime.now()),
+  // Transaction(
+  //     id: DateTime.now().toString(),
+  //     item: 'Tshirt',
+  //     amount: 80.99,
+  //     transactionDate: DateTime.now()),
+  // Transaction(
+  //     id: DateTime.now().toString(),
+  //     item: 'House Need',
+  //     amount: 150,
+  //     transactionDate: DateTime.now()),
 ];
 
 class _ExpenseApp extends State<ExpneseApp> {
-  ----------------------------
+  void addTX(String title, double amount, DateTime pickedDateTime) {
+    setState(() {
+      setState(() {
+        transactions.add(Transaction(
+            id: DateTime.now().toString(),
+            item: title,
+            amount: amount,
+            transactionDate: pickedDateTime));
+      });
+      Navigator.of(context).pop();
+    });
+  }
+
+  void deleteTx(String id) {
+    setState(() {
+      transactions.removeWhere((txId) => txId == id);
+    });
+  }
+
   void showModal(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
-      builder: (_) => TitleAndAmountWidget(),
+      builder: (_) => TitleAndAmountWidget(addTX),
     );
-  }
-
-  void addTransaction() {
-    setState(() {
-      //.....adding transaction
-      //  transactions.add(value)
-    });
   }
 
   @override
@@ -94,7 +105,7 @@ class _ExpenseApp extends State<ExpneseApp> {
       body: Column(
         children: [
           Text('DashBoard'),
-          TransactionList(transactions),
+          TransactionList(transactions, deleteTx),
           //TitleAndAmountWidget(),
 
           // ListView.builder(itemBuilder: ((context, index) => ListTile()))
