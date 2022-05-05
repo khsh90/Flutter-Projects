@@ -5,6 +5,10 @@ import 'package:intl/intl.dart';
 class TitleAndAmountWidget extends StatefulWidget {
   @override
   State<TitleAndAmountWidget> createState() => _TitleAndAmountWidget();
+  String title;
+  double amount;
+  var _pickedDateTime;
+  TitleAndAmountWidget(this.title, this.amount, this._pickedDateTime);
 }
 
 class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
@@ -16,9 +20,12 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
     String title = titleConroller.text;
     double amount = double.parse(amountConroller.text);
 
-    print(title);
-    print(amount);
-    print(DateFormat.yMMMd().format(_pickedDateTime));
+    widget.title = title;
+    widget.amount = amount;
+    widget._pickedDateTime = _pickedDateTime;
+    print(widget.title);
+    print(widget.title);
+    print(DateFormat.yMMMd().format(widget._pickedDateTime));
   }
 
   // var dateTimePicker = DateTimePicker(

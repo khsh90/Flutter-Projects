@@ -1,4 +1,4 @@
-import 'package:expense_app/model/transaction.dart';
+import '../model/transaction.dart';
 import '../widgets/titleandamountwidget.dart';
 import '../widgets/transactionList.dart';
 import 'package:flutter/material.dart';
@@ -62,11 +62,19 @@ final List<Transaction> transactions = [
 ];
 
 class _ExpenseApp extends State<ExpneseApp> {
+  ----------------------------
   void showModal(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
       builder: (_) => TitleAndAmountWidget(),
     );
+  }
+
+  void addTransaction() {
+    setState(() {
+      //.....adding transaction
+      //  transactions.add(value)
+    });
   }
 
   @override
