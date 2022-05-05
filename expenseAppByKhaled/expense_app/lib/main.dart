@@ -38,32 +38,11 @@ class ExpneseApp extends StatefulWidget {
   State<ExpneseApp> createState() => _ExpenseApp();
 }
 
-final List<Transaction> transactions = [
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Shoes',
-      amount: 20.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Bag',
-      amount: 60.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'Tshirt',
-      amount: 80.99,
-      transactionDate: DateTime.now()),
-  Transaction(
-      id: DateTime.now().toString(),
-      item: 'House Need',
-      amount: 150,
-      transactionDate: DateTime.now()),
-];
+final List<Transaction> transactions = [];
 
 class _ExpenseApp extends State<ExpneseApp> {
   void addTX(String title, double amount, DateTime pickedDateTime) {
-     setState(() {
+    setState(() {
       transactions.add(Transaction(
           id: DateTime.now().toString(),
           item: title,

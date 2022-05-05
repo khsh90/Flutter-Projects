@@ -18,15 +18,18 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
   var _pickedDateTime;
 
   void addNewTransaction() {
-    if (titleConroller.text.isEmpty &&
-        double.parse(amountConroller.text) == null &&
-        _pickedDateTime == null) {
+    var title = titleConroller.text;
+    var amount = double.parse(amountConroller.text);
+
+    if (title.isEmpty || amount <= 0 || _pickedDateTime == null) {
+      print('condition false applied');
       return;
     } else {
-      widget.addTransaction(titleConroller.text,
-          double.parse(amountConroller.text), _pickedDateTime);
-      Navigator.of(context).pop();
+      print(title);
+      print('condition true applied');
+      widget.addTransaction(title, amount, _pickedDateTime);
     }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -39,18 +42,21 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
           const SizedBox(
             height: 14,
           ),
-          TextFormField(
+          TextField(
             controller: titleConroller,
             decoration: const InputDecoration(
               hintText: 'Enter Title',
             ),
+            onSubmitted: (_) => addNewTransaction,
           ),
           const SizedBox(
             height: 14,
           ),
-          TextFormField(
+          TextField(
             controller: amountConroller,
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(hintText: 'Enter Amount'),
+            onSubmitted: (_) => addNewTransaction,
           ),
           const SizedBox(
             height: 16,
