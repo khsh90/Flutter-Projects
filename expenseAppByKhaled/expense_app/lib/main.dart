@@ -39,39 +39,36 @@ class ExpneseApp extends StatefulWidget {
 }
 
 final List<Transaction> transactions = [
-  // Transaction(
-  //     id: DateTime.now().toString(),
-  //     item: 'Shoes',
-  //     amount: 20.99,
-  //     transactionDate: DateTime.now()),
-  // Transaction(
-  //     id: DateTime.now().toString(),
-  //     item: 'Bag',
-  //     amount: 60.99,
-  //     transactionDate: DateTime.now()),
-  // Transaction(
-  //     id: DateTime.now().toString(),
-  //     item: 'Tshirt',
-  //     amount: 80.99,
-  //     transactionDate: DateTime.now()),
-  // Transaction(
-  //     id: DateTime.now().toString(),
-  //     item: 'House Need',
-  //     amount: 150,
-  //     transactionDate: DateTime.now()),
+  Transaction(
+      id: DateTime.now().toString(),
+      item: 'Shoes',
+      amount: 20.99,
+      transactionDate: DateTime.now()),
+  Transaction(
+      id: DateTime.now().toString(),
+      item: 'Bag',
+      amount: 60.99,
+      transactionDate: DateTime.now()),
+  Transaction(
+      id: DateTime.now().toString(),
+      item: 'Tshirt',
+      amount: 80.99,
+      transactionDate: DateTime.now()),
+  Transaction(
+      id: DateTime.now().toString(),
+      item: 'House Need',
+      amount: 150,
+      transactionDate: DateTime.now()),
 ];
 
 class _ExpenseApp extends State<ExpneseApp> {
   void addTX(String title, double amount, DateTime pickedDateTime) {
-    setState(() {
-      setState(() {
-        transactions.add(Transaction(
-            id: DateTime.now().toString(),
-            item: title,
-            amount: amount,
-            transactionDate: pickedDateTime));
-      });
-      Navigator.of(context).pop();
+     setState(() {
+      transactions.add(Transaction(
+          id: DateTime.now().toString(),
+          item: title,
+          amount: amount,
+          transactionDate: pickedDateTime));
     });
   }
 

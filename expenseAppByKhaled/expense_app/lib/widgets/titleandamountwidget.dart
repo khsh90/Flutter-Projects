@@ -17,6 +17,18 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
   var amountConroller = TextEditingController();
   var _pickedDateTime;
 
+  void addNewTransaction() {
+    if (titleConroller.text.isEmpty &&
+        double.parse(amountConroller.text) == null &&
+        _pickedDateTime == null) {
+      return;
+    } else {
+      widget.addTransaction(titleConroller.text,
+          double.parse(amountConroller.text), _pickedDateTime);
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,9 +79,14 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
                             firstDate: DateTime(2021),
                             lastDate: DateTime(2023),
                           ).then((date) {
-                            setState(() {
-                              _pickedDateTime = date;
-                            });
+                            if (date == null) {
+                              print('date is null');
+                              return;
+                            } else {
+                              setState(() {
+                                _pickedDateTime = date;
+                              });
+                            }
                           }),
                       child: Text(
                         'Select Date',
@@ -84,15 +101,13 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
                 height: 15,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
-                child: const Text(
-                  'Add',
-                  style: TextStyle(fontFamily: 'Acme', fontSize: 16),
-                ),
-                onPressed: () => widget.addTransaction(
-                    titleConroller.text, double.parse(amountConroller.text),_pickedDateTime),
-              ),
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(fontFamily: 'Acme', fontSize: 16),
+                  ),
+                  onPressed: addNewTransaction),
             ],
           ),
         ],
