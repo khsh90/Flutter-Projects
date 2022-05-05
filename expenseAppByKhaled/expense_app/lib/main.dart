@@ -77,7 +77,7 @@ class _ExpenseApp extends State<ExpneseApp> {
 
   void deleteTx(String id) {
     setState(() {
-      transactions.removeWhere((txId) => txId == id);
+      transactions.removeWhere((txId) => txId.id == id);
     });
   }
 
