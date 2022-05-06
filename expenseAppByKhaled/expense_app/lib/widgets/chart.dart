@@ -1,4 +1,5 @@
 import 'package:expense_app/model/transaction.dart';
+import 'package:expense_app/widgets/chartbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +24,7 @@ class Chart extends StatelessWidget {
       }
 
       return {'day': formatedDateTime, 'amount': totalPerDay};
-    });
+    }).reversed.toList();
   }
 
   @override
@@ -31,10 +32,15 @@ class Chart extends StatelessWidget {
     return Card(
         margin: const EdgeInsets.all(20),
         elevation: 5,
-        child: Row(
-          children: chartData
-              .map((tx) => Text('${tx['day']}:${tx['amount']}'))
-              .toList(),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: chartData
+                .map((tx) =>
+                    ChartBar(tx['day'] as String, tx['amount'] as double))
+                .toList(),
+          ),
         ));
   }
 }

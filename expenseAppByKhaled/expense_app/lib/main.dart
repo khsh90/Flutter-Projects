@@ -87,11 +87,13 @@ class _ExpenseApp extends State<ExpneseApp> {
         ],
         title: const Text('Expense App ((Khaled))'),
       ),
-      body: Column(
-        children: [
-          Flexible(flex: 2, child: Chart(_recentTransaction)),
-          Expanded(flex: 5, child: TransactionList(transactions, deleteTx)),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Chart(_recentTransaction),
+            TransactionList(transactions, deleteTx),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModal(context),
