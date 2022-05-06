@@ -1,3 +1,5 @@
+import '../widgets/chart.dart';
+
 import '../model/transaction.dart';
 import '../widgets/titleandamountwidget.dart';
 import '../widgets/transactionList.dart';
@@ -64,6 +66,13 @@ class _ExpenseApp extends State<ExpneseApp> {
     );
   }
 
+  List<Transaction> get _recentTransaction {
+    return transactions
+        .where((tx) => tx.transactionDate
+            .isAfter(DateTime.now().subtract(const Duration(days: 7))))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,11 +89,8 @@ class _ExpenseApp extends State<ExpneseApp> {
       ),
       body: Column(
         children: [
-          Text('DashBoard'),
-          TransactionList(transactions, deleteTx),
-          //TitleAndAmountWidget(),
-
-          // ListView.builder(itemBuilder: ((context, index) => ListTile()))
+          Flexible(flex: 2, child: Chart(_recentTransaction)),
+          Expanded(flex: 5, child: TransactionList(transactions, deleteTx)),
         ],
       ),
       floatingActionButton: FloatingActionButton(

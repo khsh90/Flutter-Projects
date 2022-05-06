@@ -14,7 +14,21 @@ class TransactionList extends StatelessWidget {
       height: 300,
       child: transactions.isEmpty
           ? Center(
-              child: Container(child: Image.asset('assets/images/waiting.png')))
+              child: Container(
+                  child: Column(
+              children: [
+                const Text(
+                  'No data loaded yet',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                    height: 200,
+                    child: Image.asset('assets/images/waiting.png'))
+              ],
+            )))
           : ListView.builder(
               itemCount: transactions.length,
               itemBuilder: (context, index) => Card(
