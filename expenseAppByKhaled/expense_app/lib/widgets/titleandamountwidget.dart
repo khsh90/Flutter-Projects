@@ -82,8 +82,9 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
                             ),
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime(2021),
-                            lastDate: DateTime(2023),
+                            firstDate: DateTime.now()
+                                .subtract(const Duration(days: 6)),
+                            lastDate: DateTime.now(),
                           ).then((date) {
                             if (date == null) {
                               print('date is null');

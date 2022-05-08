@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ChartBar extends StatelessWidget {
   final String title;
   final double amount;
-  final double totlaPercantage;
+  double totlaPercantage;
 
   ChartBar(this.title, this.amount, this.totlaPercantage);
   @override

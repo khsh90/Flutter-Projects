@@ -46,7 +46,9 @@ class Chart extends StatelessWidget {
                 .map((tx) => ChartBar(
                     tx['day'] as String,
                     tx['amount'] as double,
-                    ((tx['amount'] as double) / totalPercentage)))
+                    (totalPercentage == 0.0
+                        ? 0.0
+                        : (tx['amount'] as double) / totalPercentage)))
                 .toList(),
           ),
         ));
