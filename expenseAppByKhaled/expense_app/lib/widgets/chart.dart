@@ -43,8 +43,10 @@ class Chart extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: chartData
-                .map((tx) =>
-                    ChartBar(tx['day'] as String, tx['amount'] as double , ((tx['amount'] as double)/totalPercentage )))
+                .map((tx) => ChartBar(
+                    tx['day'] as String,
+                    tx['amount'] as double,
+                    ((tx['amount'] as double) / totalPercentage)))
                 .toList(),
           ),
         ));
