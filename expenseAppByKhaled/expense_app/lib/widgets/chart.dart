@@ -26,7 +26,12 @@ class Chart extends StatelessWidget {
     }).reversed.toList();
   }
 
-  //double get TotalPercentage {}
+  double get totalPercentage {
+    return chartData.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue + (element['amount'] as double));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,7 @@ class Chart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: chartData
                 .map((tx) =>
-                    ChartBar(tx['day'] as String, tx['amount'] as double))
+                    ChartBar(tx['day'] as String, tx['amount'] as double , ((tx['amount'] as double)/totalPercentage )))
                 .toList(),
           ),
         ));

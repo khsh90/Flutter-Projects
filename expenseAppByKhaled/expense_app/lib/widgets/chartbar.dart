@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 class ChartBar extends StatelessWidget {
   final String title;
   final double amount;
-  //final double totlaPercantage;
+  final double totlaPercantage;
 
-  ChartBar(
-    this.title,
-    this.amount,
-  );
+  ChartBar(this.title, this.amount, this.totlaPercantage);
   @override
   Widget build(BuildContext context) {
     // return Text('${title}${amount}');
@@ -33,6 +30,16 @@ class ChartBar extends StatelessWidget {
                     border: Border.all(
                         color: Colors.grey, style: BorderStyle.solid),
                     color: const Color.fromRGBO(220, 220, 220, 1)),
+              ),
+              FractionallySizedBox(
+                heightFactor: totlaPercantage,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
+                          color: Colors.grey, style: BorderStyle.solid),
+                      color: Theme.of(context).primaryColor),
+                ),
               )
             ],
           ),
