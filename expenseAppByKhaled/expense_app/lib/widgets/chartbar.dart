@@ -1,10 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
   final String title;
   final double amount;
+  //final double totlaPercantage;
 
-  ChartBar(this.title, this.amount);
+  ChartBar(
+    this.title,
+    this.amount,
+  );
   @override
   Widget build(BuildContext context) {
     // return Text('${title}${amount}');
@@ -20,10 +25,17 @@ class ChartBar extends StatelessWidget {
         Container(
           height: 77,
           width: 13,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.grey, style: BorderStyle.solid),
-              color: const Color.fromRGBO(220, 220, 220, 1)),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                        color: Colors.grey, style: BorderStyle.solid),
+                    color: const Color.fromRGBO(220, 220, 220, 1)),
+              )
+            ],
+          ),
         ),
         const SizedBox(
           height: 5,

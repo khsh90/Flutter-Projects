@@ -13,7 +13,6 @@ class Chart extends StatelessWidget {
 
       var formatedDateTime =
           DateFormat().add_E().format(workDay).substring(0, 1);
-
       double totalPerDay = 0.0;
       for (var i = 0; i < recentTransaction.length; i++) {
         if (recentTransaction[i].transactionDate.day == workDay.day &&
@@ -26,6 +25,8 @@ class Chart extends StatelessWidget {
       return {'day': formatedDateTime, 'amount': totalPerDay};
     }).reversed.toList();
   }
+
+  //double get TotalPercentage {}
 
   @override
   Widget build(BuildContext context) {
