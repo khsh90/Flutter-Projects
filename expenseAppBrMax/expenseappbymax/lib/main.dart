@@ -78,26 +78,38 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
-        ],
-        title: const Text(
-          'Expense App',
-        ),
+    var appBr = AppBar(
+      actions: [
+        IconButton(
+            onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
+      ],
+      title: const Text(
+        'Expense App',
       ),
+    );
+    return Scaffold(
+      appBar: appBr,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
+              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+              height: (MediaQuery.of(context).size.height -
+                      appBr.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  .3,
               width: double.infinity,
               child: Chart(recentTransaction),
             ),
-            TransactionsList(
-              transactions: transactions,
-              removeTX: removeTx,
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBr.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  .7,
+              child: TransactionsList(
+                transactions: transactions,
+                removeTX: removeTx,
+              ),
             )
           ],
         ),
