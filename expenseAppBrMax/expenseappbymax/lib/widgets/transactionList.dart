@@ -12,23 +12,25 @@ class TransactionsList extends StatelessWidget {
     return Container(
       height: 450,
       child: transactions.isEmpty
-          ? Column(
-              children: [
-                Text(
-                  'No data loaded yet',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+          ? LayoutBuilder(
+              builder: (context, constraints) => Column(
+                children: [
+                  Text(
+                    'No data loaded yet',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Container(
+                    height: constraints.maxHeight * .7,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                ],
+              ),
             )
           : ListView.builder(
               itemCount: transactions.length,

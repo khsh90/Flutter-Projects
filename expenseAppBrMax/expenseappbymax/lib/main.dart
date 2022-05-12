@@ -3,10 +3,18 @@ import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '/models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  //the below two lines to make the app only on portrait
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   //  MyApp(Key? key):super(key: key);
@@ -39,12 +47,12 @@ class ExpenseApp extends StatefulWidget {
 
 class _ExpenseAppState extends State<ExpenseApp> {
   final List<Transaction> transactions = [
-    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
-    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
-    Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
-    Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
-    Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
-    Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
+    // Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
+    // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
+    // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
+    // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
   ];
 
   void addNewTX(String Newtitle, double Newamount, DateTime choosenDate) {
@@ -76,6 +84,8 @@ class _ExpenseAppState extends State<ExpenseApp> {
     });
   }
 
+  bool _switchValue = false;
+
   @override
   Widget build(BuildContext context) {
     var appBr = AppBar(
@@ -92,25 +102,39 @@ class _ExpenseAppState extends State<ExpenseApp> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-              height: (MediaQuery.of(context).size.height -
-                      appBr.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  .3,
-              width: double.infinity,
-              child: Chart(recentTransaction),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch(
+                    value: _switchValue,
+                    onChanged: (value) {
+                      setState(() {
+                        _switchValue = value;
+                      });
+                    }),
+              ],
             ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBr.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  .7,
-              child: TransactionsList(
-                transactions: transactions,
-                removeTX: removeTx,
-              ),
-            )
+            _switchValue
+                ? Container(
+                    //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+                    height: (MediaQuery.of(context).size.height -
+                            appBr.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        .6,
+                    width: double.infinity,
+                    child: Chart(recentTransaction),
+                  )
+                : Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBr.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        .7,
+                    child: TransactionsList(
+                      transactions: transactions,
+                      removeTX: removeTx,
+                    ),
+                  )
           ],
         ),
       ),
