@@ -15,12 +15,15 @@ class TransactionsList extends StatelessWidget {
           ? LayoutBuilder(
               builder: (context, constraints) => Column(
                 children: [
+                  SizedBox(
+                    height: constraints.maxHeight * .10,
+                  ),
                   Text(
                     'No data loaded yet',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  const SizedBox(
-                    height: 25,
+                  SizedBox(
+                    height: constraints.maxHeight * .1,
                   ),
                   Container(
                     height: constraints.maxHeight * .7,

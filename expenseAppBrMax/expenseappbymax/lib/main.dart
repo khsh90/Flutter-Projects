@@ -97,24 +97,42 @@ class _ExpenseAppState extends State<ExpenseApp> {
         'Expense App',
       ),
     );
+
+    var txList = Container(
+      
+      width: double.infinity,
+      height: (MediaQuery.of(context).size.height -
+              appBr.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          .7,
+      child: TransactionsList(
+        transactions: transactions,
+        removeTX: removeTx,
+      ),
+    );
+
+    var isLandedMode =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       appBar: appBr,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart'),
-                Switch(
-                    value: _switchValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _switchValue = value;
-                      });
-                    }),
-              ],
-            ),
+            if (isLandedMode)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Show Chart'),
+                  Switch(
+                      value: _switchValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _switchValue = value;
+                        });
+                      }),
+                ],
+              ),
             _switchValue
                 ? Container(
                     //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
@@ -125,16 +143,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
                     width: double.infinity,
                     child: Chart(recentTransaction),
                   )
-                : Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBr.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        .7,
-                    child: TransactionsList(
-                      transactions: transactions,
-                      removeTX: removeTx,
-                    ),
-                  )
+                : txList
           ],
         ),
       ),
