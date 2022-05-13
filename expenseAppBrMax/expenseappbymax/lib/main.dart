@@ -1,3 +1,4 @@
+import 'dart:io'; //used for platfrom
 import 'package:expenseappbymax/widgets/chart.dart';
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
@@ -109,23 +110,23 @@ class _ExpenseAppState extends State<ExpenseApp> {
         removeTX: removeTx,
       ),
     );
-
-    final isLandedMode =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     final mediaQuery = MediaQuery.of(context);
+
+    final isLandedMode = mediaQuery.orientation == Orientation.landscape;
 
     return Scaffold(
       appBar: appBr,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (isLandedMode)
+            if (isLandedMode && !Platform.isWindows)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Show Chart'),
-                  Switch(
+                  Switch.adaptive(
+                      activeColor: Colors.amber,
+                      // it will use the style for each soutable platform id ios or android or another
                       value: _switchValue,
                       onChanged: (value) {
                         setState(() {
@@ -144,6 +145,16 @@ class _ExpenseAppState extends State<ExpenseApp> {
                 width: double.infinity,
                 child: Chart(recentTransaction),
               ),
+            if (Platform.isWindows)
+              Container(
+                //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+                height: (mediaQuery.size.height -
+                        appBr.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    .6,
+                width: double.infinity,
+                child: Chart(recentTransaction),
+              ),
             _switchValue
                 ? Container(
                     //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
@@ -159,9 +170,11 @@ class _ExpenseAppState extends State<ExpenseApp> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => creatModalSheet(context),
-          child: const Icon(Icons.add)),
+      floatingActionButton: Platform.isWindows
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => creatModalSheet(context),
+              child: const Icon(Icons.add)),
     );
   }
 }
