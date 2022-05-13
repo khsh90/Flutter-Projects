@@ -23,10 +23,10 @@ class TransactionsList extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   SizedBox(
-                    height: constraints.maxHeight * .1,
+                    height: constraints.maxHeight * .05,
                   ),
                   Container(
-                    height: constraints.maxHeight * .7,
+                    height: constraints.maxHeight * .5,
                     child: Image.asset(
                       'assets/images/waiting.png',
                       fit: BoxFit.cover,
@@ -60,11 +60,18 @@ class TransactionsList extends StatelessWidget {
                       DateFormat.yMMMd().format(transactions[tx].date),
                       style: const TextStyle(fontSize: 11),
                     ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => removeTX(transactions[tx].id),
-                      color: Theme.of(context).errorColor,
-                    ),
+                    trailing: MediaQuery.of(context).size.width > 450
+                        ? TextButton.icon(
+                            onPressed: () => removeTX(transactions[tx].id),
+                            icon: const Icon(Icons.delete),
+                            label: const Text('Delete'),
+                            style: TextButton.styleFrom(
+                                primary: Theme.of(context).errorColor))
+                        : IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => removeTX(transactions[tx].id),
+                            color: Theme.of(context).errorColor,
+                          ),
                   ),
                 );
               },

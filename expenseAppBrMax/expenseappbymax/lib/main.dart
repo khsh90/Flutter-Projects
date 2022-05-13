@@ -47,12 +47,12 @@ class ExpenseApp extends StatefulWidget {
 
 class _ExpenseAppState extends State<ExpenseApp> {
   final List<Transaction> transactions = [
-    // Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
-    // Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
-    // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
-    // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
-    // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
-    // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
+    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
+    Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
+    Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
+    Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
   ];
 
   void addNewTX(String Newtitle, double Newamount, DateTime choosenDate) {
@@ -88,7 +88,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   @override
   Widget build(BuildContext context) {
-    var appBr = AppBar(
+    final appBr = AppBar(
       actions: [
         IconButton(
             onPressed: () => creatModalSheet(context), icon: Icon(Icons.add))
@@ -98,8 +98,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
       ),
     );
 
-    var txList = Container(
-      
+    final txList = Container(
       width: double.infinity,
       height: (MediaQuery.of(context).size.height -
               appBr.preferredSize.height -
@@ -111,8 +110,10 @@ class _ExpenseAppState extends State<ExpenseApp> {
       ),
     );
 
-    var isLandedMode =
+    final isLandedMode =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       appBar: appBr,
@@ -133,21 +134,31 @@ class _ExpenseAppState extends State<ExpenseApp> {
                       }),
                 ],
               ),
+            if (!isLandedMode)
+              Container(
+                //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+                height: (mediaQuery.size.height -
+                        appBr.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    .3,
+                width: double.infinity,
+                child: Chart(recentTransaction),
+              ),
             _switchValue
                 ? Container(
                     //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-                    height: (MediaQuery.of(context).size.height -
+                    height: (mediaQuery.size.height -
                             appBr.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
+                            mediaQuery.padding.top) *
                         .6,
                     width: double.infinity,
                     child: Chart(recentTransaction),
                   )
-                : txList
+                : txList,
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: () => creatModalSheet(context),
           child: const Icon(Icons.add)),
