@@ -2,6 +2,7 @@ import 'dart:io'; //used for platfrom
 import 'package:expenseappbymax/widgets/chart.dart';
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,6 +90,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
+    final isLandedMode = mediaQuery.orientation == Orientation.landscape;
     final appBr = AppBar(
       actions: [
         IconButton(
@@ -110,71 +114,94 @@ class _ExpenseAppState extends State<ExpenseApp> {
         removeTX: removeTx,
       ),
     );
-    final mediaQuery = MediaQuery.of(context);
+    final mainBody = SafeArea(
+        // safe area will be used here for iphone to stay away from botom of screen and the top navigation bar
+        child: SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isLandedMode && !Platform.isWindows)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Show Chart',
+                  style: TextStyle(fontSize: 10),
+                ),
+                Switch.adaptive(
+                    activeColor: Colors.amber,
+                    // it will use the style for each soutable platform id ios or android or another
+                    value: _switchValue,
+                    onChanged: (value) {
+                      setState(() {
+                        _switchValue = value;
+                      });
+                    }),
+              ],
+            ),
+          if (!isLandedMode)
+            Container(
+              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+              height: (mediaQuery.size.height -
+                      appBr.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  .3,
+              width: double.infinity,
+              child: Chart(recentTransaction),
+            ),
+          if (Platform.isWindows)
+            Container(
+              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+              height: (mediaQuery.size.height -
+                      appBr.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  .6,
+              width: double.infinity,
+              child: Chart(recentTransaction),
+            ),
+          _switchValue
+              ? Container(
+                  //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+                  height: (mediaQuery.size.height -
+                          appBr.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      .6,
+                  width: double.infinity,
+                  child: Chart(recentTransaction),
+                )
+              : txList,
+        ],
+      ),
+    ));
 
-    final isLandedMode = mediaQuery.orientation == Orientation.landscape;
-
-    return Scaffold(
-      appBar: appBr,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLandedMode && !Platform.isWindows)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: const Text(
+                'Expense App',
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Show Chart'),
-                  Switch.adaptive(
-                      activeColor: Colors.amber,
-                      // it will use the style for each soutable platform id ios or android or another
-                      value: _switchValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _switchValue = value;
-                        });
-                      }),
+                  GestureDetector(
+                    // gesture detector used here to allow us to used our own button that will be soutable for iphone
+                    onTap: () => creatModalSheet(context),
+                    child: const Icon(CupertinoIcons.add),
+                  ),
                 ],
               ),
-            if (!isLandedMode)
-              Container(
-                //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-                height: (mediaQuery.size.height -
-                        appBr.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    .3,
-                width: double.infinity,
-                child: Chart(recentTransaction),
-              ),
-            if (Platform.isWindows)
-              Container(
-                //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-                height: (mediaQuery.size.height -
-                        appBr.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    .6,
-                width: double.infinity,
-                child: Chart(recentTransaction),
-              ),
-            _switchValue
-                ? Container(
-                    //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-                    height: (mediaQuery.size.height -
-                            appBr.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        .6,
-                    width: double.infinity,
-                    child: Chart(recentTransaction),
-                  )
-                : txList,
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Platform.isWindows
-          ? Container()
-          : FloatingActionButton(
-              onPressed: () => creatModalSheet(context),
-              child: const Icon(Icons.add)),
-    );
+            ),
+            child: mainBody,
+          )
+        : Scaffold(
+            appBar: appBr,
+            body: mainBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isWindows
+                ? Container()
+                : FloatingActionButton(
+                    onPressed: () => creatModalSheet(context),
+                    child: const Icon(Icons.add)),
+          );
   }
 }

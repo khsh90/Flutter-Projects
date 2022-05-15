@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:expenseappbymax/widgets/adabtivebutton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -92,11 +96,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       ))
                 ],
               ),
-              ElevatedButton(
-                  onPressed: addNewTransaction,
-                  child: const Text('Add'),
-                  style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white)))
+              AdaptiveButton('Add', addNewTransaction)
             ],
           ),
         ),
