@@ -46,6 +46,7 @@ final List<Transaction> transactions = [
 ];
 
 class _ExpenseApp extends State<ExpneseApp> {
+  bool showChart = false;
   void addTX(String title, double amount, DateTime pickedDateTime) {
     setState(() {
       transactions.add(Transaction(
@@ -78,6 +79,9 @@ class _ExpenseApp extends State<ExpneseApp> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQ = MediaQuery.of(context);
+    var isLandedScope = mediaQ.orientation == Orientation.landscape;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -93,8 +97,28 @@ class _ExpenseApp extends State<ExpneseApp> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Chart(_recentTransaction),
-            TransactionList(transactions, deleteTx),
+            if (isLandedScope)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Show chart'),
+                  Switch(
+                      activeColor: Theme.of(context).primaryColor,
+                      value: showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          showChart = val;
+                        });
+                      })
+                ],
+              ),
+            if (!isLandedScope) Chart(_recentTransaction),
+            if (!isLandedScope) TransactionList(transactions, deleteTx),
+            
+            if (isLandedScope)
+              showChart
+                  ? Chart(_recentTransaction)
+                  : TransactionList(transactions, deleteTx),
           ],
         ),
       ),
