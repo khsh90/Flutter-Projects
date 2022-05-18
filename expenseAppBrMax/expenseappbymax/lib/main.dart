@@ -183,6 +183,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
           if (!isLandedMode) portraitMode(mediaQuery, appBr),
           if (Platform.isWindows) windowsMode(mediaQuery, appBr),
           switchTriggered(mediaQuery, appBr, txList)
+          // ------
         ],
       ),
     ));
