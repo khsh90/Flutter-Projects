@@ -88,6 +88,66 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   bool _switchValue = false;
 
+  Widget inLandScapMode() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          'Show Chart',
+          style: TextStyle(fontSize: 10),
+        ),
+        Switch.adaptive(
+            activeColor: Colors.amber,
+            // it will use the style for each soutable platform id ios or android or another
+            value: _switchValue,
+            onChanged: (value) {
+              setState(() {
+                _switchValue = value;
+              });
+            }),
+      ],
+    );
+  }
+
+  Widget portraitMode(MediaQueryData mediaQuery, AppBar appBr) {
+    return Container(
+      //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+      height: (mediaQuery.size.height -
+              appBr.preferredSize.height -
+              mediaQuery.padding.top) *
+          .3,
+      width: double.infinity,
+      child: Chart(recentTransaction),
+    );
+  }
+
+  Widget windowsMode(MediaQueryData mediaQuery, AppBar appBr) {
+    return Container(
+      //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+      height: (mediaQuery.size.height -
+              appBr.preferredSize.height -
+              mediaQuery.padding.top) *
+          .6,
+      width: double.infinity,
+      child: Chart(recentTransaction),
+    );
+  }
+
+  Widget switchTriggered(
+      MediaQueryData mediaQuery, AppBar appBr, Widget txList) {
+    return _switchValue
+        ? Container(
+            //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
+            height: (mediaQuery.size.height -
+                    appBr.preferredSize.height -
+                    mediaQuery.padding.top) *
+                .6,
+            width: double.infinity,
+            child: Chart(recentTransaction),
+          )
+        : txList;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -119,56 +179,10 @@ class _ExpenseAppState extends State<ExpenseApp> {
         child: SingleChildScrollView(
       child: Column(
         children: [
-          if (isLandedMode && !Platform.isWindows)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Show Chart',
-                  style: TextStyle(fontSize: 10),
-                ),
-                Switch.adaptive(
-                    activeColor: Colors.amber,
-                    // it will use the style for each soutable platform id ios or android or another
-                    value: _switchValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _switchValue = value;
-                      });
-                    }),
-              ],
-            ),
-          if (!isLandedMode)
-            Container(
-              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-              height: (mediaQuery.size.height -
-                      appBr.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  .3,
-              width: double.infinity,
-              child: Chart(recentTransaction),
-            ),
-          if (Platform.isWindows)
-            Container(
-              //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-              height: (mediaQuery.size.height -
-                      appBr.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  .6,
-              width: double.infinity,
-              child: Chart(recentTransaction),
-            ),
-          _switchValue
-              ? Container(
-                  //please note that max and default size for media quiry is 1 so below we devied it to .3 abd .7
-                  height: (mediaQuery.size.height -
-                          appBr.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      .6,
-                  width: double.infinity,
-                  child: Chart(recentTransaction),
-                )
-              : txList,
+          if (isLandedMode && !Platform.isWindows) inLandScapMode(),
+          if (!isLandedMode) portraitMode(mediaQuery, appBr),
+          if (Platform.isWindows) windowsMode(mediaQuery, appBr),
+          switchTriggered(mediaQuery, appBr, txList)
         ],
       ),
     ));

@@ -4,8 +4,8 @@ class ChartBar extends StatelessWidget {
   final String label;
   final double expensesAmount;
   final double percentageOFExpense;
-
-  ChartBar(this.label, this.expensesAmount, this.percentageOFExpense);
+// you can use the const constructor wherever the data inside it is final as it will immutable.will never changed .
+  const ChartBar(this.label, this.expensesAmount, this.percentageOFExpense);
 
   @override
   Widget build(BuildContext context) {

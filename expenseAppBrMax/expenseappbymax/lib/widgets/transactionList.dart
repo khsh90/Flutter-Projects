@@ -1,6 +1,7 @@
 import 'package:expenseappbymax/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../widgets/transactionitem.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -38,42 +39,8 @@ class TransactionsList extends StatelessWidget {
           : ListView.builder(
               itemCount: transactions.length,
               itemBuilder: (ctx, tx) {
-                return Card(
-                  elevation: 5,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: FittedBox(
-                        child: Text(
-                          '${transactions[tx].amount.toString()}JD',
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[tx].title,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[tx].date),
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                    trailing: MediaQuery.of(context).size.width > 450
-                        ? TextButton.icon(
-                            onPressed: () => removeTX(transactions[tx].id),
-                            icon: const Icon(Icons.delete),
-                            label: const Text('Delete'),
-                            style: TextButton.styleFrom(
-                                primary: Theme.of(context).errorColor))
-                        : IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => removeTX(transactions[tx].id),
-                            color: Theme.of(context).errorColor,
-                          ),
-                  ),
-                );
+                return Transactionitem(
+                    transaction: transactions[tx], removeTX: removeTX);
               },
             ),
     );
