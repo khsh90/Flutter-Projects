@@ -37,10 +37,14 @@ class TransactionsList extends StatelessWidget {
               ),
             )
           : ListView.builder(
+            //here we used key becaue color will be change so make the key based on id
               itemCount: transactions.length,
               itemBuilder: (ctx, tx) {
                 return Transactionitem(
-                    transaction: transactions[tx], removeTX: removeTX);
+                  transaction: transactions[tx],
+                  removeTX: removeTX,
+                  key: ValueKey(transactions[tx].id),
+                );
               },
             ),
     );

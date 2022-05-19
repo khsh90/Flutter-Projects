@@ -3,6 +3,7 @@ import 'package:expenseappbymax/widgets/chart.dart';
 import 'package:expenseappbymax/widgets/newTransaction.dart';
 import 'package:expenseappbymax/widgets/transactionList.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,15 +48,34 @@ class ExpenseApp extends StatefulWidget {
   State<ExpenseApp> createState() => _ExpenseAppState();
 }
 
-class _ExpenseAppState extends State<ExpenseApp> {
+class _ExpenseAppState extends State<ExpenseApp> with WidgetsBindingObserver {
+  //the WidgetsBindingObserver used in order to get the status of app like pause ,resume ...
   final List<Transaction> transactions = [
-    Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
-    Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
-    Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
-    Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
-    Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
-    Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
+    // Transaction(id: 't1', title: 'Shoes', amount: 20, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Bag', amount: 25, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'Tshirt', amount: 40, date: DateTime.now()),
+    // Transaction(id: 't4', title: 'Desk', amount: 100, date: DateTime.now()),
+    // Transaction(id: 't5', title: 'Shirt', amount: 85, date: DateTime.now()),
+    // Transaction(id: 't6', title: 'Book', amount: 35, date: DateTime.now()),
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   void addNewTX(String Newtitle, double Newamount, DateTime choosenDate) {
     final newTX = Transaction(

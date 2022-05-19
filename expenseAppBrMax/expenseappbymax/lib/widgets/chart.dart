@@ -22,8 +22,8 @@ class Chart extends StatelessWidget {
           totalAmount += recentTransactions[i].amount;
         }
       }
-      print(DateFormat.E().format(workday));
-      print(totalAmount);
+      //   print(DateFormat.E().format(workday));
+      // print(totalAmount);
       return {
         'day': DateFormat.E().format(workday).toString().substring(0, 1),
         'amount': totalAmount
@@ -40,7 +40,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext contex) {
-    print(dashboardTransactions);
+    //   print(dashboardTransactions);
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(20),
