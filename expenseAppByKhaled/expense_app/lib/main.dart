@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../widgets/chart.dart';
 
 import '../model/transaction.dart';
@@ -37,15 +39,46 @@ class MyApp extends StatelessWidget {
 
 class ExpneseApp extends StatefulWidget {
   @override
-  State<ExpneseApp> createState() => _ExpenseApp();
+  State<ExpneseApp> createState() {
+    // print('Main State');
+    return _ExpenseApp();
+  }
 }
 
 final List<Transaction> transactions = [
-  Transaction(
-      id: 'd1', item: 'Shoes', amount: 20, transactionDate: DateTime.now())
+  // Transaction(
+  //     id: 'd1', item: 'Shoes', amount: 20, transactionDate: DateTime.now())
 ];
 
-class _ExpenseApp extends State<ExpneseApp> {
+class _ExpenseApp extends State<ExpneseApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    print('initState');
+
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   print(state);
+  //   super.didChangeAppLifecycleState(state);
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   print('Did change');
+  //   super.didChangeDependencies();
+  // }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+
+  //   print('Dispose');
+  //   super.dispose();
+  // }
+
   bool showChart = false;
   void addTX(String title, double amount, DateTime pickedDateTime) {
     setState(() {
@@ -64,6 +97,7 @@ class _ExpenseApp extends State<ExpneseApp> {
   }
 
   void showModal(BuildContext ctx) {
+    print('main app state build');
     showModalBottomSheet(
       context: ctx,
       builder: (_) => TitleAndAmountWidget(addTX),
@@ -114,7 +148,6 @@ class _ExpenseApp extends State<ExpneseApp> {
               ),
             if (!isLandedScope) Chart(_recentTransaction),
             if (!isLandedScope) TransactionList(transactions, deleteTx),
-            
             if (isLandedScope)
               showChart
                   ? Chart(_recentTransaction)

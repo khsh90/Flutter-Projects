@@ -9,6 +9,7 @@ class ChartBar extends StatelessWidget {
   ChartBar(this.title, this.amount, this.totlaPercantage);
   @override
   Widget build(BuildContext context) {
+    //print('chatbar stat');
     // return Text('${title}${amount}');
     return Column(
       children: [

@@ -34,6 +34,7 @@ class _TitleAndAmountWidget extends State<TitleAndAmountWidget> {
 
   @override
   Widget build(BuildContext context) {
+   // print('New transaction');
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(

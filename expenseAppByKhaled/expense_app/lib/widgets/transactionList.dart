@@ -1,18 +1,40 @@
+import 'dart:math';
+
+import 'package:expense_app/main.dart';
 import 'package:intl/intl.dart';
 
 import 'package:expense_app/model/transaction.dart';
 import 'package:flutter/material.dart';
 
-class TransactionList extends StatelessWidget {
+class TransactionList extends StatefulWidget {
   final List<Transaction> transactions;
   final Function deleteTx;
 
   TransactionList(this.transactions, this.deleteTx);
+
+  @override
+  State<TransactionList> createState() => _TransactionListState();
+}
+
+class _TransactionListState extends State<TransactionList> {
+  final colors = [Colors.red, Colors.green, Colors.yellow];
+
+  var bgColor;
+
+  @override
+  void initState() {
+    print(colors[Random().nextInt(3)]);
+    print('inistate transaction');
+    bgColor = colors[Random().nextInt(3)];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // print('Transaction List');
     return Container(
       height: 380,
-      child: transactions.isEmpty
+      child: widget.transactions.isEmpty
           ? Container(
               width: 350,
               height: 150,
@@ -34,20 +56,21 @@ class TransactionList extends StatelessWidget {
                 ],
               ))
           : ListView.builder(
-              itemCount: transactions.length,
+              itemCount: widget.transactions.length,
               itemBuilder: (context, index) => LayoutBuilder(
                     builder: (context, constraints) => Card(
+                      //  key: ValueKey(transactions[index].id),
                       margin: const EdgeInsets.all(8),
                       elevation: 7,
                       child: ListTile(
                         leading: Builder(builder: (context) {
                           return CircleAvatar(
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: bgColor,
                             child: FittedBox(
                               child: Column(
                                 children: [
                                   Text(
-                                    ' ${transactions[index].amount.toString()}',
+                                    ' ${widget.transactions[index].amount.toString()}',
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -69,19 +92,20 @@ class TransactionList extends StatelessWidget {
                             maxRadius: 29,
                           );
                         }),
-                        title: Text(transactions[index].item,
+                        title: Text(widget.transactions[index].item,
                             style: Theme.of(context).textTheme.headline1),
                         subtitle: Text(
                           DateFormat.yMMMd()
-                              .format(transactions[index].transactionDate)
+                              .format(
+                                  widget.transactions[index].transactionDate)
                               .toString(),
                           style:
                               const TextStyle(color: Colors.grey, fontSize: 15),
                         ),
                         trailing: constraints.maxWidth > 500
                             ? TextButton.icon(
-                                onPressed: () =>
-                                    deleteTx(transactions[index].id),
+                                onPressed: () => widget
+                                    .deleteTx(widget.transactions[index].id),
                                 icon: const Icon(
                                   Icons.delete,
                                   color: Colors.red,
@@ -92,8 +116,8 @@ class TransactionList extends StatelessWidget {
                                       color: Theme.of(context).errorColor),
                                 ))
                             : IconButton(
-                                onPressed: () =>
-                                    deleteTx(transactions[index].id),
+                                onPressed: () => widget
+                                    .deleteTx(widget.transactions[index].id),
                                 icon: const Icon(
                                   Icons.delete,
                                   color: Colors.red,

@@ -35,6 +35,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   // print('chat state');
     return Card(
         margin: const EdgeInsets.all(20),
         elevation: 5,
