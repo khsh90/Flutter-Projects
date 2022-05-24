@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
-import '../category.dart';
+import 'package:mealsappbymax/catergory_item.dart';
+import './dummydata.dart';
 
 class CategoryScreen extends StatelessWidget {
-  final List<Category> categries = [
-    Category(id: 'c1', title: 'Arabic Food', itemColor: Colors.green),
-    Category(id: 'c2', title: 'English Food', itemColor: Colors.blue),
-    Category(id: 'c3', title: 'Italian Food', itemColor: Colors.orange),
-    Category(id: 'c4', title: 'Spanish Food', itemColor: Colors.yellow),
-    Category(id: 'c5', title: 'Russian Food', itemColor: Colors.purple),
-    Category(id: 'c6', title: 'Indian Food', itemColor: Colors.grey),
-    Category(id: 'c7', title: 'England Food', itemColor: Colors.black),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        childAspectRatio: 3 / 2,
-        mainAxisSpacing: 20,
-        maxCrossAxisExtent: 30,
-        mainAxisExtent: 10,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Delivry App'),
       ),
-      children: [],
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: GridView(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 2,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+            ),
+            children: dummyCategries
+                .map(
+                  (cat) => CategoryItem(
+                      id: cat.id, title: cat.title, itemColor: cat.itemColor),
+                )
+                .toList()),
+      ),
     );
   }
 }
