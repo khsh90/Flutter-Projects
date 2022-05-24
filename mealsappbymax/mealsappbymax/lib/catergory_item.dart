@@ -9,12 +9,20 @@ class CategoryItem extends StatelessWidget {
       {required this.id, required this.title, required this.itemColor});
 
   void selectedCategory(BuildContext ctx) {
-    Navigator.of(ctx).push(MaterialPageRoute(
-      builder: (_) => CatergoryMealItem(
-        id: id,
-        title: title,
-      ),
-    ));
+    // Navigator.of(ctx).push(MaterialPageRoute(
+    //   builder: (_) => CatergoryMealItem(
+    //     id: id,
+    //     title: title,
+    //   ),
+    // )
+
+    // );
+
+    // Navigator.of(ctx).pushNamed('CataegoryMealScreen',
+    //     arguments: {'id': id, 'title': title});
+//we used static in order to reduce the error
+    Navigator.of(ctx).pushNamed(CatergoryMealItem.routerName,
+        arguments: {'id': id, 'title': title});
   }
 
   @override
