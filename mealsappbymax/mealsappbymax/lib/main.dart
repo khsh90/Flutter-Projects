@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../category_meal_item.dart';
-import '../catergory_screen.dart';
+import 'pages/category_meal_item._page.dart';
+import 'pages/catergory_page.dart';
 
 void main() => runApp(MyApp());
 

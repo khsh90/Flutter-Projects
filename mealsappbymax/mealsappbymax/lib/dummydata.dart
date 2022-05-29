@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mealsappbymax/meal.dart';
-import './category.dart';
+import 'package:mealsappbymax/modals/meal.dart';
+import 'modals/category.dart';
 
 const List<Category> dummyCategries = [
   Category(id: 'c1', title: 'Arabic Food', itemColor: Colors.green),
@@ -12,8 +12,8 @@ const List<Category> dummyCategries = [
   Category(id: 'c7', title: 'England Food', itemColor: Colors.black),
 ];
 
- List<Meal> mealData = [
-    Meal(
+List<Meal> mealData = [
+  Meal(
     id: 'm1',
     categories: [
       'c1',
@@ -361,5 +361,4 @@ const List<Category> dummyCategries = [
     isVegetarian: true,
     isLactoseFree: true,
   ),
-  
 ];
