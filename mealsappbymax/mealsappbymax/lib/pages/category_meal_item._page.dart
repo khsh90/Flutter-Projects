@@ -26,6 +26,7 @@ class CatergoryMealItem extends StatelessWidget {
         appBar: AppBar(title: Text(title!)),
         body: ListView.builder(
           itemBuilder: (context, index) => CategoryMealItemWidget(
+              id: filteredMeals[index].id,
               title: filteredMeals[index].title,
               imageURL: filteredMeals[index].imageUrl,
               duration: filteredMeals[index].duration,
