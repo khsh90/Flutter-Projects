@@ -1,9 +1,9 @@
-import 'dart:ui';
+// import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mealsappbymax/pages/item_detail_page.dart';
-import 'package:mealsappbymax/pages/tabbarpage.dart';
+import '../pages/bottombarPage.dart';
+import '../pages/item_detail_page.dart';
+// import 'package:mealsappbymax/pages/tabbarpage.dart';
 import 'pages/category_meal_item._page.dart';
 import 'pages/catergory_page.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'RobotoCondensed'),
       // home: CategoryScreen(),
       routes: {
-        '/': (context) => TabBarViewPage(),
+        '/': (context) => BottomBarViewPage(),
         // '/CataegoryMealScreen': ((context) => CatergoryMealItem())
         //we use static instaded of above to reduce errors
         CatergoryMealItem.routerName: (context) => CatergoryMealItem(),

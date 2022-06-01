@@ -3,6 +3,7 @@ import '../pages/category_meal_item._page.dart';
 import '../pages/catergory_page.dart';
 import './favouritepage.dart';
 
+//this one for top bar.
 class TabBarViewPage extends StatefulWidget {
   @override
   State<TabBarViewPage> createState() => _TabBarViewState();
