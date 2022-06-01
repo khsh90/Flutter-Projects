@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/drawer.dart';
 import '../pages/category_meal_item._page.dart';
 import '../pages/catergory_page.dart';
 import './favouritepage.dart';
@@ -42,6 +43,7 @@ class _BottomBarViewPageState extends State<BottomBarViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(headerDrawerColor: appBarColor[pageIndex]),
       appBar: AppBar(
         title: Text(pageItems[pageIndex]['title']),
         backgroundColor: appBarColor[pageIndex],

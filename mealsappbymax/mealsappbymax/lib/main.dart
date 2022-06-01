@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../pages/fliterspage.dart';
 import '../pages/bottombarPage.dart';
 import '../pages/item_detail_page.dart';
 // import 'package:mealsappbymax/pages/tabbarpage.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         //we use static instaded of above to reduce errors
         CatergoryMealItem.routerName: (context) => CatergoryMealItem(),
         ItemDetailScreen.routerName: (context) => ItemDetailScreen(),
+        FiltersPage.routeName: (context) => FiltersPage(),
       },
 
       //if one of pages not exists will get back to main screen
