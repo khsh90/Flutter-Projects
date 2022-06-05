@@ -56,13 +56,15 @@ class AppDrawer extends StatelessWidget {
               icon: Icons.restaurant,
               itemName: 'Meals',
               functionHandler: () {
-                Navigator.of(context).pushNamed('/');
+                Navigator.of(context).pushReplacementNamed('/');
               }),
           drawerMealItem(
               icon: Icons.settings,
               itemName: 'Filter',
               functionHandler: () {
-                Navigator.of(context).pushNamed(FiltersPage.routeName);
+                // pushReplacementNamed used to remove the old page and put the page instread
+                Navigator.of(context)
+                    .pushReplacementNamed(FiltersPage.routeName);
               }),
         ],
       ),
