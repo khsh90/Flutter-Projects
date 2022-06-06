@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
               }),
           drawerMealItem(
               icon: Icons.settings,
-              itemName: 'Filter',
+              itemName: 'Filters',
               functionHandler: () {
                 // pushReplacementNamed used to remove the old page and put the page instread
                 Navigator.of(context)

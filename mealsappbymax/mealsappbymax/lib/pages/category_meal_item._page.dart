@@ -40,6 +40,7 @@ class _CatergoryMealItemState extends State<CatergoryMealItem> {
 
   @override
   Widget build(BuildContext context) {
+    print('after in scaffild');
     return Scaffold(
       appBar: AppBar(title: Text(title!)),
       body: ListView.builder(
