@@ -1,16 +1,59 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:mealsappbymax/dummydata.dart';
 import '../pages/fliterspage.dart';
 import '../pages/bottombarPage.dart';
 import '../pages/item_detail_page.dart';
 // import 'package:mealsappbymax/pages/tabbarpage.dart';
+import 'modals/meal.dart';
 import 'pages/category_meal_item._page.dart';
 import 'pages/catergory_page.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> filter = {
+    'glutenFree': false,
+    'vegetarian': false,
+    'vegan': false,
+    'lactosFree': false,
+  };
+  List<Meal> filteredMeals = mealData;
+
+  void _enableFilter(Map<String, bool> filterData) {
+    setState(() {
+      filter = filterData;
+      filteredMeals = mealData.where((eachMeal) {
+        if (filter['glutenFree']! && !eachMeal.isGlutenFree) {
+          print(filter['glutenFree']!);
+
+          return false;
+        }
+        if (filter['vegetarian']! && !eachMeal.isVegetarian) {
+          print(filter['vegetarian']!);
+          print(!eachMeal.isVegetarian);
+          return false;
+        }
+        if (filter['vegan']! && !eachMeal.isVegan) {
+          print('ok vegan');
+          return false;
+        }
+        if (filter['lactosFree']! && !eachMeal.isLactoseFree) {
+          print('ok lactosFree');
+          return false;
+        }
+        print('ok true');
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,9 +78,10 @@ class MyApp extends StatelessWidget {
         '/': (context) => BottomBarViewPage(),
         // '/CataegoryMealScreen': ((context) => CatergoryMealItem())
         //we use static instaded of above to reduce errors
-        CatergoryMealItem.routerName: (context) => CatergoryMealItem(),
+        CatergoryMealItem.routerName: (context) =>
+            CatergoryMealItem(filteredMeals),
         ItemDetailScreen.routerName: (context) => ItemDetailScreen(),
-        FiltersPage.routeName: (context) => FiltersPage(),
+        FiltersPage.routeName: (context) => FiltersPage(_enableFilter, filter),
       },
 
       //if one of pages not exists will get back to main screen

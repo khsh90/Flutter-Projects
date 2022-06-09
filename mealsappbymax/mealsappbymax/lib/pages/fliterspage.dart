@@ -9,15 +9,31 @@ import 'package:mealsappbymax/widgets/drawer.dart';
 class FiltersPage extends StatefulWidget {
   static String routeName = '/FiltersPage';
 
+  final Function filter;
+  final Map<String, bool> filterData;
+
+  FiltersPage(this.filter, this.filterData);
+
   @override
   State<FiltersPage> createState() => _FiltersPageState();
 }
 
 class _FiltersPageState extends State<FiltersPage> {
+  @override
   var _glutenFree = false;
   var _vegetarian = false;
   var _vegan = false;
   var _lactosFree = false;
+
+  void initState() {
+    _glutenFree = widget.filterData['glutenFree']!;
+    _vegetarian = widget.filterData['vegetarian']!;
+    _vegan = widget.filterData['vegan']!;
+    _lactosFree = widget.filterData['lactosFree']!;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _buildSwitchListTile({
@@ -39,6 +55,19 @@ class _FiltersPageState extends State<FiltersPage> {
 
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Map<String, bool> filterMain = {
+                    'glutenFree': _glutenFree,
+                    'vegetarian': _vegetarian,
+                    'vegan': _vegan,
+                    'lactosFree': _lactosFree,
+                  };
+                  widget.filter(filterMain);
+                },
+                icon: const Icon(Icons.save))
+          ],
           title: const Text('Filter Screen'),
           backgroundColor: Colors.red,
         ),
