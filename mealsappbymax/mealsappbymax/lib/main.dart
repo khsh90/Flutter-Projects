@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     final exsitedIndex =
         favoiroteMeal.indexWhere((eachMeal) => eachMeal.id == mealId);
 
-    if (exsitedIndex > 0) {
+    if (exsitedIndex >= 0) {
       setState(() {
         favoiroteMeal.removeAt(exsitedIndex);
       });
@@ -101,7 +101,8 @@ class _MyAppState extends State<MyApp> {
         //we use static instaded of above to reduce errors
         CatergoryMealItem.routerName: (context) =>
             CatergoryMealItem(filteredMeals),
-        ItemDetailScreen.routerName: (context) => ItemDetailScreen(toggleFavoriteMeals,isFavorite),
+        ItemDetailScreen.routerName: (context) =>
+            ItemDetailScreen(toggleFavoriteMeals, isFavorite),
         FiltersPage.routeName: (context) => FiltersPage(_enableFilter, filter),
       },
 
