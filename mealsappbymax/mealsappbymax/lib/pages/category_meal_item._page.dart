@@ -54,7 +54,7 @@ class _CatergoryMealItemState extends State<CatergoryMealItem> {
           duration: filteredMeals[index].duration,
           complexity: filteredMeals[index].complexity,
           affordability: filteredMeals[index].affordability,
-          deleteMeal: _deleteMeal,
+         // deleteMeal: _deleteMeal,
         ),
         itemCount: filteredMeals.length,
       ),

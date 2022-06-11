@@ -25,6 +25,27 @@ class _MyAppState extends State<MyApp> {
     'lactosFree': false,
   };
   List<Meal> filteredMeals = mealData;
+  List<Meal> favoiroteMeal = [];
+
+  void toggleFavoriteMeals(String mealId) {
+    final exsitedIndex =
+        favoiroteMeal.indexWhere((eachMeal) => eachMeal.id == mealId);
+
+    if (exsitedIndex > 0) {
+      setState(() {
+        favoiroteMeal.removeAt(exsitedIndex);
+      });
+    } else {
+      setState(() {
+        favoiroteMeal
+            .add(mealData.firstWhere((eachMeal) => eachMeal.id == mealId));
+      });
+    }
+  }
+
+  bool isFavorite(String mealId) {
+    return favoiroteMeal.any((eachMeal) => eachMeal.id == mealId);
+  }
 
   void _enableFilter(Map<String, bool> filterData) {
     setState(() {
@@ -75,12 +96,12 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'RobotoCondensed'),
       // home: CategoryScreen(),
       routes: {
-        '/': (context) => BottomBarViewPage(),
+        '/': (context) => BottomBarViewPage(favoiroteMeal),
         // '/CataegoryMealScreen': ((context) => CatergoryMealItem())
         //we use static instaded of above to reduce errors
         CatergoryMealItem.routerName: (context) =>
             CatergoryMealItem(filteredMeals),
-        ItemDetailScreen.routerName: (context) => ItemDetailScreen(),
+        ItemDetailScreen.routerName: (context) => ItemDetailScreen(toggleFavoriteMeals,isFavorite),
         FiltersPage.routeName: (context) => FiltersPage(_enableFilter, filter),
       },
 

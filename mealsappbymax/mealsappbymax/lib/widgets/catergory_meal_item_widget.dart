@@ -12,16 +12,17 @@ class CategoryMealItemWidget extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  final Function deleteMeal;
+  //final Function deleteMeal;
 
-  CategoryMealItemWidget(
-      {required this.id,
-      required this.title,
-      required this.imageURL,
-      required this.duration,
-      required this.complexity,
-      required this.affordability,
-      required this.deleteMeal});
+  CategoryMealItemWidget({
+    required this.id,
+    required this.title,
+    required this.imageURL,
+    required this.duration,
+    required this.complexity,
+    required this.affordability,
+    // required this.deleteMeal
+  });
 
   String get complexityText {
     switch (complexity) {
@@ -60,7 +61,7 @@ class CategoryMealItemWidget extends StatelessWidget {
         .pushNamed(ItemDetailScreen.routerName, arguments: id)
         .then((result) {
       if (result != null) {
-        deleteMeal(result);
+       // deleteMeal(result);
       }
     });
   }

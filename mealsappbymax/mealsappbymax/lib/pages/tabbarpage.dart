@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealsappbymax/modals/meal.dart';
 import '../pages/category_meal_item._page.dart';
 import '../pages/catergory_page.dart';
 import './favouritepage.dart';
@@ -10,6 +11,7 @@ class TabBarViewPage extends StatefulWidget {
 }
 
 class _TabBarViewState extends State<TabBarViewPage> {
+  List<Meal> favoriteMeal = [];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,7 +33,8 @@ class _TabBarViewState extends State<TabBarViewPage> {
             ]),
           ),
           // in tabba bar the lenght is corosponding to each page first tab for CategoryScreen and so on
-          body: TabBarView(children: [CategoryScreen(), FavouritePage()])),
+          body: TabBarView(
+              children: [CategoryScreen(), FavouritePage(favoriteMeal)])),
     );
   }
 }
