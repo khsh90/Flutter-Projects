@@ -1,0 +1,76 @@
+#EXTINF:-1,------|Arabic-BeIN|------
+http://ku03.wanicelife.com:8880/12m0525/772229617/2142
+#EXTINF:-1,BN001:BeIN Sport News
+http://ku03.wanicelife.com:8880/12m0525/772229617/2141
+#EXTINF:-1,BN002:BeIN Sport 1 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2140
+#EXTINF:-1,BN003:BeIN Sport 2 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2139
+#EXTINF:-1,BN004:BeIN Sport 3 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2138
+#EXTINF:-1,BN005:BeIN Sport 4 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2137
+#EXTINF:-1,BN006:BeIN Sport 5 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2136
+#EXTINF:-1,BN007:BeIN Sport 6 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2135
+#EXTINF:-1,BN008:BeIN Sport 7 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2134
+#EXTINF:-1,BN009:BeIN Sport 8 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2133
+#EXTINF:-1,BN010:BeIN Sport 9 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2132
+#EXTINF:-1,BN011:BeIN Sport 10 HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2131
+#EXTINF:-1,BN012:BeIN Sport ENG 1
+http://ku03.wanicelife.com:8880/12m0525/772229617/2130
+#EXTINF:-1,BN013:BeIN Sport ENG 2
+http://ku03.wanicelife.com:8880/12m0525/772229617/2129
+#EXTINF:-1,BN014:BeIN Movies 1
+http://ku03.wanicelife.com:8880/12m0525/772229617/2128
+#EXTINF:-1,BN015:BeIN Movies 2
+http://ku03.wanicelife.com:8880/12m0525/772229617/2127
+#EXTINF:-1,BN016:BeIN Movies 3
+http://ku03.wanicelife.com:8880/12m0525/772229617/2126
+#EXTINF:-1,BN017:BeIN Movies 4
+http://ku03.wanicelife.com:8880/12m0525/772229617/2125
+#EXTINF:-1,BN018:beIN GOURMET
+http://ku03.wanicelife.com:8880/12m0525/772229617/2124
+#EXTINF:-1,BN019:BeIN Sport ENG 3
+http://ku03.wanicelife.com:8880/12m0525/772229617/2123
+#EXTINF:-1,BN020:BeIN BARAEM
+http://ku03.wanicelife.com:8880/12m0525/772229617/2122
+#EXTINF:-1,BN021:Bein Jeem HD
+http://ku03.wanicelife.com:8880/12m0525/772229617/2121
+#EXTINF:-1,BN022:Bein Sports Premium 1
+http://ku03.wanicelife.com:8880/12m0525/772229617/2120
+#EXTINF:-1,BN023:Bein Sports Premium 2
+http://ku03.wanicelife.com:8880/12m0525/772229617/2119
+#EXTINF:-1,BN024:FOX Movie
+http://ku03.wanicelife.com:8880/12m0525/772229617/2118
+#EXTINF:-1,BN025:Bein Sports Premium 3
+http://ku03.wanicelife.com:8880/12m0525/772229617/2117
+#EXTINF:-1,BN026:FOX Action Movie
+http://ku03.wanicelife.com:8880/12m0525/772229617/2116
+#EXTINF:-1,BN027:BEIN travel
+http://ku03.wanicelife.com:8880/12m0525/772229617/2115
+#EXTINF:-1,BN028:Bein Sport 1 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59271
+#EXTINF:-1,BN029:Bein Sport 2 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59270
+#EXTINF:-1,BN030:Bein Sport 3 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59269
+#EXTINF:-1,BN031:Bein Sport 4 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59268
+#EXTINF:-1,BN032:Bein Sport 5 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59267
+#EXTINF:-1,BN033:Bein Sport 6 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59266
+#EXTINF:-1,BN034:Bein Sport 7 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59265
+#EXTINF:-1,BN035:Bein Sport 8 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59264
+#EXTINF:-1,BN036:Bein Sport 9 FHD
+http://ku03.wanicelife.com:8880/12m0525/772229617/59263
+#EXTINF:-1,BN037:Bein Sports Max 1
+http://ku03.wanicelife.com:8880/12m0525/772229617/59262

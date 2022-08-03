@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class CategoryModel {
+class Category {
   final String id;
-  final String categoryName;
-  final Color categoryColor;
+  final String title;
+  final Color color;
 
-  CategoryModel(
+  Category(
       {required this.id,
-      required this.categoryName,
-      required this.categoryColor});
+      required this.title,
+      required this.color});
 }
