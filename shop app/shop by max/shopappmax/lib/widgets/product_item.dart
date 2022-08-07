@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopappmax/pages/productitemdetails.dart';
 import 'package:provider/provider.dart';
+import '/provider/cart.dart';
 import 'package:shopappmax/provider/product.dart';
 
 class ProductItem extends StatelessWidget {
@@ -12,12 +13,44 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productData = Provider.of<Product>(context);
+    final productData = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
+
     return Container(
       padding: const EdgeInsets.all(10),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: GridTile(
+          footer: GridTileBar(
+            backgroundColor: Colors.black54,
+            title: Text(
+              productData.title,
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              onPressed: () {
+                cart.addItem(
+                    productData.id, productData.title, productData.price);
+              },
+            ),
+            leading: Consumer<Product>(
+              //here we use consumer becuase we need to favorite only to be changed no all the widget this will enchance the performance
+              builder: (context, value, child) => IconButton(
+                icon: Icon(
+                    productData.isFavoirite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: Colors.amber),
+                onPressed: () {
+                  productData.toggleFavorite();
+                },
+              ),
+            ),
+          ),
           child: GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
                 ProductItemDetials.pageRoute,
@@ -29,31 +62,6 @@ class ProductItem extends StatelessWidget {
             child: Image.network(
               productData.imageUrl,
               fit: BoxFit.cover,
-            ),
-          ),
-          footer: GridTileBar(
-            backgroundColor: Colors.black54,
-            title: Text(
-              productData.title,
-              textAlign: TextAlign.center,
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.shopping_basket,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              onPressed: () {},
-            ),
-            leading: IconButton(
-              icon: Icon(
-                productData.isFavoirite
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              onPressed: () {
-                productData.toggleFavorite();
-              },
             ),
           ),
         ),

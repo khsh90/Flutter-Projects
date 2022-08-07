@@ -17,6 +17,36 @@ class ProductItemDetials extends StatelessWidget {
 
     return (Scaffold(
       appBar: AppBar(title: Text(loadedProduct.title)),
+      body: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 350,
+            child: Image.network(
+              loadedProduct.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            '${loadedProduct.price} JD',
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            '${loadedProduct.description} ',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
     ));
   }
 }
