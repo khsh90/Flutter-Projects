@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/cupertino.dart';
 
 class CartItem {
@@ -51,6 +53,31 @@ class Cart with ChangeNotifier {
 
   void remiteItem(String productId) {
     _items.remove(productId);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _items = {};
+    notifyListeners();
+  }
+
+  void removeSigleItem(String productId) {
+    if (!_items.containsValue([productId])) {
+      return;
+    }
+
+    if (_items[productId]?.quantity != 1) {
+      _items.update(
+          productId,
+          (exisitedItem) => CartItem(
+              id: exisitedItem.id,
+              title: exisitedItem.title,
+              price: exisitedItem.price,
+              quantity: exisitedItem.quantity - 1));
+    } else if (_items[productId]?.quantity == 1) {
+      _items.remove(productId);
+    }
+
     notifyListeners();
   }
 }

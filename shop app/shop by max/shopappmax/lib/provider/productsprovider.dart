@@ -53,5 +53,4 @@ class ProductsProvider with ChangeNotifier {
 
   List<Product> get favoriteItem =>
       _items.where((eachItem) => eachItem.isFavoirite).toList();
-      
 }

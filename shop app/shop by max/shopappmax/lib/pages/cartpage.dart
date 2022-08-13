@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopappmax/pages/order_page.dart';
 import 'package:shopappmax/provider/cart.dart';
+import 'package:shopappmax/provider/orders.dart';
 import 'package:shopappmax/widgets/cartitems.dart';
 
 class CartPage extends StatelessWidget {
@@ -32,12 +34,22 @@ class CartPage extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          '${cart.cartTotal} JD',
+                          '${cart.cartTotal.toStringAsFixed(2)} JD',
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (cart.cartTotal <= 0)
+                              return;
+                            else
+                              Provider.of<Orders>(context, listen: false)
+                                  .addOrders(cart.items.values.toList(),
+                                      cart.cartTotal);
+                            Navigator.of(context).pushNamed(OrderPage.route);
+
+                            cart.clearCart();
+                          },
                           child: const Text(
                             'Order Now',
                             style:

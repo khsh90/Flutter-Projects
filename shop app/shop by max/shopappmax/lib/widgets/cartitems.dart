@@ -24,6 +24,21 @@ class CartItems extends StatelessWidget {
           productId,
         );
       },
+      confirmDismiss: (direction) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Are you sure'),
+          content: const Text('Are you sure you want delete this item'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Yes')),
+            TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No')),
+          ],
+        ),
+      ),
       direction: DismissDirection.endToStart,
       background: Container(
         color: Colors.red,
@@ -47,7 +62,7 @@ class CartItems extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   '$price',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
