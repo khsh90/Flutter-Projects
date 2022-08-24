@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'package:shopappmax/models/httpexception.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -16,8 +20,30 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       this.isFavoirite = false});
 
-  void toggleFavorite() {
-    isFavoirite = !isFavoirite;
-    notifyListeners();
+  Future<void> toggleFavorite() async {
+    void favouriteValue(bool oldFavoirite) {
+      isFavoirite = oldFavoirite;
+      notifyListeners();
+    }
+
+    var oldFavoirite = isFavoirite;
+
+    try {
+      isFavoirite = !isFavoirite;
+      notifyListeners();
+      final url = Uri.parse(
+          'https://flutter-shop-app-862c6-default-rtdb.firebaseio.com/products/$id.json');
+
+      final response = await http.patch(url,
+          body: json.encode({'isFavoirite': isFavoirite}));
+
+      if (response.statusCode >= 400) {
+        favouriteValue(oldFavoirite);
+        throw CustomHttpException('Something Went wrong');
+      }
+    } catch (error) {
+      favouriteValue(oldFavoirite);
+      throw CustomHttpException('Something Went wrong');
+    }
   }
 }

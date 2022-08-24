@@ -13,6 +13,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final snackMasanger = ScaffoldMessenger.of(context);
     final productData = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
 
@@ -54,8 +55,13 @@ class ProductItem extends StatelessWidget {
                         ? Icons.favorite
                         : Icons.favorite_border,
                     color: Colors.amber),
-                onPressed: () {
-                  productData.toggleFavorite();
+                onPressed: () async {
+                  try {
+                    await productData.toggleFavorite();
+                  } catch (error) {
+                    snackMasanger.showSnackBar(
+                        const SnackBar(content: Text('Something Went wrong')));
+                  }
                 },
               ),
             ),

@@ -19,21 +19,19 @@ class _OrdersItemsWidgetState extends State<OrdersItemsWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          child: ListTile(
-            title: Text('${widget.orderItems.amount} JD'),
-            subtitle: Text(
-                '${DateFormat('dd/MM/yyyy hh:mm').format(widget.orderItems.orderDate)}'),
-            trailing: IconButton(
-                onPressed: () {
-                  setState(() {
-                    _expanded = !_expanded;
-                  });
-                },
-                icon: _expanded
-                    ? const Icon(Icons.expand_less)
-                    : const Icon(Icons.expand_more)),
-          ),
+        ListTile(
+          title: Text('${widget.orderItems.amount} JD'),
+          subtitle: Text(DateFormat('dd/MM/yyyy hh:mm')
+              .format(widget.orderItems.orderDate)),
+          trailing: IconButton(
+              onPressed: () {
+                setState(() {
+                  _expanded = !_expanded;
+                });
+              },
+              icon: _expanded
+                  ? const Icon(Icons.expand_less)
+                  : const Icon(Icons.expand_more)),
         ),
         if (_expanded)
           SizedBox(

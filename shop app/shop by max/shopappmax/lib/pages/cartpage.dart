@@ -38,24 +38,7 @@ class CartPage extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            if (cart.cartTotal <= 0)
-                              return;
-                            else
-                              Provider.of<Orders>(context, listen: false)
-                                  .addOrders(cart.items.values.toList(),
-                                      cart.cartTotal);
-                            Navigator.of(context).pushNamed(OrderPage.route);
-
-                            cart.clearCart();
-                          },
-                          child: const Text(
-                            'Order Now',
-                            style:
-                                TextStyle(color: Colors.purple, fontSize: 16),
-                          ),
-                        )
+                        OrderNowWidget(cart: cart)
                       ]),
                 ),
               ),
@@ -72,5 +55,50 @@ class CartPage extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class OrderNowWidget extends StatefulWidget {
+  const OrderNowWidget({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  State<OrderNowWidget> createState() => _OrderNowWidgetState();
+}
+
+class _OrderNowWidgetState extends State<OrderNowWidget> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: isLoading
+          ? const CircularProgressIndicator()
+          : const Text(
+              'Order Now',
+              style: TextStyle(color: Colors.purple, fontSize: 16),
+            ),
+      onPressed: () async {
+        if (widget.cart.cartTotal <= 0 || isLoading) {
+          return;
+        } else {
+          setState(() {
+            isLoading = true;
+          });
+          await Provider.of<Orders>(context, listen: false).addOrders(
+              widget.cart.items.values.toList(), widget.cart.cartTotal);
+          Navigator.of(context).pushNamed(OrderPage.route);
+          setState(() {
+            isLoading = false;
+          });
+
+          widget.cart.clearCart();
+        }
+      },
+    );
   }
 }

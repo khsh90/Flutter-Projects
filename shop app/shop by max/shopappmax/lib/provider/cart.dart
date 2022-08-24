@@ -66,7 +66,7 @@ class Cart with ChangeNotifier {
       return;
     }
 
-    if (_items[productId]?.quantity != 1) {
+    if ((_items[productId]?.quantity)! < 1) {
       _items.update(
           productId,
           (exisitedItem) => CartItem(
@@ -74,7 +74,7 @@ class Cart with ChangeNotifier {
               title: exisitedItem.title,
               price: exisitedItem.price,
               quantity: exisitedItem.quantity - 1));
-    } else if (_items[productId]?.quantity == 1) {
+    } else {
       _items.remove(productId);
     }
 

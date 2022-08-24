@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopappmax/pages/cartpage.dart';
+import 'package:shopappmax/provider/productsprovider.dart';
 import 'package:shopappmax/widgets/badge.dart';
 import 'package:shopappmax/widgets/app_drawer.dart';
 import 'package:shopappmax/widgets/product_item.dart';
@@ -19,6 +20,37 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  var _isInit = true;
+  var _isLoading = false;
+  @override
+  void initState() {
+    // Future.delayed(Duration.zero).then((_) =>
+    //     Provider.of<ProductsProvider>(context, listen: false).getProducts());
+
+    //the both above works without issue if you make listed false , but we will use better way by using didchange depences
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // don't use asysc await with  didChangeDependencies and initState , use then istead
+    // here to be used better than initState , with listen true .
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProductsProvider>(context).getProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
   bool _showFavoriteItems = false;
   @override
   Widget build(BuildContext context) {
@@ -61,7 +93,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           )
         ],
       ),
-      body: ProductGridView(_showFavoriteItems),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductGridView(_showFavoriteItems),
       drawer: AppDrawer(),
     );
   }
