@@ -54,13 +54,12 @@ class _SignupWidgetState extends State<SignupWidget> {
     }
     _formKey.currentState?.save();
     Provider.of<UserCreditials>(context, listen: false)
-        .addUser(userCred: formFieldValues);
+        .addUser(userCred: formFieldValues, store: _store);
     Navigator.of(context).pushReplacementNamed(UserMAnagementPage.route);
 
-    _store.box<UserCredintial>().put(formFieldValues);
-
     print(_store.box<UserCredintial>().put(formFieldValues));
-    print(_store.box<UserCredintial>().getAll());
+
+
     // print(formFieldValues.userName);
     // print(formFieldValues.password);
     // print('controller:${passwordController.text}');

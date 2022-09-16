@@ -28,18 +28,14 @@ class UserCreditials with ChangeNotifier {
   ];
   List<UserCredintial> get usertCreditialsItems => [..._userCreditialsItems];
 
-  Future<void> addUser({
-    required UserCredintial userCred,
-  }) async {
+  void addUser({required UserCredintial userCred, required Store store}) {
     _userCreditialsItems.add(UserCredintial(
         userName: userCred.userName, password: userCred.password));
+    store.box<UserCredintial>().put(userCred);
+    notifyListeners();
   }
 
-  Future<void> storeInitlizatiob(Store store) async {
-    final storeDirecotory = await getApplicationDocumentsDirectory();
-
-    store = Store(getObjectBoxModel(),
-        directory: p.join(storeDirecotory.path, 'objectbox'));
-    notifyListeners();
+  void getUser({required store}) {
+    store.box<UserCredintial>().getAll();
   }
 }
