@@ -26,16 +26,22 @@ class UserCreditials with ChangeNotifier {
     // UserCredintial(userName: 'kahled', password: '1234'),
     // UserCredintial(userName: 'dana', password: '123')
   ];
+
   List<UserCredintial> get usertCreditialsItems => [..._userCreditialsItems];
+  List<UserCredintial> getuserCredintials(Store store) =>
+      store.box<UserCredintial>().getAll();
 
   void addUser({required UserCredintial userCred, required Store store}) {
     _userCreditialsItems.add(UserCredintial(
         userName: userCred.userName, password: userCred.password));
     store.box<UserCredintial>().put(userCred);
+
+    print(getuserCredintials(store));
+
     notifyListeners();
   }
 
-  void getUser({required store}) {
-    store.box<UserCredintial>().getAll();
-  }
+
+  // viod oneUser
+
 }

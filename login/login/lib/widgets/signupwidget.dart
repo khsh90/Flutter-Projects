@@ -8,21 +8,21 @@ import 'package:login/pages/userpage.dart';
 import 'package:login/provider/usercredintial.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../objectbox.g.dart';
 import 'package:path/path.dart' as p;
+import '../objectbox.g.dart';
 
 class SignupWidget extends StatefulWidget {
+  final Store store;
+
+  SignupWidget(this.store);
   @override
   State<SignupWidget> createState() => _SignupWidgetState();
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
-  late Store _store;
-  Admin? admin;
-  bool hasBeenInitialized = false;
+  // late Box<UserCredintial> storeBox = _store.box<UserCredintial>();
+  bool isInitized = false;
 
-  Stream<List<UserCredintial>>? _stream;
   Widget cutomElevatedButton({
     required Color btnColor,
     required String btnName,
@@ -53,12 +53,18 @@ class _SignupWidgetState extends State<SignupWidget> {
       return;
     }
     _formKey.currentState?.save();
+
     Provider.of<UserCreditials>(context, listen: false)
-        .addUser(userCred: formFieldValues, store: _store);
-    Navigator.of(context).pushReplacementNamed(UserMAnagementPage.route);
+        .addUser(userCred: formFieldValues, store: widget.store);
+    Navigator.of(context).pushReplacementNamed(UserMAnagementPage.route,
+        arguments: widget.store);
+    // _store.box<UserCredintial>().put(formFieldValues);
 
-    print(_store.box<UserCredintial>().put(formFieldValues));
+    print(widget.store.box<UserCredintial>().put(formFieldValues));
+//    print(_store.box<UserCredintial>().getAll());
 
+    // setState(() {});
+    // isInitized = true;
 
     // print(formFieldValues.userName);
     // print(formFieldValues.password);
@@ -87,35 +93,28 @@ class _SignupWidgetState extends State<SignupWidget> {
     super.initState();
     userNameFocusNode.addListener(getFocus);
 
-    getApplicationDocumentsDirectory().then((dir) => {
-          _store = Store(getObjectBoxModel(),
-              directory: p.join(dir.path, 'objectbox')),
+    // getApplicationDocumentsDirectory().then((dir) => widget.store =
+    //     Store(getObjectBoxModel(), directory: p.join(dir.path, 'objectbox')));
 
-          //     .map((qury) => qury.find());
-          if (Admin.isAvailable())
-            {
-              admin = Admin(_store),
-            }
-        });
-
-    setState(() {
-      // _stream = _store
-      //     ?.box<UserCredintials>()
-      //     .query()
-      //     .watch()
-
-      hasBeenInitialized = true;
-    });
-
-    // formFeildLoginButton();
+    // // formFeildLoginButton();
+    // Provider.of<UserCreditials>(context, listen: false)
+    //     .storeInitilization(widget.store)
+    //     .then((_) {
+    //   setState(() {
+    //     isInitized = true;
+    //   });
+    // });
+    //   setState(() {
+    //     isInitized = true;
+    //   });
   }
 
   @override
   void dispose() {
     super.dispose();
+
     userNameFocusNode.removeListener(getFocus);
-    _store.close();
-    admin?.close();
+    widget.store.close();
   }
 
   bool passwordShowkeyboard = true;
@@ -173,178 +172,161 @@ class _SignupWidgetState extends State<SignupWidget> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: !hasBeenInitialized
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SizedBox(
-                  // color: Colors.red,
-                  height: double.infinity,
-                  child: SingleChildScrollView(
-                    child: Stack(
+          body: SizedBox(
+        // color: Colors.red,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Positioned(
+                child: Image.asset(
+                  'assets/images/signup_top.png',
+                  width: 110,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Image.asset(
+                  'assets/images/main_bottom.png',
+                  width: 75,
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          fontFamily: 'Courgette',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    SvgPicture.asset(
+                      'assets/icons/signup.svg',
+                      width: MediaQuery.of(context).size.width - 205,
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            textFormFiled(
+                                labelName: 'UserName',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          userName: entredValue!,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter a user name';
+                                  }
+                                  return null;
+                                },
+                                focusNode: userNameFocusNode,
+                                passwordIcon: Icons.remove_red_eye,
+                                showICon: false),
+                            textFormFiled(
+                                labelName: 'Password',
+                                icon: Icons.lock,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          userName: formFieldValues.userName,
+                                          password: entredValue!)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter a password';
+                                  }
+                                  return null;
+                                },
+                                focusNode: passwordFocusNode,
+                                buttonController: passwordController,
+                                secureKeyboard: passwordShowkeyboard,
+                                passwordIcon: passwordShowkeyboard
+                                    ? Icons.remove_red_eye
+                                    : Icons.remove_red_eye_outlined,
+                                showPasswordIconButtonFunction: () {
+                                  setState(() {
+                                    passwordShowkeyboard =
+                                        !passwordShowkeyboard;
+                                  });
+                                }),
+                            textFormFiled(
+                                labelName: 'Confirm Password',
+                                icon: Icons.lock,
+                                saveFunction: (entredValue) => {},
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter a password';
+                                  }
+                                  if (entredValue != null &&
+                                      entredValue != passwordController.text) {
+                                    return 'Password not match';
+                                  }
+                                  return null;
+                                },
+                                focusNode: confirmPasswordFocusNode,
+                                secureKeyboard: confirmPasswordShowkeyboard,
+                                passwordIcon: confirmPasswordShowkeyboard
+                                    ? Icons.remove_red_eye
+                                    : Icons.remove_red_eye_outlined,
+                                showPasswordIconButtonFunction: () {
+                                  setState(() {
+                                    confirmPasswordShowkeyboard =
+                                        !confirmPasswordShowkeyboard;
+                                  });
+                                }),
+                          ],
+                        )),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    cutomElevatedButton(
+                        btnColor: const Color.fromARGB(255, 99, 22, 112),
+                        btnName: 'Sign Up',
+                        btnFunction: formFeildLoginButton),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Positioned(
-                          child: Image.asset(
-                            'assets/images/signup_top.png',
-                            width: 110,
-                          ),
+                        const Text(
+                          "Already have an account ?",
+                          style: TextStyle(color: Colors.purple),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          child: Image.asset(
-                            'assets/images/main_bottom.png',
-                            width: 75,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    fontFamily: 'Courgette',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 22),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              SvgPicture.asset(
-                                'assets/icons/signup.svg',
-                                width: MediaQuery.of(context).size.width - 205,
-                              ),
-                              const SizedBox(
-                                height: 35,
-                              ),
-                              Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      textFormFiled(
-                                          labelName: 'UserName',
-                                          icon: Icons.person,
-                                          saveFunction: (entredValue) => {
-                                                formFieldValues =
-                                                    UserCredintial(
-                                                        userName: entredValue!,
-                                                        password:
-                                                            formFieldValues
-                                                                .password)
-                                              },
-                                          validationFunction: (entredValue) {
-                                            if (entredValue != null &&
-                                                entredValue.isEmpty) {
-                                              return 'Please enter a user name';
-                                            }
-                                            return null;
-                                          },
-                                          focusNode: userNameFocusNode,
-                                          passwordIcon: Icons.remove_red_eye,
-                                          showICon: false),
-                                      textFormFiled(
-                                          labelName: 'Password',
-                                          icon: Icons.lock,
-                                          saveFunction: (entredValue) => {
-                                                formFieldValues =
-                                                    UserCredintial(
-                                                        userName:
-                                                            formFieldValues
-                                                                .userName,
-                                                        password: entredValue!)
-                                              },
-                                          validationFunction: (entredValue) {
-                                            if (entredValue != null &&
-                                                entredValue.isEmpty) {
-                                              return 'Please enter a password';
-                                            }
-                                            return null;
-                                          },
-                                          focusNode: passwordFocusNode,
-                                          buttonController: passwordController,
-                                          secureKeyboard: passwordShowkeyboard,
-                                          passwordIcon: passwordShowkeyboard
-                                              ? Icons.remove_red_eye
-                                              : Icons.remove_red_eye_outlined,
-                                          showPasswordIconButtonFunction: () {
-                                            setState(() {
-                                              passwordShowkeyboard =
-                                                  !passwordShowkeyboard;
-                                            });
-                                          }),
-                                      textFormFiled(
-                                          labelName: 'Confirm Password',
-                                          icon: Icons.lock,
-                                          saveFunction: (entredValue) => {},
-                                          validationFunction: (entredValue) {
-                                            if (entredValue != null &&
-                                                entredValue.isEmpty) {
-                                              return 'Please enter a password';
-                                            }
-                                            if (entredValue != null &&
-                                                entredValue !=
-                                                    passwordController.text) {
-                                              return 'Password not match';
-                                            }
-                                            return null;
-                                          },
-                                          focusNode: confirmPasswordFocusNode,
-                                          secureKeyboard:
-                                              confirmPasswordShowkeyboard,
-                                          passwordIcon:
-                                              confirmPasswordShowkeyboard
-                                                  ? Icons.remove_red_eye
-                                                  : Icons
-                                                      .remove_red_eye_outlined,
-                                          showPasswordIconButtonFunction: () {
-                                            setState(() {
-                                              confirmPasswordShowkeyboard =
-                                                  !confirmPasswordShowkeyboard;
-                                            });
-                                          }),
-                                    ],
-                                  )),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              cutomElevatedButton(
-                                  btnColor:
-                                      const Color.fromARGB(255, 99, 22, 112),
-                                  btnName: 'Sign Up',
-                                  btnFunction: formFeildLoginButton),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Already have an account ?",
-                                    style: TextStyle(color: Colors.purple),
-                                  ),
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                SigninPage.route);
-                                      },
-                                      child: const Text('Sign In',
-                                          style:
-                                              TextStyle(color: Colors.purple)))
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(SigninPage.route);
+                            },
+                            child: const Text('Sign In',
+                                style: TextStyle(color: Colors.purple)))
                       ],
                     ),
-                  ),
-                )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      )),
     );
   }
 }
