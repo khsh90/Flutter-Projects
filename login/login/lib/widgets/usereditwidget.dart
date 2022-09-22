@@ -81,16 +81,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
   void didChangeDependencies() {
     final userId = ModalRoute.of(context)?.settings.arguments as int;
 
-    final userData =
+    formFieldValues =
         Provider.of<UserCreditials>(context).findUserById(widget.store, userId);
 
     initialUSerData = {
-      'userName': userData.userName,
-      'password': userData.password
+      'userName': formFieldValues.userName,
+      'password': formFieldValues.password
     };
 
-    formFieldValues = UserCredintial(
-        userName: userData.userName, password: userData.password);
+    // formFieldValues = UserCredintial(
+    //     userName: userData.userName, password: userData.password);
 
     print(formFieldValues);
     super.didChangeDependencies();

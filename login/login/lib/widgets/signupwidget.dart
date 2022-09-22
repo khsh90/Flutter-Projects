@@ -60,8 +60,8 @@ class _SignupWidgetState extends State<SignupWidget> {
         arguments: widget.store);
     // _store.box<UserCredintial>().put(formFieldValues);
 
-    print(widget.store.box<UserCredintial>().put(formFieldValues));
-    print((widget.store.box<UserCredintial>().getAll()).asMap());
+    // print(widget.store.box<UserCredintial>().put(formFieldValues));
+    // print((widget.store.box<UserCredintial>().getAll()).asMap());
 
 //    print(_store.box<UserCredintial>().getAll());
 
