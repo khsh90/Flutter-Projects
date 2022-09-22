@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/widgets/welcomewidget.dart';
 
+import '../widgets/appDrawer.dart';
+
 class WelcomeApp extends StatelessWidget {
   Widget cutomElevatedButton(
       {required Color btnColor,
@@ -25,7 +27,13 @@ class WelcomeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(body: WelcomeWidget()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('My page'),
+        ),
+        body: WelcomeWidget(),
+        drawer: AppDrawer(),
+      ),
     );
   }
 }

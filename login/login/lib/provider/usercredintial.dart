@@ -18,7 +18,7 @@ class UserCredintial with ChangeNotifier {
   });
 
   @override
-  String toString() => '($userName,$password)';
+  String toString() => '($id,$userName,$password)';
 }
 
 class UserCreditials with ChangeNotifier {
@@ -32,16 +32,53 @@ class UserCreditials with ChangeNotifier {
       store.box<UserCredintial>().getAll();
 
   void addUser({required UserCredintial userCred, required Store store}) {
-    _userCreditialsItems.add(UserCredintial(
-        userName: userCred.userName, password: userCred.password));
-    store.box<UserCredintial>().put(userCred);
+    // _userCreditialsItems.add(UserCredintial(
+    //     userName: userCred.userName, password: userCred.password));
 
-    print(getuserCredintials(store));
+    List<UserCredintial> userData = store.box<UserCredintial>().getAll();
+
+    store.box<UserCredintial>().put(userCred);
+    notifyListeners();
+  }
+
+  void removeOneUser(
+    Store store,
+    int id,
+  ) {
+    List<UserCredintial> userCredintialData =
+        store.box<UserCredintial>().getAll();
+
+    int userIdIndex =
+        userCredintialData.indexWhere((eachUser) => eachUser.id == id);
+    // print(userIdIndex);
+    store.box<UserCredintial>().remove(userCredintialData[userIdIndex].id);
+    print(store.box<UserCredintial>().getAll());
 
     notifyListeners();
   }
 
+  void editOneUser(Store store, int id, UserCredintial userCred) {
+    List<UserCredintial> userCredintialData =
+        store.box<UserCredintial>().getAll();
 
-  // viod oneUser
+    int userIdIndex =
+        userCredintialData.indexWhere((eachUser) => eachUser.id == id);
+    userCredintialData[userIdIndex];
 
+    // userCredintialData[userIdIndex] = userCred;
+    print(userIdIndex);
+    //store.box<UserCredintial>().put(userCred);
+
+    notifyListeners();
+  }
+
+  UserCredintial findUserById(Store store, int id) {
+    List<UserCredintial> userCredintialData =
+        store.box<UserCredintial>().getAll();
+
+    UserCredintial selectedUser =
+        userCredintialData.firstWhere((eachUser) => eachUser.id == id);
+
+    return selectedUser;
+  }
 }

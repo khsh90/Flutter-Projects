@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/pages/edituserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 import 'package:login/pages/userpage.dart';
@@ -13,12 +14,12 @@ import 'objectbox.g.dart';
 
 late Store store;
 
-void main()  {
+void main() {
   // This is required so ObjectBox can get the application directory
   // to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
 
-   getApplicationDocumentsDirectory().then((dir) => store =
+  getApplicationDocumentsDirectory().then((dir) => store =
       Store(getObjectBoxModel(), directory: p.join(dir.path, 'objectbox')));
 
   runApp(MyApp());
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           SigninPage.route: (context) => const SigninPage(),
           SignUPPage.route: (context) => SignUPPage(store),
           UserMAnagementPage.route: (context) => UserMAnagementPage(store),
+          EditUserPage.route: (context) =>  EditUserPage(store),
         },
       ),
     );

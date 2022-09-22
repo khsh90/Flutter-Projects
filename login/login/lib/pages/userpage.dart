@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/main.dart';
 import 'package:login/widgets/usermanamentwidget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,9 @@ class UserMAnagementPage extends StatefulWidget {
 class _UserMAnagementPageState extends State<UserMAnagementPage> {
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserCreditials>(context, listen: false)
-        .getuserCredintials(widget.store);
+    final userData = Provider.of<UserCreditials>(
+      context,
+    ).getuserCredintials(widget.store);
 
     // late Store _store;
     // bool isInitized = false;
@@ -42,20 +44,14 @@ class _UserMAnagementPageState extends State<UserMAnagementPage> {
     // final userData = Provider.of<UserCreditials>(context, listen: false)
     //     .getuserCredintials(_store);
 
-    // @override
-    // void dispose() {
-    //   super.dispose();
-
-    //   _store.close();
-    // }
-
     return Scaffold(
         appBar: AppBar(title: const Text('User Managment')),
         body: ListView.builder(
             itemCount: userData.length,
             itemBuilder: ((context, eachUserCredintial) => UserManagmentWidget(
-                  userName: userData[eachUserCredintial].userName,
-                  password: userData[eachUserCredintial].password,
-                ))));
+                id: userData[eachUserCredintial].id,
+                userName: userData[eachUserCredintial].userName,
+                password: userData[eachUserCredintial].password,
+                store: widget.store))));
   }
 }

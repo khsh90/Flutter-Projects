@@ -61,6 +61,8 @@ class _SignupWidgetState extends State<SignupWidget> {
     // _store.box<UserCredintial>().put(formFieldValues);
 
     print(widget.store.box<UserCredintial>().put(formFieldValues));
+    print((widget.store.box<UserCredintial>().getAll()).asMap());
+
 //    print(_store.box<UserCredintial>().getAll());
 
     // setState(() {});
@@ -114,7 +116,6 @@ class _SignupWidgetState extends State<SignupWidget> {
     super.dispose();
 
     userNameFocusNode.removeListener(getFocus);
-    widget.store.close();
   }
 
   bool passwordShowkeyboard = true;

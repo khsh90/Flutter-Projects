@@ -14,11 +14,10 @@ class SignUPPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        title: Text('Signup'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Signup'),
+      // ),
       body: SignupWidget(store),
-      drawer: AppDrawer(),
     ));
   }
 }
