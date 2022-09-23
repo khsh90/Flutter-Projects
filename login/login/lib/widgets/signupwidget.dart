@@ -227,6 +227,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                        id: formFieldValues.id,
                                           userName: entredValue!,
                                           password: formFieldValues.password)
                                     },
@@ -245,6 +246,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                        id: formFieldValues.id,
                                           userName: formFieldValues.userName,
                                           password: entredValue!)
                                     },

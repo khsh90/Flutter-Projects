@@ -52,6 +52,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     Provider.of<UserCreditials>(context, listen: false)
         .editOneUser(widget.store, formFieldValues.id, formFieldValues);
 
+  //  print(' after save data $formFieldValues');
     Navigator.of(context).pop();
 
     // print(formFieldValues.userName);
@@ -89,10 +90,9 @@ class _UserEditWidgettState extends State<UserEditWidget> {
       'password': formFieldValues.password
     };
 
-    // formFieldValues = UserCredintial(
-    //     userName: userData.userName, password: userData.password);
+   // print(' in did change$formFieldValues');
+    //print('in did change id ${formFieldValues.id}');
 
-    print(formFieldValues);
     super.didChangeDependencies();
   }
 
@@ -214,6 +214,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
                                           userName: entredValue!,
                                           password: formFieldValues.password)
                                     },
@@ -234,6 +235,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
                                           userName: formFieldValues.userName,
                                           password: entredValue!)
                                     },

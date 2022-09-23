@@ -22,12 +22,12 @@ class UserCredintial with ChangeNotifier {
 }
 
 class UserCreditials with ChangeNotifier {
-  final List<UserCredintial> _userCreditialsItems = [
-    // UserCredintial(userName: 'kahled', password: '1234'),
-    // UserCredintial(userName: 'dana', password: '123')
-  ];
+  // final List<UserCredintial> _userCreditialsItems = [
+  //   // UserCredintial(userName: 'kahled', password: '1234'),
+  //   // UserCredintial(userName: 'dana', password: '123')
+  // ];
 
-  List<UserCredintial> get usertCreditialsItems => [..._userCreditialsItems];
+  //List<UserCredintial> get usertCreditialsItems => [..._userCreditialsItems];
   List<UserCredintial> getuserCredintials(Store store) =>
       store.box<UserCredintial>().getAll();
 
@@ -38,6 +38,7 @@ class UserCreditials with ChangeNotifier {
     List<UserCredintial> userData = store.box<UserCredintial>().getAll();
 
     store.box<UserCredintial>().put(userCred);
+    // store.close();
     notifyListeners();
   }
 
@@ -52,22 +53,24 @@ class UserCreditials with ChangeNotifier {
         userCredintialData.indexWhere((eachUser) => eachUser.id == id);
     // print(userIdIndex);
     store.box<UserCredintial>().remove(userCredintialData[userIdIndex].id);
-    print(store.box<UserCredintial>().getAll());
+    //print(store.box<UserCredintial>().getAll());
+    //   store.close();
 
     notifyListeners();
   }
 
   void editOneUser(Store store, int id, UserCredintial userCred) {
-    List<UserCredintial> userCredintialData =
-        store.box<UserCredintial>().getAll();
+    List<UserCredintial> userData = getuserCredintials(store);
 
-    int userIdIndex =
-        userCredintialData.indexWhere((eachUser) => eachUser.id == id);
-    userCredintialData[userIdIndex];
+    int userIdIndex = userData.indexWhere((eachUser) => eachUser.id == id);
 
-    // userCredintialData[userIdIndex] = userCred;
-    print(userIdIndex);
-    //store.box<UserCredintial>().put(userCred);
+    // print('useriddex $userIdIndex');
+    // print('user id $id');
+    // print('current user data : $userCred');
+
+    userData[userIdIndex] = userCred;
+    store.box<UserCredintial>().put(userCred);
+    // store.close();
 
     notifyListeners();
   }

@@ -14,7 +14,6 @@ class SigninWidget extends StatefulWidget {
 }
 
 class _SigninWidgetState extends State<SigninWidget> {
- 
   Widget cutomElevatedButton({
     required Color btnColor,
     required String btnName,
@@ -178,6 +177,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
                                           userName: entredValue!,
                                           password: formFieldValues.password)
                                     },
@@ -196,6 +196,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
                                           userName: formFieldValues.userName,
                                           password: entredValue!)
                                     },
