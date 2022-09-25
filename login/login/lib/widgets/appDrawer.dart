@@ -48,8 +48,15 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(UserMAnagementPage.route);
             },
-            leading: Icon(Icons.group),
-            title: Text('Users Mangment'),
+            leading: const Icon(Icons.group),
+            title: const Text('Users Mangment'),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed(UserMAnagementPage.route);
+            },
+            leading: const Icon(Icons.details),
+            title: const Text('User Details'),
           ),
           // ListTile(
           //   onTap: () {
