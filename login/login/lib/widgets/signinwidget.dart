@@ -3,17 +3,40 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/objectbox.g.dart';
+import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/provider/usercredintial.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/signup.dart';
 
 class SigninWidget extends StatefulWidget {
   @override
   State<SigninWidget> createState() => _SigninWidgetState();
+  final Store store;
+  SigninWidget(this.store);
 }
 
 class _SigninWidgetState extends State<SigninWidget> {
+  void showAlertMsg(String messgae) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Please attention'),
+        content: Text(messgae),
+        actions: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: const Color.fromARGB(255, 99, 22, 112)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'))
+        ],
+      ),
+    );
+  }
+
   Widget cutomElevatedButton({
     required Color btnColor,
     required String btnName,
@@ -44,8 +67,35 @@ class _SigninWidgetState extends State<SigninWidget> {
     }
     _formKey.currentState?.save();
 
-    print(formFieldValues.userName);
-    print(formFieldValues.password);
+    // Provider.of<UserCreditials>(context, listen: false)
+    //     .findByUserNameAndPassword(
+    //   widget.store,
+    //   formFieldValues,
+    // );
+
+    Query<UserCredintial> query = widget.store
+        .box<UserCredintial>()
+        .query(UserCredintial_.userName
+            .equals(formFieldValues.userName)
+            .and(UserCredintial_.password.equals(formFieldValues.password)))
+        .build();
+    List<UserCredintial> userData = query.find();
+
+    query.close();
+    if (userData.isNotEmpty) {
+      print('login success');
+      Navigator.of(context).pushNamed(LoginSucessUserPage.route, arguments: {
+        'id': formFieldValues.id,
+        'userName': formFieldValues.userName,
+        'password': formFieldValues.password
+      });
+    } else {
+      print('login Faild');
+      showAlertMsg('User name or password invalid , please check');
+    }
+
+    // print(formFieldValues.userName);
+    // print(formFieldValues.password);
   }
 
   final userNameFocusNode = FocusNode();

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 import 'package:login/pages/userpage.dart';
@@ -20,6 +21,25 @@ class SignupWidget extends StatefulWidget {
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
+  void showAlertMsg(String messgae) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Please attention'),
+        content: Text(messgae),
+        actions: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: const Color.fromARGB(255, 99, 22, 112)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'))
+        ],
+      ),
+    );
+  }
+
   // late Box<UserCredintial> storeBox = _store.box<UserCredintial>();
   bool isInitized = false;
 
@@ -53,24 +73,34 @@ class _SignupWidgetState extends State<SignupWidget> {
       return;
     }
     _formKey.currentState?.save();
+    // Query<UserCredintial> query = widget.store
+    //     .box<UserCredintial>()
+    //     .query(UserCredintial_.userName.equals(formFieldValues.userName))
+    //     .build();
+    // List<UserCredintial> userData = query.find();
+    // query.close();
 
-    Provider.of<UserCreditials>(context, listen: false)
-        .addUser(userCred: formFieldValues, store: widget.store);
-    Navigator.of(context).pushReplacementNamed(UserMAnagementPage.route,
-        arguments: widget.store);
-    // _store.box<UserCredintial>().put(formFieldValues);
+    // if (userData.isEmpty) {
 
-    // print(widget.store.box<UserCredintial>().put(formFieldValues));
-    // print((widget.store.box<UserCredintial>().getAll()).asMap());
+    try {
+      Provider.of<UserCreditials>(context, listen: false)
+          .addUser(userCred: formFieldValues, store: widget.store);
 
-//    print(_store.box<UserCredintial>().getAll());
+      Navigator.of(context)
+          .pushReplacementNamed(LoginSucessUserPage.route, arguments: {
+        'id': formFieldValues.id,
+        'userName': formFieldValues.userName,
+        'password': formFieldValues.password
+      });
+    } on UniqueViolationException catch (_) {
+      return showAlertMsg('user already exists');
+    } catch (error) {
+      print(error);
+    }
 
-    // setState(() {});
-    // isInitized = true;
-
-    // print(formFieldValues.userName);
-    // print(formFieldValues.password);
-    // print('controller:${passwordController.text}');
+    // } else if (userData.isNotEmpty) {
+    //   showAlertMsg('user already exists');
+    // }
   }
 
   final userNameFocusNode = FocusNode();
@@ -227,7 +257,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
-                                        id: formFieldValues.id,
+                                          id: formFieldValues.id,
                                           userName: entredValue!,
                                           password: formFieldValues.password)
                                     },
@@ -246,7 +276,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
-                                        id: formFieldValues.id,
+                                          id: formFieldValues.id,
                                           userName: formFieldValues.userName,
                                           password: entredValue!)
                                     },

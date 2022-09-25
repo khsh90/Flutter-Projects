@@ -7,9 +7,10 @@ import 'package:path/path.dart' as p;
 @Entity()
 class UserCredintial with ChangeNotifier {
   int id;
+  @Unique()
   String userName;
   String password;
-  String mtName = 'khaled';
+  //String mtName = 'khaled';
 
   UserCredintial({
     this.id = 0,
@@ -36,8 +37,12 @@ class UserCreditials with ChangeNotifier {
     //     userName: userCred.userName, password: userCred.password));
 
     List<UserCredintial> userData = store.box<UserCredintial>().getAll();
+    try {
+      store.box<UserCredintial>().put(userCred);
+    } on UniqueViolationException catch (error) {
+      rethrow;
+    } catch (error) {}
 
-    store.box<UserCredintial>().put(userCred);
     // store.close();
     notifyListeners();
   }
@@ -84,4 +89,24 @@ class UserCreditials with ChangeNotifier {
 
     return selectedUser;
   }
+
+  // void findByUserNameAndPassword(
+  //     Store store, UserCredintial userParameter) {
+  //   Query<UserCredintial> query = store
+  //       .box<UserCredintial>()
+  //       .query(UserCredintial_.userName
+  //           .equals(userParameter.userName)
+  //           .and(UserCredintial_.password.equals(userParameter.password)))
+  //       .build();
+  //   List<UserCredintial> userData = query.find();
+
+  //   query.close();
+  //   if (userData.isNotEmpty) {
+  //     print('login success');
+  //   } else {
+  //     print('login Faild');
+  //   }
+
+  //   notifyListeners();
+  // }
 }

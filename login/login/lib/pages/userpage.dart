@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/main.dart';
+import 'package:login/pages/signup.dart';
 import 'package:login/widgets/usermanamentwidget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -45,13 +46,31 @@ class _UserMAnagementPageState extends State<UserMAnagementPage> {
     //     .getuserCredintials(_store);
 
     return Scaffold(
-        appBar: AppBar(title: const Text('User Managment')),
-        body: ListView.builder(
-            itemCount: userData.length,
-            itemBuilder: ((context, eachUserCredintial) => UserManagmentWidget(
-                id: userData[eachUserCredintial].id,
-                userName: userData[eachUserCredintial].userName,
-                password: userData[eachUserCredintial].password,
-                store: widget.store))));
+      appBar: AppBar(title: const Text('User Managment'), actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(SignUPPage.route);
+            },
+            icon: Icon(Icons.add))
+      ]),
+      body: ListView.builder(
+          itemCount: userData.length,
+          itemBuilder: ((context, eachUserCredintial) => UserManagmentWidget(
+              id: userData[eachUserCredintial].id,
+              userName: userData[eachUserCredintial].userName,
+              password: userData[eachUserCredintial].password,
+              store: widget.store))),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(SignUPPage.route);
+        },
+        elevation: 6,
+        child: const Icon(
+          Icons.add,
+          size: 35,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }

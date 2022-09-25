@@ -17,16 +17,13 @@
         {
           "id": "2:3434344686339549676",
           "name": "userName",
-          "type": 9
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:4250482791899929208"
         },
         {
           "id": "3:4359064602628085924",
           "name": "password",
-          "type": 9
-        },
-        {
-          "id": "4:2630323627642267262",
-          "name": "mtName",
           "type": 9
         }
       ],
@@ -34,7 +31,7 @@
     }
   ],
   "lastEntityId": "2:4803014332313919839",
-  "lastIndexId": "0:0",
+  "lastIndexId": "1:4250482791899929208",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -46,7 +43,8 @@
   "retiredPropertyUids": [
     1113500350025956111,
     4738928954538329968,
-    9209053790284526098
+    9209053790284526098,
+    2630323627642267262
   ],
   "retiredRelationUids": [],
   "version": 1

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/pages/edituserpage.dart';
+import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 import 'package:login/pages/userpage.dart';
@@ -35,10 +36,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         home: WelcomeApp(),
         routes: {
-          SigninPage.route: (context) => const SigninPage(),
+          SigninPage.route: (context) => SigninPage(store),
           SignUPPage.route: (context) => SignUPPage(store),
           UserMAnagementPage.route: (context) => UserMAnagementPage(store),
-          EditUserPage.route: (context) =>  EditUserPage(store),
+          EditUserPage.route: (context) => EditUserPage(store),
+          LoginSucessUserPage.route: (context) => const LoginSucessUserPage()
         },
       ),
     );
