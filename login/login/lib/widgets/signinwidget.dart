@@ -57,7 +57,7 @@ class _SigninWidgetState extends State<SigninWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  UserCredintial formFieldValues = UserCredintial(userName: '', password: '');
+  UserCredintial formFieldValues = UserCredintial(mobilePhone: 0, password: '');
 
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
@@ -75,20 +75,25 @@ class _SigninWidgetState extends State<SigninWidget> {
 
     Query<UserCredintial> query = widget.store
         .box<UserCredintial>()
-        .query(UserCredintial_.userName
-            .equals(formFieldValues.userName)
+        .query(UserCredintial_.mobilePhone
+            .equals(formFieldValues.mobilePhone)
             .and(UserCredintial_.password.equals(formFieldValues.password)))
         .build();
     List<UserCredintial> userData = query.find();
 
     query.close();
+
+    var allUsers = widget.store.box<UserCredintial>().getAll();
+
+    final dataIndex = allUsers.indexWhere(
+        (eachUser) => eachUser.mobilePhone == formFieldValues.mobilePhone);
     if (userData.isNotEmpty) {
-      print('login success');
-      Navigator.of(context).pushNamed(LoginSucessUserPage.route, arguments: {
-        'id': formFieldValues.id,
-        'userName': formFieldValues.userName,
-        'password': formFieldValues.password
-      });
+      // print('login success');
+      print('$allUsers');
+      print(allUsers[dataIndex].id);
+
+      Navigator.of(context).pushNamed(LoginSucessUserPage.route,
+          arguments: allUsers[dataIndex].id);
     } else {
       print('login Faild');
       showAlertMsg('User name or password invalid , please check');
@@ -133,13 +138,20 @@ class _SigninWidgetState extends State<SigninWidget> {
     required IconData passwordIcon,
     bool showICon = true,
     void Function()? showPasswordIconButtonFunction,
+    TextInputType? keyboardInputType,
+    String? hintText,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
+          keyboardType: keyboardInputType,
           focusNode: focusNode,
           obscureText: secureKeyboard,
           decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                color: Colors.purple,
+              ),
               suffixIcon: Visibility(
                   visible: showICon,
                   child: IconButton(
@@ -223,31 +235,42 @@ class _SigninWidgetState extends State<SigninWidget> {
                         child: Column(
                           children: [
                             textFormFiled(
-                                labelName: 'UserName',
+                                labelName: 'Mobile phone',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
                                           id: formFieldValues.id,
-                                          userName: entredValue!,
+                                          mobilePhone:
+                                              int.tryParse(entredValue!)!,
                                           password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    return 'Please enter a user name';
+                                    return 'Please enter mobile Phone';
                                   }
+                                  if (int.tryParse(entredValue!) == null) {
+                                    return 'Please enter a mobile number';
+                                  }
+                                  if (entredValue.length != 10) {
+                                    return 'mobile phone shall be with 10 didgits';
+                                  }
+
                                   return null;
                                 },
                                 focusNode: userNameFocusNode,
                                 showICon: false,
-                                passwordIcon: Icons.remove_red_eye),
+                                passwordIcon: Icons.remove_red_eye,
+                                keyboardInputType: TextInputType.phone,
+                                hintText: 'Start with 079 , 077 ,078'),
                             textFormFiled(
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
                                           id: formFieldValues.id,
-                                          userName: formFieldValues.userName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
                                           password: entredValue!)
                                     },
                                 validationFunction: (entredValue) {

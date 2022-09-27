@@ -6,14 +6,18 @@ import 'package:provider/provider.dart';
 import '../objectbox.g.dart';
 
 class UserManagmentWidget extends StatelessWidget {
-  final String userName;
+  final int id;
+  final String firstName;
+  final String lastName;
+  final int mobilePhone;
   final String password;
   final Store store;
-  final int id;
 
   UserManagmentWidget(
       {required this.id,
-      required this.userName,
+      required this.firstName,
+      required this.lastName,
+      required this.mobilePhone,
       required this.password,
       required this.store});
   @override
@@ -27,7 +31,8 @@ class UserManagmentWidget extends StatelessWidget {
             elevation: 5,
             child: ListTile(
                 leading: const Icon(Icons.person),
-                title: Text(userName),
+                title:
+                    Text('Name :$firstName $lastName,Your userName:$mobilePhone'),
                 subtitle: Text(password),
                 trailing: SizedBox(
                   width: MediaQuery.of(context).size.width - 255,

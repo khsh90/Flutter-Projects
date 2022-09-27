@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:login/pages/edituserpage.dart';
+import 'package:login/pages/addEdituserpage.dart';
 import 'package:login/pages/userpage.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -53,7 +54,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(UserMAnagementPage.route);
+              Navigator.of(context).pushNamed(UserDetailsPage.route);
             },
             leading: const Icon(Icons.details),
             title: const Text('User Details'),

@@ -63,7 +63,14 @@ class _SignupWidgetState extends State<SignupWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  UserCredintial formFieldValues = UserCredintial(userName: '', password: '');
+  UserCredintial formFieldValues = UserCredintial(
+      firstName: '',
+      lastName: '',
+      mobilePhone: 0000000000,
+      country: '',
+      city: '',
+      area: '',
+      password: '');
 
   void formFeildLoginButton() {
     // _store.box<UserCredintial>().removeAll();
@@ -86,14 +93,19 @@ class _SignupWidgetState extends State<SignupWidget> {
       Provider.of<UserCreditials>(context, listen: false)
           .addUser(userCred: formFieldValues, store: widget.store);
 
-      Navigator.of(context)
-          .pushReplacementNamed(LoginSucessUserPage.route, arguments: {
-        'id': formFieldValues.id,
-        'userName': formFieldValues.userName,
-        'password': formFieldValues.password
-      });
+      Navigator.of(context).pushReplacementNamed(LoginSucessUserPage.route,
+          arguments: formFieldValues.id
+          //     arguments: {
+          //   'id': formFieldValues.id,
+          //   // 'firstName': formFieldValues.firstName,
+          //   // 'lastName': formFieldValues.lastName,
+          //   // 'userName': formFieldValues.userName,
+          //   // 'password': formFieldValues.password
+          // }
+
+          );
     } on UniqueViolationException catch (_) {
-      return showAlertMsg('user already exists');
+      return showAlertMsg('Mobile phone already exists');
     } catch (error) {
       print(error);
     }
@@ -123,7 +135,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   @override
   void initState() {
     super.initState();
-    userNameFocusNode.addListener(getFocus);
+    //userNameFocusNode.addListener(getFocus);
 
     // getApplicationDocumentsDirectory().then((dir) => widget.store =
     //     Store(getObjectBoxModel(), directory: p.join(dir.path, 'objectbox')));
@@ -145,7 +157,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   void dispose() {
     super.dispose();
 
-    userNameFocusNode.removeListener(getFocus);
+    //  userNameFocusNode.removeListener(getFocus);
   }
 
   bool passwordShowkeyboard = true;
@@ -155,19 +167,29 @@ class _SignupWidgetState extends State<SignupWidget> {
     required IconData icon,
     required void Function(String?)? saveFunction,
     required String? Function(String?)? validationFunction,
-    required FocusNode focusNode,
+    //  required FocusNode focusNode,
     TextEditingController? buttonController,
     bool secureKeyboard = false,
     required IconData passwordIcon,
     bool showICon = true,
     void Function()? showPasswordIconButtonFunction,
+    TextInputType? keyboardInputType,
+    String? hintText,
+    String? initialVaue,
+    bool readInputOnly = false,
+    Color? fillColor,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
-        focusNode: focusNode,
+        readOnly: readInputOnly,
+        initialValue: initialVaue,
+        // focusNode: focusNode,
+        keyboardType: keyboardInputType,
         obscureText: secureKeyboard,
         decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: const TextStyle(color: Colors.purple),
             suffixIcon: Visibility(
                 visible: showICon,
                 child: IconButton(
@@ -175,10 +197,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                     icon: Icon(passwordIcon))),
             prefixIcon: Icon(
               icon,
-              color: focusNode.hasFocus ? Colors.black : Colors.purple,
+              color: Colors.black,
             ),
             filled: true,
-            fillColor: Colors.purple[100],
+            fillColor: fillColor,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
@@ -190,8 +212,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               ),
             ),
             labelText: labelName,
-            labelStyle: TextStyle(
-                color: focusNode.hasFocus ? Colors.black : Colors.purple)),
+            labelStyle: const TextStyle(color: Colors.black)),
         onSaved: saveFunction,
         validator: validationFunction,
         controller: buttonController,
@@ -223,7 +244,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height,
                 width: double.infinity,
                 child: Column(
                   children: [
@@ -239,11 +259,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 8,
                     ),
                     SvgPicture.asset(
                       'assets/icons/signup.svg',
-                      width: MediaQuery.of(context).size.width - 205,
+                      width: MediaQuery.of(context).size.width - 250,
                     ),
                     const SizedBox(
                       height: 35,
@@ -253,78 +273,229 @@ class _SignupWidgetState extends State<SignupWidget> {
                         child: Column(
                           children: [
                             textFormFiled(
-                                labelName: 'UserName',
+                              labelName: 'First Name',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: entredValue!,
+                                    lastName: formFieldValues.lastName,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter first name';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              passwordIcon: Icons.remove_red_eye,
+                              showICon: false,
+                              fillColor: Colors.purple[100],
+                            ),
+                            textFormFiled(
+                              labelName: 'Last name',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: formFieldValues.firstName,
+                                    lastName: entredValue!,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter a last name';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              passwordIcon: Icons.remove_red_eye,
+                              showICon: false,
+                              fillColor: Colors.purple[100],
+                            ),
+                            textFormFiled(
+                              labelName: 'Mobile phone',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: formFieldValues.firstName,
+                                    lastName: formFieldValues.lastName,
+                                    mobilePhone: int.tryParse(entredValue!)!,
+                                    country: formFieldValues.country,
+                                    city: formFieldValues.city,
+                                    area: formFieldValues.area,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter the mobile phone';
+                                }
+
+                                if (entredValue!.length != 10) {
+                                  return 'mobile phone shall be with 10 didgits';
+                                }
+
+                                if (int.tryParse(entredValue) == null) {
+                                  return 'Please enter a mobile number';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              passwordIcon: Icons.remove_red_eye,
+                              showICon: false,
+                              keyboardInputType: TextInputType.phone,
+                              hintText: 'Start with 079 , 077 ,078',
+                              fillColor: Colors.purple[100],
+                            ),
+                            textFormFiled(
+                                labelName: 'Country',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          userName: entredValue!,
-                                          password: formFieldValues.password)
+                                        id: formFieldValues.id,
+                                        firstName: formFieldValues.firstName,
+                                        lastName: formFieldValues.lastName,
+                                        mobilePhone:
+                                            formFieldValues.mobilePhone,
+                                        country: entredValue!,
+                                        city: formFieldValues.city,
+                                        area: formFieldValues.area,
+                                        password: formFieldValues.password,
+                                      )
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    return 'Please enter a user name';
+                                    return 'Please enter the country';
                                   }
                                   return null;
                                 },
-                                focusNode: userNameFocusNode,
+                                //  focusNode: userNameFocusNode,
                                 passwordIcon: Icons.remove_red_eye,
-                                showICon: false),
+                                showICon: false,
+                                initialVaue: 'Jordan',
+                                readInputOnly: true),
                             textFormFiled(
-                                labelName: 'Password',
-                                icon: Icons.lock,
-                                saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          userName: formFieldValues.userName,
-                                          password: entredValue!)
-                                    },
-                                validationFunction: (entredValue) {
-                                  if (entredValue != null &&
-                                      entredValue.isEmpty) {
-                                    return 'Please enter a password';
-                                  }
-                                  return null;
-                                },
-                                focusNode: passwordFocusNode,
-                                buttonController: passwordController,
-                                secureKeyboard: passwordShowkeyboard,
-                                passwordIcon: passwordShowkeyboard
-                                    ? Icons.remove_red_eye
-                                    : Icons.remove_red_eye_outlined,
-                                showPasswordIconButtonFunction: () {
-                                  setState(() {
-                                    passwordShowkeyboard =
-                                        !passwordShowkeyboard;
-                                  });
-                                }),
+                              labelName: 'City',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: formFieldValues.firstName,
+                                    lastName: formFieldValues.lastName,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    country: formFieldValues.country,
+                                    city: entredValue!,
+                                    area: formFieldValues.area,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter the city';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              passwordIcon: Icons.remove_red_eye,
+                              showICon: false,
+                              fillColor: Colors.purple[100],
+                            ),
                             textFormFiled(
-                                labelName: 'Confirm Password',
-                                icon: Icons.lock,
-                                saveFunction: (entredValue) => {},
-                                validationFunction: (entredValue) {
-                                  if (entredValue != null &&
-                                      entredValue.isEmpty) {
-                                    return 'Please enter a password';
-                                  }
-                                  if (entredValue != null &&
-                                      entredValue != passwordController.text) {
-                                    return 'Password not match';
-                                  }
-                                  return null;
-                                },
-                                focusNode: confirmPasswordFocusNode,
-                                secureKeyboard: confirmPasswordShowkeyboard,
-                                passwordIcon: confirmPasswordShowkeyboard
-                                    ? Icons.remove_red_eye
-                                    : Icons.remove_red_eye_outlined,
-                                showPasswordIconButtonFunction: () {
-                                  setState(() {
-                                    confirmPasswordShowkeyboard =
-                                        !confirmPasswordShowkeyboard;
-                                  });
-                                }),
+                              labelName: 'Area',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: formFieldValues.firstName,
+                                    lastName: formFieldValues.lastName,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    country: formFieldValues.country,
+                                    city: formFieldValues.city,
+                                    area: entredValue!,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter the area';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              passwordIcon: Icons.remove_red_eye,
+                              showICon: false,
+                              fillColor: Colors.purple[100],
+                            ),
+                            textFormFiled(
+                              labelName: 'Password',
+                              icon: Icons.lock,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: formFieldValues.firstName,
+                                    lastName: formFieldValues.lastName,
+                                    country: formFieldValues.country,
+                                    city: formFieldValues.city,
+                                    area: formFieldValues.area,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    password: entredValue!)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter a password';
+                                }
+                                return null;
+                              },
+                              // focusNode: passwordFocusNode,
+                              buttonController: passwordController,
+                              secureKeyboard: passwordShowkeyboard,
+                              passwordIcon: passwordShowkeyboard
+                                  ? Icons.remove_red_eye
+                                  : Icons.remove_red_eye_outlined,
+                              showPasswordIconButtonFunction: () {
+                                setState(() {
+                                  passwordShowkeyboard = !passwordShowkeyboard;
+                                });
+                              },
+                              fillColor: Colors.purple[100],
+                            ),
+                            textFormFiled(
+                              labelName: 'Confirm Password',
+                              icon: Icons.lock,
+                              saveFunction: (entredValue) => {},
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter a password';
+                                }
+                                if (entredValue != null &&
+                                    entredValue != passwordController.text) {
+                                  return 'Password not match';
+                                }
+                                return null;
+                              },
+                              //    focusNode: confirmPasswordFocusNode,
+                              secureKeyboard: confirmPasswordShowkeyboard,
+                              passwordIcon: confirmPasswordShowkeyboard
+                                  ? Icons.remove_red_eye
+                                  : Icons.remove_red_eye_outlined,
+                              showPasswordIconButtonFunction: () {
+                                setState(() {
+                                  confirmPasswordShowkeyboard =
+                                      !confirmPasswordShowkeyboard;
+                                });
+                              },
+                              fillColor: Colors.purple[100],
+                            ),
                           ],
                         )),
                     const SizedBox(

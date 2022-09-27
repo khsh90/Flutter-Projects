@@ -39,7 +39,8 @@ class _UserEditWidgettState extends State<UserEditWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  UserCredintial formFieldValues = UserCredintial(userName: '', password: '');
+  UserCredintial formFieldValues =
+      UserCredintial(firstName: '', lastName: '', mobilePhone: 0, password: '');
 
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
@@ -52,7 +53,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     Provider.of<UserCreditials>(context, listen: false)
         .editOneUser(widget.store, formFieldValues.id, formFieldValues);
 
-  //  print(' after save data $formFieldValues');
+    //  print(' after save data $formFieldValues');
     Navigator.of(context).pop();
 
     // print(formFieldValues.userName);
@@ -75,7 +76,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
   @override
   void initState() {
     super.initState();
-    userNameFocusNode.addListener(getFocus);
+    // userNameFocusNode.addListener(getFocus);
   }
 
   @override
@@ -86,11 +87,13 @@ class _UserEditWidgettState extends State<UserEditWidget> {
         Provider.of<UserCreditials>(context).findUserById(widget.store, userId);
 
     initialUSerData = {
-      'userName': formFieldValues.userName,
+      'fisrtName': formFieldValues.firstName,
+      'lastName': formFieldValues.lastName,
+      'userName': formFieldValues.mobilePhone.toString(),
       'password': formFieldValues.password
     };
 
-   // print(' in did change$formFieldValues');
+    // print(' in did change$formFieldValues');
     //print('in did change id ${formFieldValues.id}');
 
     super.didChangeDependencies();
@@ -99,7 +102,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
   @override
   void dispose() {
     super.dispose();
-    userNameFocusNode.removeListener(getFocus);
+    //   userNameFocusNode.removeListener(getFocus);
   }
 
   bool passwordShowkeyboard = true;
@@ -109,7 +112,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     required IconData icon,
     required void Function(String?)? saveFunction,
     required String? Function(String?)? validationFunction,
-    required FocusNode focusNode,
+    //required FocusNode focusNode,
     bool secureKeyboard = false,
     required IconData passwordIcon,
     bool showICon = true,
@@ -120,7 +123,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
           initialValue: initialUserCredintial,
-          focusNode: focusNode,
+          //  focusNode: focusNode,
           obscureText: secureKeyboard,
           decoration: InputDecoration(
               suffixIcon: Visibility(
@@ -130,7 +133,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                       icon: Icon(passwordIcon))),
               prefixIcon: Icon(
                 icon,
-                color: focusNode.hasFocus ? Colors.black : Colors.purple,
+                color: Colors.black,
               ),
               filled: true,
               fillColor: Colors.purple[100],
@@ -145,8 +148,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                 ),
               ),
               labelText: labelName,
-              labelStyle: TextStyle(
-                  color: focusNode.hasFocus ? Colors.black : Colors.purple)),
+              labelStyle: const TextStyle(color: Colors.black)),
           onSaved: saveFunction,
           validator: validationFunction),
     );
@@ -198,7 +200,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                       ),
                       SvgPicture.asset(
                         'assets/icons/login.svg',
-                        width: MediaQuery.of(context).size.width - 100,
+                        width: MediaQuery.of(context).size.width - 150,
                       ),
                       const SizedBox(
                         height: 35,
@@ -209,23 +211,74 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                           children: [
                             textFormFiled(
                                 initialUserCredintial:
-                                    initialUSerData['userName'],
-                                labelName: 'UserName',
+                                    initialUSerData['fisrtName'],
+                                labelName: 'First Name',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
                                           id: formFieldValues.id,
-                                          userName: entredValue!,
+                                          firstName: entredValue!,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
                                           password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    return 'Please enter a user name';
+                                    return 'Please enter the fist name';
                                   }
                                   return null;
                                 },
-                                focusNode: userNameFocusNode,
+                                //  focusNode: userNameFocusNode,
+                                showICon: false,
+                                passwordIcon: Icons.remove_red_eye),
+                            textFormFiled(
+                                initialUserCredintial:
+                                    initialUSerData['lastName'],
+                                labelName: 'Last Name',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: entredValue!,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter the last name';
+                                  }
+                                  return null;
+                                },
+                                //  focusNode: userNameFocusNode,
+                                showICon: false,
+                                passwordIcon: Icons.remove_red_eye),
+                            textFormFiled(
+                                initialUserCredintial:
+                                    initialUSerData['userName'],
+                                labelName: 'User name',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              int.tryParse(entredValue!)!,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter the user name';
+                                  }
+                                  return null;
+                                },
+                                //  focusNode: userNameFocusNode,
                                 showICon: false,
                                 passwordIcon: Icons.remove_red_eye),
                             textFormFiled(
@@ -236,7 +289,10 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
                                           id: formFieldValues.id,
-                                          userName: formFieldValues.userName,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
                                           password: entredValue!)
                                     },
                                 validationFunction: (entredValue) {
@@ -246,7 +302,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                   }
                                   return null;
                                 },
-                                focusNode: passwordFocusNode,
+                                //  focusNode: passwordFocusNode,
                                 secureKeyboard: passwordShowkeyboard,
                                 passwordIcon: passwordShowkeyboard
                                     ? Icons.remove_red_eye_outlined

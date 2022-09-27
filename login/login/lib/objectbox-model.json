@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "2:4803014332313919839",
-      "lastPropertyId": "4:2630323627642267262",
+      "lastPropertyId": "10:5751062312692167435",
       "name": "UserCredintial",
       "properties": [
         {
@@ -15,15 +15,40 @@
           "flags": 1
         },
         {
-          "id": "2:3434344686339549676",
-          "name": "userName",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "1:4250482791899929208"
-        },
-        {
           "id": "3:4359064602628085924",
           "name": "password",
+          "type": 9
+        },
+        {
+          "id": "5:1242930806741719967",
+          "name": "firstName",
+          "type": 9
+        },
+        {
+          "id": "6:7276370704937204498",
+          "name": "lastName",
+          "type": 9
+        },
+        {
+          "id": "7:3230292097805781261",
+          "name": "mobilePhone",
+          "type": 6,
+          "flags": 40,
+          "indexId": "2:4369386660892153565"
+        },
+        {
+          "id": "8:9102110883127017901",
+          "name": "country",
+          "type": 9
+        },
+        {
+          "id": "9:4924724755956909963",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "10:5751062312692167435",
+          "name": "area",
           "type": 9
         }
       ],
@@ -31,7 +56,7 @@
     }
   ],
   "lastEntityId": "2:4803014332313919839",
-  "lastIndexId": "1:4250482791899929208",
+  "lastIndexId": "2:4369386660892153565",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -39,12 +64,15 @@
   "retiredEntityUids": [
     7721839050849942430
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    4250482791899929208
+  ],
   "retiredPropertyUids": [
     1113500350025956111,
     4738928954538329968,
     9209053790284526098,
-    2630323627642267262
+    2630323627642267262,
+    3434344686339549676
   ],
   "retiredRelationUids": [],
   "version": 1

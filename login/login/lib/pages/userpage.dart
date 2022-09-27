@@ -57,7 +57,9 @@ class _UserMAnagementPageState extends State<UserMAnagementPage> {
           itemCount: userData.length,
           itemBuilder: ((context, eachUserCredintial) => UserManagmentWidget(
               id: userData[eachUserCredintial].id,
-              userName: userData[eachUserCredintial].userName,
+              firstName: userData[eachUserCredintial].firstName,
+              lastName: userData[eachUserCredintial].lastName,
+              mobilePhone: userData[eachUserCredintial].mobilePhone,
               password: userData[eachUserCredintial].password,
               store: widget.store))),
       floatingActionButton: FloatingActionButton(

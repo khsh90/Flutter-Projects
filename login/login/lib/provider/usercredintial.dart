@@ -7,19 +7,30 @@ import 'package:path/path.dart' as p;
 @Entity()
 class UserCredintial with ChangeNotifier {
   int id;
+
+  String firstName;
+  String lastName;
   @Unique()
-  String userName;
+  int mobilePhone;
+  String country;
+  String city;
+  String area;
   String password;
   //String mtName = 'khaled';
 
   UserCredintial({
     this.id = 0,
-    required this.userName,
+    this.firstName = '',
+    this.lastName = '',
+    this.country = '',
+    this.city = '',
+    this.area = '',
+    required this.mobilePhone,
     required this.password,
   });
 
   @override
-  String toString() => '($id,$userName,$password)';
+  String toString() => '($id,$mobilePhone,$password)';
 }
 
 class UserCreditials with ChangeNotifier {

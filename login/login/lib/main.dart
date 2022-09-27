@@ -3,7 +3,7 @@ import 'package:login/pages/edituserpage.dart';
 import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
-import 'package:login/pages/userdetailspage.dart';
+import 'package:login/pages/addEdituserpage.dart';
 import 'package:login/pages/userpage.dart';
 import 'package:login/pages/weclome.dart';
 import 'package:login/provider/usercredintial.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           SignUPPage.route: (context) => SignUPPage(store),
           UserMAnagementPage.route: (context) => UserMAnagementPage(store),
           EditUserPage.route: (context) => EditUserPage(store),
-          LoginSucessUserPage.route: (context) => const LoginSucessUserPage(),
+          LoginSucessUserPage.route: (context) => LoginSucessUserPage(store),
           UserDetailsPage.route: (context) => UserDetailsPage(),
         },
       ),
