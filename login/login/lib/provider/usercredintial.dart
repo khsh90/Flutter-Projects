@@ -1,37 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:login/objectbox.g.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-@Entity()
-class UserCredintial with ChangeNotifier {
-  int id;
+import '../model/entities.dart';
 
-  String firstName;
-  String lastName;
-  @Unique()
-  int mobilePhone;
-  String country;
-  String city;
-  String area;
-  String password;
-  //String mtName = 'khaled';
-
-  UserCredintial({
-    this.id = 0,
-    this.firstName = '',
-    this.lastName = '',
-    this.country = '',
-    this.city = '',
-    this.area = '',
-    required this.mobilePhone,
-    required this.password,
-  });
-
-  @override
-  String toString() => '($id,$mobilePhone,$password)';
-}
 
 class UserCreditials with ChangeNotifier {
   // final List<UserCredintial> _userCreditialsItems = [
@@ -47,7 +20,7 @@ class UserCreditials with ChangeNotifier {
     // _userCreditialsItems.add(UserCredintial(
     //     userName: userCred.userName, password: userCred.password));
 
-    List<UserCredintial> userData = store.box<UserCredintial>().getAll();
+    // List<UserCredintial> userData = store.box<UserCredintial>().getAll();
     try {
       store.box<UserCredintial>().put(userCred);
     } on UniqueViolationException catch (error) {

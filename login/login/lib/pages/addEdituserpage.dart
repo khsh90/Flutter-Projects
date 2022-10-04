@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/provider/userdetailsprovider.dart';
+import 'package:provider/provider.dart';
 
-class UserDetailsPage extends StatelessWidget {
-  UserDetailsPage({Key? key}) : super(key: key);
+import '../model/entities.dart';
+import '../objectbox.g.dart';
+import '../provider/usercredintial.dart';
+
+class UserDetailsPage extends StatefulWidget {
   static String route = '/UserDetailsPage';
+  final Store store;
 
+  UserDetailsPage(this.store);
+
+  @override
+  State<UserDetailsPage> createState() => _UserDetailsPageState();
+}
+
+class _UserDetailsPageState extends State<UserDetailsPage> {
   final _formKey = GlobalKey<FormState>();
+
   Widget textFormFiled({
     required String labelName,
     required IconData icon,
@@ -70,12 +84,12 @@ class UserDetailsPage extends StatelessWidget {
     );
   }
 
-  var formFieldValues = UserDetailsPovider(
+  var formFieldValues = UserDetailPovider(
       // fullName: '',
-      country: '',
-      city: '',
+      // country: '',
+      // city: '',
       profession: '',
-      yearsOfExperiance: '');
+      yearsOfExperiance: 0);
 
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
@@ -84,23 +98,36 @@ class UserDetailsPage extends StatelessWidget {
       return;
     }
     _formKey.currentState?.save();
-    print(formFieldValues);
-    // print(formFieldValues.fullName);
+
+    Provider.of<UserDetailsPovider>(
+      context,
+    ).addUserDetail(
+      widget.store,
+      formFieldValues,
+    );
+
+    // Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
   }
 
   @override
   Widget build(BuildContext context) {
+    final userId = ModalRoute.of(context)?.settings.arguments as int;
+    print(userId);
+    var allUserData =
+        Provider.of<UserDetailsPovider>(context).getAll(widget.store);
+    var userIndex = allUserData.indexWhere((eachUser) => eachUser.id == userId);
+    print('${allUserData[userIndex].userCredintial.target?.id ?? "none"}');
     return Scaffold(
         appBar: AppBar(
-          title: const Text('User details'),
+          title: Text('Job details for id : $userId'),
         ),
         body: SingleChildScrollView(
             child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               child: const Text(
-                'User details page',
+                'Job details',
                 style: TextStyle(
                     fontFamily: 'Courgette',
                     fontWeight: FontWeight.w600,
@@ -112,83 +139,15 @@ class UserDetailsPage extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  // textFormFiled(
-                  //     labelName: 'Full name',
-                  //     icon: Icons.person,
-                  //     saveFunction: (entredValue) => {
-                  //           formFieldValues = UserDetailsPovider(
-                  //               id: formFieldValues.id,
-                  //             //  fullName: entredValue!,
-                  //               country: formFieldValues.country,
-                  //               city: formFieldValues.city,
-                  //               mobilePhone: formFieldValues.mobilePhone,
-                  //               profession: formFieldValues.profession,
-                  //               professionDetails:
-                  //                   formFieldValues.professionDetails)
-                  //         },
-                  //     validationFunction: (entredValue) {
-                  //       if (entredValue != null && entredValue.isEmpty) {
-                  //         return 'Please enter a user name';
-                  //       }
-                  //       return null;
-                  //     },
-                  //     //   focusNode: userNameFocusNode,
-                  //     showICon: false,
-                  //     passwordIcon: Icons.remove_red_eye),
-                  textFormFiled(
-                      labelName: 'Country',
-                      icon: Icons.person,
-                      saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailsPovider(
-                                id: formFieldValues.id,
-                                //  fullName: formFieldValues.fullName,
-                                country: entredValue!,
-                                city: formFieldValues.city,
-                                profession: formFieldValues.profession,
-                                yearsOfExperiance:
-                                    formFieldValues.yearsOfExperiance)
-                          },
-                      validationFunction: (entredValue) {
-                        if (entredValue != null && entredValue.isEmpty) {
-                          return 'Please enter the country';
-                        }
-                        return null;
-                      },
-                      //   focusNode: userNameFocusNode,
-                      showICon: false,
-                      passwordIcon: Icons.remove_red_eye),
-                  textFormFiled(
-                      labelName: 'City',
-                      icon: Icons.location_city,
-                      saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailsPovider(
-                                id: formFieldValues.id,
-                                //  fullName: formFieldValues.fullName,
-                                country: formFieldValues.country,
-                                city: entredValue!,
-                                profession: formFieldValues.profession,
-                                yearsOfExperiance:
-                                    formFieldValues.yearsOfExperiance)
-                          },
-                      validationFunction: (entredValue) {
-                        if (entredValue != null && entredValue.isEmpty) {
-                          return 'Please enter the city';
-                        }
-                        return null;
-                      },
-                      //   focusNode: userNameFocusNode,
-                      showICon: false,
-                      passwordIcon: Icons.remove_red_eye),
-
                   textFormFiled(
                       labelName: 'profession',
                       icon: Icons.precision_manufacturing_outlined,
                       saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailsPovider(
+                            formFieldValues = UserDetailPovider(
                                 id: formFieldValues.id,
                                 //   fullName: formFieldValues.fullName,
-                                country: formFieldValues.country,
-                                city: formFieldValues.city,
+                                // country: formFieldValues.country,
+                                // city: formFieldValues.city,
                                 profession: entredValue!,
                                 yearsOfExperiance:
                                     formFieldValues.yearsOfExperiance)
@@ -204,23 +163,33 @@ class UserDetailsPage extends StatelessWidget {
                       passwordIcon: Icons.remove_red_eye),
                   textFormFiled(
                       labelName: 'Years of experiance',
-                      icon: Icons.person,
+                      icon: Icons.work,
                       saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailsPovider(
+                            formFieldValues = UserDetailPovider(
                                 id: formFieldValues.id,
                                 // fullName: formFieldValues.fullName,
-                                country: formFieldValues.country,
-                                city: formFieldValues.city,
+                                // country: formFieldValues.country,
+                                // city: formFieldValues.city,
                                 profession: formFieldValues.profession,
-                                yearsOfExperiance: entredValue!)
+                                yearsOfExperiance: int.tryParse(entredValue!)!)
                           },
                       validationFunction: (entredValue) {
                         if (entredValue != null && entredValue.isEmpty) {
                           return 'Please enter the years of experiance';
                         }
-                        if ((entredValue?.length)! <= 1 ) {
-                          return 'more than two digits';
+                        if ((int.tryParse(entredValue!)) == null) {
+                          return 'numbers only allowed';
                         }
+                        if ((int.tryParse(entredValue))! <= 0) {
+                          return 'Years of expericance shall be more than zero';
+                        }
+                        if ((entredValue.length) > 2) {
+                          return 'more than two digit';
+                        }
+                        if ((int.tryParse(entredValue))! > 40) {
+                          return 'The maximum years of expreiacnce is 40 years';
+                        }
+
                         return null;
                       },
                       //   focusNode: userNameFocusNode,
@@ -234,7 +203,7 @@ class UserDetailsPage extends StatelessWidget {
                   cutomElevatedButton(
                       btnColor: const Color.fromARGB(255, 99, 22, 112),
                       btnName: 'Save',
-                      btnFunction: formFeildLoginButton),
+                      btnFunction: () => formFeildLoginButton),
                   const SizedBox(
                     height: 10,
                   ),

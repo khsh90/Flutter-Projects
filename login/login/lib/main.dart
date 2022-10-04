@@ -4,14 +4,16 @@ import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 import 'package:login/pages/addEdituserpage.dart';
+import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/pages/userpage.dart';
 import 'package:login/pages/weclome.dart';
+import 'package:login/provider/authstate.dart';
 import 'package:login/provider/usercredintial.dart';
+import 'package:login/provider/userdetailsprovider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as p;
 
-import 'model/objectbox.dart';
 import 'objectbox.g.dart';
 
 late Store store;
@@ -32,7 +34,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserCreditials())
+        ChangeNotifierProvider(
+          create: (context) => UserCreditials(),
+        ),
+        ChangeNotifierProvider(create: ((context) => UserDetailsPovider())),
+        ChangeNotifierProvider(create: ((context) => AuthStateProvider()))
       ],
       child: MaterialApp(
         home: WelcomeApp(),
@@ -42,7 +48,8 @@ class MyApp extends StatelessWidget {
           UserMAnagementPage.route: (context) => UserMAnagementPage(store),
           EditUserPage.route: (context) => EditUserPage(store),
           LoginSucessUserPage.route: (context) => LoginSucessUserPage(store),
-          UserDetailsPage.route: (context) => UserDetailsPage(),
+          UserDetailsPage.route: (context) => UserDetailsPage(store),
+          UserjobsoverviewPage.route: (context) => UserjobsoverviewPage(store),
         },
       ),
     );

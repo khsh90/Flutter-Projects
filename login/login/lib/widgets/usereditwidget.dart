@@ -7,6 +7,7 @@ import 'package:login/pages/signin.dart';
 import 'package:login/provider/usercredintial.dart';
 import 'package:provider/provider.dart';
 
+import '../model/entities.dart';
 import '../pages/signup.dart';
 
 class UserEditWidget extends StatefulWidget {
@@ -71,7 +72,15 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     }
   }
 
-  var initialUSerData = {'userName': '', 'pssword': ''};
+  var initialUSerData = {
+    'fisrtName': '',
+    'lastName': '',
+    'mobilePhone': '',
+    'country': '',
+    'city': '',
+    'area': '',
+    'password': '',
+  };
 
   @override
   void initState() {
@@ -89,7 +98,10 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     initialUSerData = {
       'fisrtName': formFieldValues.firstName,
       'lastName': formFieldValues.lastName,
-      'userName': formFieldValues.mobilePhone.toString(),
+      'mobilePhone': formFieldValues.mobilePhone.toString(),
+      'country': formFieldValues.country,
+      'city': formFieldValues.city,
+      'area': formFieldValues.area,
       'password': formFieldValues.password
     };
 
@@ -118,14 +130,24 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     bool showICon = true,
     void Function()? showPasswordIconButtonFunction,
     required initialUserCredintial,
+    TextInputType? keyboardInputType,
+    String? hintText,
+    bool readInputOnly = false,
+    Color? fillColor,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
+          readOnly: readInputOnly,
+          keyboardType: keyboardInputType,
           initialValue: initialUserCredintial,
           //  focusNode: focusNode,
           obscureText: secureKeyboard,
           decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                color: Colors.purple,
+              ),
               suffixIcon: Visibility(
                   visible: showICon,
                   child: IconButton(
@@ -136,7 +158,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                 color: Colors.black,
               ),
               filled: true,
-              fillColor: Colors.purple[100],
+              fillColor: fillColor,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   20,
@@ -189,50 +211,54 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                       ),
                       Text(
                         'Edit user credintial:$userId',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: 'Courgette',
                             fontWeight: FontWeight.w600,
                             fontSize: 22),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
-                      SvgPicture.asset(
-                        'assets/icons/login.svg',
-                        width: MediaQuery.of(context).size.width - 150,
-                      ),
+                      // SvgPicture.asset(
+                      //   'assets/icons/login.svg',
+                      //   width: MediaQuery.of(context).size.width - 270,
+                      // ),
                       const SizedBox(
-                        height: 35,
+                        height: 20,
                       ),
                       Form(
                         key: _formKey,
                         child: Column(
                           children: [
                             textFormFiled(
-                                initialUserCredintial:
-                                    initialUSerData['fisrtName'],
-                                labelName: 'First Name',
-                                icon: Icons.person,
-                                saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: entredValue!,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          password: formFieldValues.password)
-                                    },
-                                validationFunction: (entredValue) {
-                                  if (entredValue != null &&
-                                      entredValue.isEmpty) {
-                                    return 'Please enter the fist name';
-                                  }
-                                  return null;
-                                },
-                                //  focusNode: userNameFocusNode,
-                                showICon: false,
-                                passwordIcon: Icons.remove_red_eye),
+                              initialUserCredintial:
+                                  initialUSerData['fisrtName'],
+                              labelName: 'First Name',
+                              icon: Icons.person,
+                              saveFunction: (entredValue) => {
+                                formFieldValues = UserCredintial(
+                                    id: formFieldValues.id,
+                                    firstName: entredValue!,
+                                    lastName: formFieldValues.lastName,
+                                    mobilePhone: formFieldValues.mobilePhone,
+                                    country: formFieldValues.country,
+                                    city: formFieldValues.city,
+                                    area: formFieldValues.area,
+                                    password: formFieldValues.password)
+                              },
+                              validationFunction: (entredValue) {
+                                if (entredValue != null &&
+                                    entredValue.isEmpty) {
+                                  return 'Please enter the fist name';
+                                }
+                                return null;
+                              },
+                              //  focusNode: userNameFocusNode,
+                              showICon: false,
+                              passwordIcon: Icons.remove_red_eye,
+                              fillColor: Colors.purple[100],
+                            ),
                             textFormFiled(
                                 initialUserCredintial:
                                     initialUSerData['lastName'],
@@ -245,6 +271,9 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                           lastName: entredValue!,
                                           mobilePhone:
                                               formFieldValues.mobilePhone,
+                                          country: formFieldValues.country,
+                                          city: formFieldValues.city,
+                                          area: formFieldValues.area,
                                           password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
@@ -256,11 +285,12 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 },
                                 //  focusNode: userNameFocusNode,
                                 showICon: false,
-                                passwordIcon: Icons.remove_red_eye),
+                                passwordIcon: Icons.remove_red_eye,
+                                fillColor: Colors.purple[100]),
                             textFormFiled(
                                 initialUserCredintial:
-                                    initialUSerData['userName'],
-                                labelName: 'User name',
+                                    initialUSerData['mobilePhone'],
+                                labelName: 'Mobile phone',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserCredintial(
@@ -269,18 +299,118 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                           lastName: formFieldValues.lastName,
                                           mobilePhone:
                                               int.tryParse(entredValue!)!,
+                                          country: formFieldValues.country,
+                                          city: formFieldValues.city,
+                                          area: formFieldValues.area,
                                           password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    return 'Please enter the user name';
+                                    return 'Please enter the mobile phone';
+                                  }
+
+                                  if (entredValue!.length != 10) {
+                                    return 'mobile phone shall be with 10 didgits';
+                                  }
+
+                                  if (int.tryParse(entredValue) == null) {
+                                    return 'Please enter a mobile number';
                                   }
                                   return null;
                                 },
                                 //  focusNode: userNameFocusNode,
+                                passwordIcon: Icons.remove_red_eye,
                                 showICon: false,
-                                passwordIcon: Icons.remove_red_eye),
+                                keyboardInputType: TextInputType.phone,
+                                hintText: 'Start with 079 , 077 ,078',
+                                fillColor: Colors.purple[100]),
+                            textFormFiled(
+                                initialUserCredintial:
+                                    initialUSerData['country'],
+                                labelName: 'country',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
+                                          country: entredValue!,
+                                          city: formFieldValues.city,
+                                          area: formFieldValues.area,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter country';
+                                  }
+
+                                  return null;
+                                },
+                                //  focusNode: userNameFocusNode,
+                                passwordIcon: Icons.remove_red_eye,
+                                showICon: false,
+                                fillColor: Color.fromARGB(255, 217, 214, 214),
+                                readInputOnly: true),
+                            textFormFiled(
+                                initialUserCredintial: initialUSerData['city'],
+                                labelName: 'city',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
+                                          country: formFieldValues.country,
+                                          city: entredValue!,
+                                          area: formFieldValues.area,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter the city';
+                                  }
+
+                                  return null;
+                                },
+                                //  focusNode: userNameFocusNode,
+                                passwordIcon: Icons.remove_red_eye,
+                                showICon: false,
+                                fillColor: Colors.purple[100]),
+                            textFormFiled(
+                                initialUserCredintial: initialUSerData['area'],
+                                labelName: 'area',
+                                icon: Icons.person,
+                                saveFunction: (entredValue) => {
+                                      formFieldValues = UserCredintial(
+                                          id: formFieldValues.id,
+                                          firstName: formFieldValues.firstName,
+                                          lastName: formFieldValues.lastName,
+                                          mobilePhone:
+                                              formFieldValues.mobilePhone,
+                                          country: formFieldValues.country,
+                                          city: formFieldValues.city,
+                                          area: entredValue!,
+                                          password: formFieldValues.password)
+                                    },
+                                validationFunction: (entredValue) {
+                                  if (entredValue != null &&
+                                      entredValue.isEmpty) {
+                                    return 'Please enter the city';
+                                  }
+
+                                  return null;
+                                },
+                                //  focusNode: userNameFocusNode,
+                                passwordIcon: Icons.remove_red_eye,
+                                showICon: false,
+                                fillColor: Colors.purple[100]),
                             textFormFiled(
                                 initialUserCredintial:
                                     initialUSerData['password'],
@@ -293,6 +423,9 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                           lastName: formFieldValues.lastName,
                                           mobilePhone:
                                               formFieldValues.mobilePhone,
+                                          country: formFieldValues.country,
+                                          city: formFieldValues.city,
+                                          area: formFieldValues.area,
                                           password: entredValue!)
                                     },
                                 validationFunction: (entredValue) {
@@ -312,7 +445,8 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                     passwordShowkeyboard =
                                         !passwordShowkeyboard;
                                   });
-                                }),
+                                },
+                                fillColor: Colors.purple[100]),
                           ],
                         ),
                       ),

@@ -1,27 +1,37 @@
 import 'package:flutter/cupertino.dart';
-import 'package:login/objectbox.g.dart';
 import 'package:login/provider/usercredintial.dart';
+import 'package:objectbox/objectbox.dart';
+
+import '../model/entities.dart';
 
 class UserDetailsPovider with ChangeNotifier {
-  int id;
-  // final String fullName;
-  final String country;
-  final String city;
-  // final String mobilePhone;
-  final String profession;
-  final String yearsOfExperiance;
+  List<UserDetailPovider> getAll(Store store) =>
+      store.box<UserDetailPovider>().getAll();
 
-  final userCredintial = ToOne<UserCredintial>();
+  UserDetailPovider findByID(Store store, int id) {
+    var allUserDetailPovider = getAll(store);
 
-  UserDetailsPovider(
-      {this.id = 0,
-      // required this.fullName,
-      required this.country,
-      required this.city,
-      //  required this.mobilePhone,
-      required this.profession,
-      required this.yearsOfExperiance});
+    var userDetailsWithSpecificId = allUserDetailPovider
+        .firstWhere((eacUserDetailPoviderh) => eacUserDetailPoviderh.id == id);
 
-  @override
-  String toString() => '($id,$country,$city,$profession,$yearsOfExperiance)';
+    return userDetailsWithSpecificId;
+  }
+
+  void addUserDetail(Store store, UserDetailPovider userDetail,) {
+
+
+
+    store.box<UserDetailPovider>().put(userDetail);
+
+    notifyListeners();
+  }
+
+  void deleteUSerJob(Store store, int id) {
+    final userData = getAll(store);
+    final userJobIndex =
+        userData.indexWhere((eachUserIndex) => eachUserIndex.id == id);
+
+    store.box<UserDetailPovider>().remove(userData[userJobIndex].id);
+    notifyListeners();
+  }
 }

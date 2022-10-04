@@ -4,76 +4,98 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "2:4803014332313919839",
-      "lastPropertyId": "10:5751062312692167435",
+      "id": "1:1883435005929017343",
+      "lastPropertyId": "8:681332612345323647",
       "name": "UserCredintial",
       "properties": [
         {
-          "id": "1:6068799570780573127",
+          "id": "1:996277412980353045",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "3:4359064602628085924",
-          "name": "password",
-          "type": 9
-        },
-        {
-          "id": "5:1242930806741719967",
+          "id": "2:6366480572496883148",
           "name": "firstName",
           "type": 9
         },
         {
-          "id": "6:7276370704937204498",
+          "id": "3:3036990656861342047",
           "name": "lastName",
           "type": 9
         },
         {
-          "id": "7:3230292097805781261",
+          "id": "4:6412355937165229247",
           "name": "mobilePhone",
           "type": 6,
           "flags": 40,
-          "indexId": "2:4369386660892153565"
+          "indexId": "1:1207333499301084878"
         },
         {
-          "id": "8:9102110883127017901",
+          "id": "5:9067485800503200337",
           "name": "country",
           "type": 9
         },
         {
-          "id": "9:4924724755956909963",
+          "id": "6:2980629634835532648",
           "name": "city",
           "type": 9
         },
         {
-          "id": "10:5751062312692167435",
+          "id": "7:5222654952858578007",
           "name": "area",
           "type": 9
+        },
+        {
+          "id": "8:681332612345323647",
+          "name": "password",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7352852851813603171",
+      "lastPropertyId": "4:2707190868540657943",
+      "name": "UserDetailPovider",
+      "properties": [
+        {
+          "id": "1:2756989235560911303",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5578121549995201184",
+          "name": "profession",
+          "type": 9
+        },
+        {
+          "id": "3:7174325178159447214",
+          "name": "yearsOfExperiance",
+          "type": 6
+        },
+        {
+          "id": "4:2707190868540657943",
+          "name": "userCredintialId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:2898517610738577929",
+          "relationTarget": "UserCredintial"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:4803014332313919839",
-  "lastIndexId": "2:4369386660892153565",
+  "lastEntityId": "2:7352852851813603171",
+  "lastIndexId": "2:2898517610738577929",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [
-    7721839050849942430
-  ],
-  "retiredIndexUids": [
-    4250482791899929208
-  ],
-  "retiredPropertyUids": [
-    1113500350025956111,
-    4738928954538329968,
-    9209053790284526098,
-    2630323627642267262,
-    3434344686339549676
-  ],
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }

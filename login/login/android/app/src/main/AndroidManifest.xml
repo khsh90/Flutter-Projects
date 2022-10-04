@@ -4,6 +4,14 @@
         android:label="login"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+    <activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity" android:exported="true">
+      <intent-filter android:label="flutter_web_auth_2">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="appwrite-callback-63391dff87fa8788023c" />
+      </intent-filter>
+    </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -16,6 +24,7 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
+          
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"

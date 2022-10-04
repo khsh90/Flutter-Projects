@@ -5,9 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/objectbox.g.dart';
 import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
+import 'package:login/pages/userjobsoverviewpage.dart';
+import 'package:login/provider/authstate.dart';
 import 'package:login/provider/usercredintial.dart';
 import 'package:provider/provider.dart';
 
+import '../model/entities.dart';
+import '../model/userlogin.dart';
 import '../pages/signup.dart';
 
 class SigninWidget extends StatefulWidget {
@@ -57,7 +61,8 @@ class _SigninWidgetState extends State<SigninWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  UserCredintial formFieldValues = UserCredintial(mobilePhone: 0, password: '');
+  // UserCredintial formFieldValues = UserCredintial(mobilePhone: 0, password: '');
+  UserLogin formFieldValues = UserLogin(email: '', password: '');
 
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
@@ -67,37 +72,34 @@ class _SigninWidgetState extends State<SigninWidget> {
     }
     _formKey.currentState?.save();
 
-    // Provider.of<UserCreditials>(context, listen: false)
-    //     .findByUserNameAndPassword(
-    //   widget.store,
-    //   formFieldValues,
-    // );
+    Provider.of<AuthStateProvider>(context, listen: false).login(
+        email: formFieldValues.email, password: formFieldValues.password);
 
-    Query<UserCredintial> query = widget.store
-        .box<UserCredintial>()
-        .query(UserCredintial_.mobilePhone
-            .equals(formFieldValues.mobilePhone)
-            .and(UserCredintial_.password.equals(formFieldValues.password)))
-        .build();
-    List<UserCredintial> userData = query.find();
+    // Query<UserCredintial> query = widget.store
+    //     .box<UserCredintial>()
+    //     .query(UserCredintial_.mobilePhone
+    //         .equals(formFieldValues.mobilePhone)
+    //         .and(UserCredintial_.password.equals(formFieldValues.password)))
+    //     .build();
+    // List<UserCredintial> userData = query.find();
 
-    query.close();
+    // query.close();
 
-    var allUsers = widget.store.box<UserCredintial>().getAll();
+    // var allUsers = widget.store.box<UserCredintial>().getAll();
 
-    final dataIndex = allUsers.indexWhere(
-        (eachUser) => eachUser.mobilePhone == formFieldValues.mobilePhone);
-    if (userData.isNotEmpty) {
-      // print('login success');
-      print('$allUsers');
-      print(allUsers[dataIndex].id);
+    // final dataIndex = allUsers.indexWhere(
+    //     (eachUser) => eachUser.mobilePhone == formFieldValues.mobilePhone);
+    // if (userData.isNotEmpty) {
+    //   // print('login success');
+    //   print('$allUsers');
+    //   print(allUsers[dataIndex].id);
 
-      Navigator.of(context).pushNamed(LoginSucessUserPage.route,
-          arguments: allUsers[dataIndex].id);
-    } else {
-      print('login Faild');
-      showAlertMsg('User name or password invalid , please check');
-    }
+    //   Navigator.of(context).popAndPushNamed(UserjobsoverviewPage.route,
+    //       arguments: allUsers[dataIndex].id);
+    // } else {
+    //   print('login Faild');
+    //   showAlertMsg('User name or password invalid , please check');
+    // }
 
     // print(formFieldValues.userName);
     // print(formFieldValues.password);
@@ -235,48 +237,60 @@ class _SigninWidgetState extends State<SigninWidget> {
                         child: Column(
                           children: [
                             textFormFiled(
-                                labelName: 'Mobile phone',
+                                // labelName: 'Mobile phone',
+                                labelName: 'Email',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          mobilePhone:
-                                              int.tryParse(entredValue!)!,
+                                      // formFieldValues = UserCredintial(
+                                      //   id: formFieldValues.id,
+                                      //     mobilePhone:
+                                      //         int.tryParse(entredValue!)!,
+                                      //     password: formFieldValues.password)
+
+                                      formFieldValues = UserLogin(
+                                          email: entredValue!,
                                           password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    return 'Please enter mobile Phone';
+                                    // return 'Please enter mobile Phone';
+                                    return 'Please enter an email';
                                   }
-                                  if (int.tryParse(entredValue!) == null) {
-                                    return 'Please enter a mobile number';
-                                  }
-                                  if (entredValue.length != 10) {
-                                    return 'mobile phone shall be with 10 didgits';
-                                  }
+                                  // if (int.tryParse(entredValue!) == null) {
+                                  //   return 'Please enter a mobile number';
+                                  // }
+                                  // if (entredValue.length != 10) {
+                                  //   return 'mobile phone shall be with 10 didgits';
+                                  // }
 
                                   return null;
                                 },
                                 focusNode: userNameFocusNode,
                                 showICon: false,
                                 passwordIcon: Icons.remove_red_eye,
-                                keyboardInputType: TextInputType.phone,
-                                hintText: 'Start with 079 , 077 ,078'),
+                                // keyboardInputType: TextInputType.phone,
+                                hintText: 'like test@test.com'),
                             textFormFiled(
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     password: entredValue!)
+                                      formFieldValues = UserLogin(
+                                          email: formFieldValues.email,
                                           password: entredValue!)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
                                     return 'Please enter a password';
+                                  }
+                                  if (entredValue!.length > 9) {
+                                    return 'Password must be more than 8 charchter';
                                   }
                                   return null;
                                 },
