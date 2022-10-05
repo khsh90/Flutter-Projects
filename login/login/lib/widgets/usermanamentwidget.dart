@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/pages/edituserpage.dart';
-import 'package:login/provider/usercredintial.dart';
-import 'package:provider/provider.dart';
 
-import '../objectbox.g.dart';
+// import '../objectbox.g.dart';
 
 class UserManagmentWidget extends StatelessWidget {
   final int id;
@@ -11,7 +9,7 @@ class UserManagmentWidget extends StatelessWidget {
   final String lastName;
   final int mobilePhone;
   final String password;
-  final Store store;
+  //final Store store;
 
   UserManagmentWidget(
       {required this.id,
@@ -19,7 +17,8 @@ class UserManagmentWidget extends StatelessWidget {
       required this.lastName,
       required this.mobilePhone,
       required this.password,
-      required this.store});
+      // required this.store
+      });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,8 +48,8 @@ class UserManagmentWidget extends StatelessWidget {
                           )),
                       IconButton(
                           onPressed: () {
-                            Provider.of<UserCreditials>(context, listen: false)
-                                .removeOneUser(store, id);
+                            // Provider.of<UserCreditials>(context, listen: false)
+                            //     .removeOneUser(store, id);
                           },
                           icon: const Icon(
                             Icons.delete,

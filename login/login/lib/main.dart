@@ -8,24 +8,9 @@ import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/pages/userpage.dart';
 import 'package:login/pages/weclome.dart';
 import 'package:login/provider/authstate.dart';
-import 'package:login/provider/usercredintial.dart';
-import 'package:login/provider/userdetailsprovider.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart' as p;
-
-import 'objectbox.g.dart';
-
-late Store store;
 
 void main() {
-  // This is required so ObjectBox can get the application directory
-  // to store the database in.
-  WidgetsFlutterBinding.ensureInitialized();
-
-  getApplicationDocumentsDirectory().then((dir) => store =
-      Store(getObjectBoxModel(), directory: p.join(dir.path, 'objectbox')));
-
   runApp(MyApp());
 }
 
@@ -34,22 +19,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserCreditials(),
-        ),
-        ChangeNotifierProvider(create: ((context) => UserDetailsPovider())),
         ChangeNotifierProvider(create: ((context) => AuthStateProvider()))
       ],
       child: MaterialApp(
         home: WelcomeApp(),
         routes: {
-          SigninPage.route: (context) => SigninPage(store),
-          SignUPPage.route: (context) => SignUPPage(store),
-          UserMAnagementPage.route: (context) => UserMAnagementPage(store),
-          EditUserPage.route: (context) => EditUserPage(store),
-          LoginSucessUserPage.route: (context) => LoginSucessUserPage(store),
-          UserDetailsPage.route: (context) => UserDetailsPage(store),
-          UserjobsoverviewPage.route: (context) => UserjobsoverviewPage(store),
+          SigninPage.route: (context) => SigninPage(),
+          SignUPPage.route: (context) => SignUPPage(),
+          UserMAnagementPage.route: (context) => UserMAnagementPage(),
+          EditUserPage.route: (context) => EditUserPage(),
+          LoginSucessUserPage.route: (context) => LoginSucessUserPage(),
+          UserDetailsPage.route: (context) => UserDetailsPage(),
+          UserjobsoverviewPage.route: (context) => UserjobsoverviewPage(),
         },
       ),
     );

@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/widgets/welcomewidget.dart';
 
 import '../widgets/appDrawer.dart';
@@ -15,7 +12,7 @@ class WelcomeApp extends StatelessWidget {
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(300, 45),
-        primary: btnColor,
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -31,8 +28,8 @@ class WelcomeApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('My page'),
         ),
-        body: WelcomeWidget(),
-        drawer: AppDrawer(),
+        body: const WelcomeWidget(),
+        drawer: const AppDrawer(),
       ),
     );
   }

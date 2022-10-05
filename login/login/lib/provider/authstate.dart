@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:login/core/res/applicationcons.dart';
-import 'package:login/objectbox.g.dart';
+//import 'package:login/objectbox.g.dart';
 
 class AuthStateProvider with ChangeNotifier {
   Client client = Client();

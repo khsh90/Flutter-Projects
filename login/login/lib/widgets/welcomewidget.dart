@@ -1,11 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 
 class WelcomeWidget extends StatelessWidget {
+  const WelcomeWidget({super.key});
+
   Widget cutomElevatedButton(
       {required Color btnColor,
       required String btnName,
@@ -14,7 +14,7 @@ class WelcomeWidget extends StatelessWidget {
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(300, 45),
-        primary: btnColor,
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -71,7 +71,7 @@ class WelcomeWidget extends StatelessWidget {
                       height: 35,
                     ),
                     cutomElevatedButton(
-                        btnColor: Color.fromARGB(255, 99, 22, 112),
+                        btnColor: const Color.fromARGB(255, 99, 22, 112),
                         btnName: 'Login',
                         btnFunction: () {
                           Navigator.of(context).pushNamed(SigninPage.route);

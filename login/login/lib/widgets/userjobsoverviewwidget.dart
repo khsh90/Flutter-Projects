@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:login/provider/userdetailsprovider.dart';
-import 'package:provider/provider.dart';
 
-import '../objectbox.g.dart';
+//import '../objectbox.g.dart';
 
 class UserJobsOverviewWidget extends StatelessWidget {
   final int id;
   final String jobName;
   final int yearsOfexperiance;
-  final Store store;
+ // final Store store;
   // final String customerFirstName;
   // final String customerLastName;
 
@@ -18,7 +16,7 @@ class UserJobsOverviewWidget extends StatelessWidget {
     required this.yearsOfexperiance,
     // required this.customerFirstName,
     // required this.customerLastName,
-    required this.store,
+    //required this.store,
   });
 
   @override
@@ -45,8 +43,8 @@ class UserJobsOverviewWidget extends StatelessWidget {
                     )),
                 IconButton(
                     onPressed: () {
-                      Provider.of<UserDetailsPovider>(context, listen: false)
-                          .deleteUSerJob(store, id);
+                      // Provider.of<UserDetailsPovider>(context, listen: false)
+                      //     .deleteUSerJob(store, id);
                     },
                     icon: const Icon(
                       Icons.delete,

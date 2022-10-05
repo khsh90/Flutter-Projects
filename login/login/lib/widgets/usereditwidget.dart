@@ -1,20 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:login/objectbox.g.dart';
-import 'package:login/pages/signin.dart';
-import 'package:login/provider/usercredintial.dart';
-import 'package:provider/provider.dart';
-
-import '../model/entities.dart';
-import '../pages/signup.dart';
 
 class UserEditWidget extends StatefulWidget {
-  final Store store;
-
-  UserEditWidget(this.store);
-
   @override
   State<UserEditWidget> createState() => _UserEditWidgettState();
 }
@@ -29,7 +15,7 @@ class _UserEditWidgettState extends State<UserEditWidget> {
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(300, 45),
-        primary: btnColor,
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -40,9 +26,6 @@ class _UserEditWidgettState extends State<UserEditWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  UserCredintial formFieldValues =
-      UserCredintial(firstName: '', lastName: '', mobilePhone: 0, password: '');
-
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
 
@@ -50,15 +33,6 @@ class _UserEditWidgettState extends State<UserEditWidget> {
       return;
     }
     _formKey.currentState?.save();
-
-    Provider.of<UserCreditials>(context, listen: false)
-        .editOneUser(widget.store, formFieldValues.id, formFieldValues);
-
-    //  print(' after save data $formFieldValues');
-    Navigator.of(context).pop();
-
-    // print(formFieldValues.userName);
-    // print(formFieldValues.password);
   }
 
   final userNameFocusNode = FocusNode();
@@ -81,41 +55,6 @@ class _UserEditWidgettState extends State<UserEditWidget> {
     'area': '',
     'password': '',
   };
-
-  @override
-  void initState() {
-    super.initState();
-    // userNameFocusNode.addListener(getFocus);
-  }
-
-  @override
-  void didChangeDependencies() {
-    final userId = ModalRoute.of(context)?.settings.arguments as int;
-
-    formFieldValues =
-        Provider.of<UserCreditials>(context).findUserById(widget.store, userId);
-
-    initialUSerData = {
-      'fisrtName': formFieldValues.firstName,
-      'lastName': formFieldValues.lastName,
-      'mobilePhone': formFieldValues.mobilePhone.toString(),
-      'country': formFieldValues.country,
-      'city': formFieldValues.city,
-      'area': formFieldValues.area,
-      'password': formFieldValues.password
-    };
-
-    // print(' in did change$formFieldValues');
-    //print('in did change id ${formFieldValues.id}');
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    //   userNameFocusNode.removeListener(getFocus);
-  }
 
   bool passwordShowkeyboard = true;
 
@@ -237,15 +176,15 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                               labelName: 'First Name',
                               icon: Icons.person,
                               saveFunction: (entredValue) => {
-                                formFieldValues = UserCredintial(
-                                    id: formFieldValues.id,
-                                    firstName: entredValue!,
-                                    lastName: formFieldValues.lastName,
-                                    mobilePhone: formFieldValues.mobilePhone,
-                                    country: formFieldValues.country,
-                                    city: formFieldValues.city,
-                                    area: formFieldValues.area,
-                                    password: formFieldValues.password)
+                                // formFieldValues = UserCredintial(
+                                //     id: formFieldValues.id,
+                                //     firstName: entredValue!,
+                                //     lastName: formFieldValues.lastName,
+                                //     mobilePhone: formFieldValues.mobilePhone,
+                                //     country: formFieldValues.country,
+                                //     city: formFieldValues.city,
+                                //     area: formFieldValues.area,
+                                //     password: formFieldValues.password)
                               },
                               validationFunction: (entredValue) {
                                 if (entredValue != null &&
@@ -265,16 +204,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'Last Name',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: entredValue!,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          country: formFieldValues.country,
-                                          city: formFieldValues.city,
-                                          area: formFieldValues.area,
-                                          password: formFieldValues.password)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: entredValue!,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     country: formFieldValues.country,
+                                      //     city: formFieldValues.city,
+                                      //     area: formFieldValues.area,
+                                      //     password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
@@ -293,16 +232,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'Mobile phone',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              int.tryParse(entredValue!)!,
-                                          country: formFieldValues.country,
-                                          city: formFieldValues.city,
-                                          area: formFieldValues.area,
-                                          password: formFieldValues.password)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: formFieldValues.lastName,
+                                      //     mobilePhone:
+                                      //         int.tryParse(entredValue!)!,
+                                      //     country: formFieldValues.country,
+                                      //     city: formFieldValues.city,
+                                      //     area: formFieldValues.area,
+                                      //     password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
@@ -331,16 +270,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'country',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          country: entredValue!,
-                                          city: formFieldValues.city,
-                                          area: formFieldValues.area,
-                                          password: formFieldValues.password)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: formFieldValues.lastName,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     country: entredValue!,
+                                      //     city: formFieldValues.city,
+                                      //     area: formFieldValues.area,
+                                      //     password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
@@ -360,16 +299,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'city',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          country: formFieldValues.country,
-                                          city: entredValue!,
-                                          area: formFieldValues.area,
-                                          password: formFieldValues.password)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: formFieldValues.lastName,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     country: formFieldValues.country,
+                                      //     city: entredValue!,
+                                      //     area: formFieldValues.area,
+                                      //     password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
@@ -388,16 +327,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'area',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          country: formFieldValues.country,
-                                          city: formFieldValues.city,
-                                          area: entredValue!,
-                                          password: formFieldValues.password)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: formFieldValues.lastName,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     country: formFieldValues.country,
+                                      //     city: formFieldValues.city,
+                                      //     area: entredValue!,
+                                      //     password: formFieldValues.password)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
@@ -417,16 +356,16 @@ class _UserEditWidgettState extends State<UserEditWidget> {
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
-                                      formFieldValues = UserCredintial(
-                                          id: formFieldValues.id,
-                                          firstName: formFieldValues.firstName,
-                                          lastName: formFieldValues.lastName,
-                                          mobilePhone:
-                                              formFieldValues.mobilePhone,
-                                          country: formFieldValues.country,
-                                          city: formFieldValues.city,
-                                          area: formFieldValues.area,
-                                          password: entredValue!)
+                                      // formFieldValues = UserCredintial(
+                                      //     id: formFieldValues.id,
+                                      //     firstName: formFieldValues.firstName,
+                                      //     lastName: formFieldValues.lastName,
+                                      //     mobilePhone:
+                                      //         formFieldValues.mobilePhone,
+                                      //     country: formFieldValues.country,
+                                      //     city: formFieldValues.city,
+                                      //     area: formFieldValues.area,
+                                      //     password: entredValue!)
                                     },
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&

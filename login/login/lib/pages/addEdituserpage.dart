@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login/pages/userjobsoverviewpage.dart';
-import 'package:login/provider/userdetailsprovider.dart';
-import 'package:provider/provider.dart';
-
-import '../model/entities.dart';
-import '../objectbox.g.dart';
-import '../provider/usercredintial.dart';
 
 class UserDetailsPage extends StatefulWidget {
   static String route = '/UserDetailsPage';
-  final Store store;
-
-  UserDetailsPage(this.store);
+  //final Store store;
 
   @override
   State<UserDetailsPage> createState() => _UserDetailsPageState();
@@ -84,12 +75,12 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     );
   }
 
-  var formFieldValues = UserDetailPovider(
-      // fullName: '',
-      // country: '',
-      // city: '',
-      profession: '',
-      yearsOfExperiance: 0);
+  // var formFieldValues = UserDetailPovider(
+  //     // fullName: '',
+  //     // country: '',
+  //     // city: '',
+  //     profession: '',
+  //     yearsOfExperiance: 0);
 
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
@@ -98,28 +89,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       return;
     }
     _formKey.currentState?.save();
-
-    Provider.of<UserDetailsPovider>(
-      context,
-    ).addUserDetail(
-      widget.store,
-      formFieldValues,
-    );
-
-    // Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
   }
 
   @override
   Widget build(BuildContext context) {
-    final userId = ModalRoute.of(context)?.settings.arguments as int;
-    print(userId);
-    var allUserData =
-        Provider.of<UserDetailsPovider>(context).getAll(widget.store);
-    var userIndex = allUserData.indexWhere((eachUser) => eachUser.id == userId);
-    print('${allUserData[userIndex].userCredintial.target?.id ?? "none"}');
     return Scaffold(
         appBar: AppBar(
-          title: Text('Job details for id : $userId'),
+          title: const Text('Job details'),
         ),
         body: SingleChildScrollView(
             child: Column(
@@ -143,14 +119,14 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       labelName: 'profession',
                       icon: Icons.precision_manufacturing_outlined,
                       saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailPovider(
-                                id: formFieldValues.id,
-                                //   fullName: formFieldValues.fullName,
-                                // country: formFieldValues.country,
-                                // city: formFieldValues.city,
-                                profession: entredValue!,
-                                yearsOfExperiance:
-                                    formFieldValues.yearsOfExperiance)
+                            // formFieldValues = UserDetailPovider(
+                            //     id: formFieldValues.id,
+                            //     //   fullName: formFieldValues.fullName,
+                            //     // country: formFieldValues.country,
+                            //     // city: formFieldValues.city,
+                            //     profession: entredValue!,
+                            //     yearsOfExperiance:
+                            //         formFieldValues.yearsOfExperiance)
                           },
                       validationFunction: (entredValue) {
                         if (entredValue != null && entredValue.isEmpty) {
@@ -165,13 +141,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       labelName: 'Years of experiance',
                       icon: Icons.work,
                       saveFunction: (entredValue) => {
-                            formFieldValues = UserDetailPovider(
-                                id: formFieldValues.id,
-                                // fullName: formFieldValues.fullName,
-                                // country: formFieldValues.country,
-                                // city: formFieldValues.city,
-                                profession: formFieldValues.profession,
-                                yearsOfExperiance: int.tryParse(entredValue!)!)
+                            // formFieldValues = UserDetailPovider(
+                            //     id: formFieldValues.id,
+                            //     // fullName: formFieldValues.fullName,
+                            //     // country: formFieldValues.country,
+                            //     // city: formFieldValues.city,
+                            //     profession: formFieldValues.profession,
+                            //     yearsOfExperiance: int.tryParse(entredValue!)!)
                           },
                       validationFunction: (entredValue) {
                         if (entredValue != null && entredValue.isEmpty) {

@@ -1,24 +1,16 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:login/objectbox.g.dart';
-import 'package:login/pages/loginsucuessuserpage.dart';
-import 'package:login/pages/signin.dart';
-import 'package:login/pages/userjobsoverviewpage.dart';
+
 import 'package:login/provider/authstate.dart';
-import 'package:login/provider/usercredintial.dart';
 import 'package:provider/provider.dart';
 
-import '../model/entities.dart';
 import '../model/userlogin.dart';
 import '../pages/signup.dart';
 
 class SigninWidget extends StatefulWidget {
   @override
   State<SigninWidget> createState() => _SigninWidgetState();
-  final Store store;
-  SigninWidget(this.store);
 }
 
 class _SigninWidgetState extends State<SigninWidget> {
@@ -49,8 +41,7 @@ class _SigninWidgetState extends State<SigninWidget> {
     return ElevatedButton(
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(300, 45),
-        primary: btnColor,
+        fixedSize: const Size(300, 45), backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -74,35 +65,6 @@ class _SigninWidgetState extends State<SigninWidget> {
 
     Provider.of<AuthStateProvider>(context, listen: false).login(
         email: formFieldValues.email, password: formFieldValues.password);
-
-    // Query<UserCredintial> query = widget.store
-    //     .box<UserCredintial>()
-    //     .query(UserCredintial_.mobilePhone
-    //         .equals(formFieldValues.mobilePhone)
-    //         .and(UserCredintial_.password.equals(formFieldValues.password)))
-    //     .build();
-    // List<UserCredintial> userData = query.find();
-
-    // query.close();
-
-    // var allUsers = widget.store.box<UserCredintial>().getAll();
-
-    // final dataIndex = allUsers.indexWhere(
-    //     (eachUser) => eachUser.mobilePhone == formFieldValues.mobilePhone);
-    // if (userData.isNotEmpty) {
-    //   // print('login success');
-    //   print('$allUsers');
-    //   print(allUsers[dataIndex].id);
-
-    //   Navigator.of(context).popAndPushNamed(UserjobsoverviewPage.route,
-    //       arguments: allUsers[dataIndex].id);
-    // } else {
-    //   print('login Faild');
-    //   showAlertMsg('User name or password invalid , please check');
-    // }
-
-    // print(formFieldValues.userName);
-    // print(formFieldValues.password);
   }
 
   final userNameFocusNode = FocusNode();

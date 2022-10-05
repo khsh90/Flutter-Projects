@@ -1,25 +1,14 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/model/Usersignup.dart';
-import 'package:login/pages/loginsucuessuserpage.dart';
 import 'package:login/pages/signin.dart';
-import 'package:login/pages/signup.dart';
-import 'package:login/pages/userjobsoverviewpage.dart';
-import 'package:login/pages/userpage.dart';
 import 'package:login/provider/authstate.dart';
-import 'package:login/provider/usercredintial.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart' as p;
-import '../model/entities.dart';
-import '../objectbox.g.dart';
 
 class SignupWidget extends StatefulWidget {
-  final Store store;
+  // final Store store;
 
-  SignupWidget(this.store);
+  // SignupWidget(this.store);
   @override
   State<SignupWidget> createState() => _SignupWidgetState();
 }
@@ -56,7 +45,7 @@ class _SignupWidgetState extends State<SignupWidget> {
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(300, 45),
-        primary: btnColor,
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -86,39 +75,6 @@ class _SignupWidgetState extends State<SignupWidget> {
       return;
     }
     _formKey.currentState?.save();
-    Provider.of<AuthStateProvider>(context, listen: false).signUp(
-        email: formFieldValues.email,
-        password: formFieldValues.password,
-        name: formFieldValues.name);
-    // Query<UserCredintial> query = widget.store
-    //     .box<UserCredintial>()
-    //     .query(UserCredintial_.userName.equals(formFieldValues.userName))
-    //     .build();
-    // List<UserCredintial> userData = query.find();
-    // query.close();
-
-    // if (userData.isEmpty) {
-
-    // try {
-    // Provider.of<UserCreditials>(context, listen: false)
-    //     .addUser(userCred: formFieldValues, store: widget.store);
-
-    // Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route,
-    //     arguments: formFieldValues.id
-    //     arguments: {
-    //   'id': formFieldValues.id,
-    //   // 'firstName': formFieldValues.firstName,
-    //   // 'lastName': formFieldValues.lastName,
-    //   // 'userName': formFieldValues.userName,
-    //   // 'password': formFieldValues.password
-    // }
-
-    //       // );
-    // } on UniqueViolationException catch (_) {
-    //   return showAlertMsg('Mobile phone already exists');
-    // } catch (error) {
-    //   print(error);
-    // }
   }
 
   final userNameFocusNode = FocusNode();
