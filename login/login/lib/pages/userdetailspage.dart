@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:login/model/userProfessionmodel.dart';
+import 'package:login/pages/userjobsoverviewpage.dart';
+import 'package:login/provider/databasestateprovider.dart';
+import 'package:provider/provider.dart';
 
 class UserDetailsPage extends StatefulWidget {
   static String route = '/UserDetailsPage';
+
+  const UserDetailsPage({super.key});
   //final Store store;
 
   @override
@@ -10,13 +16,15 @@ class UserDetailsPage extends StatefulWidget {
 
 class _UserDetailsPageState extends State<UserDetailsPage> {
   final _formKey = GlobalKey<FormState>();
+  UserProfessionModel formFieldValues = UserProfessionModel(
+      documentId: '', userProfession: '', yearsOfExperiance: 0);
 
+  
   Widget textFormFiled({
     required String labelName,
     required IconData icon,
     required void Function(String?)? saveFunction,
     required String? Function(String?)? validationFunction,
-    // required FocusNode focusNode,
     bool secureKeyboard = false,
     required IconData passwordIcon,
     bool showICon = true,
@@ -27,7 +35,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
-          //   focusNode: focusNode,
           keyboardType: keyboardInputType,
           maxLines: maxLineLength,
           obscureText: secureKeyboard,
@@ -65,8 +72,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return ElevatedButton(
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(300, 45),
-        primary: btnColor,
+        fixedSize: const Size(300, 45), backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -75,13 +81,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     );
   }
 
-  // var formFieldValues = UserDetailPovider(
-  //     // fullName: '',
-  //     // country: '',
-  //     // city: '',
-  //     profession: '',
-  //     yearsOfExperiance: 0);
-
   void formFeildLoginButton() {
     final valid = _formKey.currentState?.validate();
 
@@ -89,13 +88,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       return;
     }
     _formKey.currentState?.save();
+    Provider.of<DatabaseStateProvider>(context, listen: false)
+        .createDocument(userProfessionModel: formFieldValues);
+    Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Job details'),
+          title: const Text('Job details '),
         ),
         body: SingleChildScrollView(
             child: Column(
@@ -119,14 +121,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       labelName: 'profession',
                       icon: Icons.precision_manufacturing_outlined,
                       saveFunction: (entredValue) => {
-                            // formFieldValues = UserDetailPovider(
-                            //     id: formFieldValues.id,
-                            //     //   fullName: formFieldValues.fullName,
-                            //     // country: formFieldValues.country,
-                            //     // city: formFieldValues.city,
-                            //     profession: entredValue!,
-                            //     yearsOfExperiance:
-                            //         formFieldValues.yearsOfExperiance)
+                           
+
+                            formFieldValues = UserProfessionModel(
+                                documentId: formFieldValues.documentId,
+                                userProfession: entredValue!,
+                                yearsOfExperiance:
+                                    formFieldValues.yearsOfExperiance)
                           },
                       validationFunction: (entredValue) {
                         if (entredValue != null && entredValue.isEmpty) {
@@ -134,20 +135,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         }
                         return null;
                       },
-                      //   focusNode: userNameFocusNode,
                       showICon: false,
                       passwordIcon: Icons.remove_red_eye),
                   textFormFiled(
                       labelName: 'Years of experiance',
                       icon: Icons.work,
                       saveFunction: (entredValue) => {
-                            // formFieldValues = UserDetailPovider(
-                            //     id: formFieldValues.id,
-                            //     // fullName: formFieldValues.fullName,
-                            //     // country: formFieldValues.country,
-                            //     // city: formFieldValues.city,
-                            //     profession: formFieldValues.profession,
-                            //     yearsOfExperiance: int.tryParse(entredValue!)!)
+                         
+                            formFieldValues = UserProfessionModel(
+                                documentId: formFieldValues.documentId,
+                                userProfession: formFieldValues.userProfession,
+                                yearsOfExperiance: int.tryParse(entredValue!)!)
                           },
                       validationFunction: (entredValue) {
                         if (entredValue != null && entredValue.isEmpty) {
@@ -168,7 +166,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
 
                         return null;
                       },
-                      //   focusNode: userNameFocusNode,
                       showICon: false,
                       passwordIcon: Icons.remove_red_eye,
                       maxLineLength: 1,
@@ -179,7 +176,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   cutomElevatedButton(
                       btnColor: const Color.fromARGB(255, 99, 22, 112),
                       btnName: 'Save',
-                      btnFunction: () => formFeildLoginButton),
+                      btnFunction: formFeildLoginButton),
                   const SizedBox(
                     height: 10,
                   ),

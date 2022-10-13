@@ -1,10 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:login/pages/edituserpage.dart';
-import 'package:login/pages/addEdituserpage.dart';
+import 'package:login/pages/userdetailspage.dart';
 import 'package:login/pages/userjobsoverviewpage.dart';
-import 'package:login/pages/userpage.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -48,31 +44,10 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(UserMAnagementPage.route);
-            },
-            leading: const Icon(Icons.group),
-            title: const Text('Users Mangment'),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed(UserDetailsPage.route);
-            },
-            leading: const Icon(Icons.details_sharp),
-            title: const Text('User Details'),
-          ),
-          ListTile(
-            onTap: () {
               Navigator.of(context).pushNamed(UserjobsoverviewPage.route);
             },
             leading: const Icon(Icons.work),
             title: const Text('User jobs overview '),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed(EditUserPage.route);
-            },
-            leading: const Icon(Icons.edit),
-            title: const Text('Edit User'),
           ),
         ],
       ),

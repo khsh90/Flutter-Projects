@@ -6,9 +6,8 @@ import 'package:login/provider/authstate.dart';
 import 'package:provider/provider.dart';
 
 class SignupWidget extends StatefulWidget {
-  // final Store store;
+  const SignupWidget({super.key});
 
-  // SignupWidget(this.store);
   @override
   State<SignupWidget> createState() => _SignupWidgetState();
 }
@@ -23,7 +22,7 @@ class _SignupWidgetState extends State<SignupWidget> {
         actions: [
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 99, 22, 112)),
+                  backgroundColor: const Color.fromARGB(255, 99, 22, 112)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -33,7 +32,6 @@ class _SignupWidgetState extends State<SignupWidget> {
     );
   }
 
-  // late Box<UserCredintial> storeBox = _store.box<UserCredintial>();
   bool isInitized = false;
 
   Widget cutomElevatedButton({
@@ -56,25 +54,23 @@ class _SignupWidgetState extends State<SignupWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // UserCredintial formFieldValues = UserCredintial(
-  //     firstName: '',
-  //     lastName: '',
-  //     mobilePhone: 0000000000,
-  //     country: '',
-  //     city: '',
-  //     area: '',
-  //     password: '');
-
   UserSignUp formFieldValues = UserSignUp(email: '', password: '', name: '');
 
-  void formFeildLoginButton() {
-    // _store.box<UserCredintial>().removeAll();
+  Future<void> formFeildLoginButton() async {
     final valid = _formKey.currentState?.validate();
 
     if (!valid!) {
       return;
     }
     _formKey.currentState?.save();
+
+    Provider.of<AuthStateProvider>(context, listen: false)
+        .signUp(
+            email: formFieldValues.email,
+            password: formFieldValues.password,
+            name: formFieldValues.name)
+        .then((_) =>
+            Navigator.of(context).pushReplacementNamed(SigninPage.route));
   }
 
   final userNameFocusNode = FocusNode();
@@ -197,13 +193,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 labelName: 'Name',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                  // formFieldValues = UserCredintial(
-                                  //     id: formFieldValues.id,
-                                  //     firstName: entredValue!,
-                                  //     lastName: formFieldValues.lastName,
-                                  //     mobilePhone: formFieldValues.mobilePhone,
-                                  //     password: formFieldValues.password)
-
                                   formFieldValues = UserSignUp(
                                       userId: formFieldValues.userId,
                                       email: formFieldValues.email,
@@ -217,7 +206,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                   }
                                   return null;
                                 },
-                                //  focusNode: userNameFocusNode,
                                 passwordIcon: Icons.remove_red_eye,
                                 showICon: false,
                                 fillColor: Colors.purple[100],
@@ -226,13 +214,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 labelName: 'Email',
                                 icon: Icons.email,
                                 saveFunction: (entredValue) => {
-                                  // formFieldValues = UserCredintial(
-                                  //     id: formFieldValues.id,
-                                  //     firstName: formFieldValues.firstName,
-                                  //     lastName: entredValue!,
-                                  //     mobilePhone: formFieldValues.mobilePhone,
-                                  //     password: formFieldValues.password)
-
                                   formFieldValues = UserSignUp(
                                       userId: formFieldValues.userId,
                                       email: entredValue!,
@@ -246,141 +227,15 @@ class _SignupWidgetState extends State<SignupWidget> {
                                   }
                                   return null;
                                 },
-                                //  focusNode: userNameFocusNode,
                                 passwordIcon: Icons.remove_red_eye,
                                 showICon: false,
                                 fillColor: Colors.purple[100],
                               ),
-                              // textFormFiled(
-                              //   labelName: 'Mobile phone',
-                              //   icon: Icons.person,
-                              //   saveFunction: (entredValue) => {
-                              //     formFieldValues = UserCredintial(
-                              //         id: formFieldValues.id,
-                              //         firstName: formFieldValues.firstName,
-                              //         lastName: formFieldValues.lastName,
-                              //         mobilePhone: int.tryParse(entredValue!)!,
-                              //         country: formFieldValues.country,
-                              //         city: formFieldValues.city,
-                              //         area: formFieldValues.area,
-                              //         password: formFieldValues.password)
-                              //   },
-                              //   validationFunction: (entredValue) {
-                              //     if (entredValue != null &&
-                              //         entredValue.isEmpty) {
-                              //       return 'Please enter the mobile phone';
-                              //     }
 
-                              //     if (entredValue!.length != 10) {
-                              //       return 'mobile phone shall be with 10 didgits';
-                              //     }
-
-                              //     if (int.tryParse(entredValue) == null) {
-                              //       return 'Please enter a mobile number';
-                              //     }
-                              //     return null;
-                              //   },
-                              //   //  focusNode: userNameFocusNode,
-                              //   passwordIcon: Icons.remove_red_eye,
-                              //   showICon: false,
-                              //   keyboardInputType: TextInputType.phone,
-                              //   hintText: 'Start with 079 , 077 ,078',
-                              //   fillColor: Colors.purple[100],
-                              // ),
-                              // textFormFiled(
-                              //     labelName: 'Country',
-                              //     icon: Icons.person,
-                              //     saveFunction: (entredValue) => {
-                              //           formFieldValues = UserCredintial(
-                              //             id: formFieldValues.id,
-                              //             firstName: formFieldValues.firstName,
-                              //             lastName: formFieldValues.lastName,
-                              //             mobilePhone:
-                              //                 formFieldValues.mobilePhone,
-                              //             country: entredValue!,
-                              //             city: formFieldValues.city,
-                              //             area: formFieldValues.area,
-                              //             password: formFieldValues.password,
-                              //           )
-                              //         },
-                              //     validationFunction: (entredValue) {
-                              //       if (entredValue != null &&
-                              //           entredValue.isEmpty) {
-                              //         return 'Please enter the country';
-                              //       }
-                              //       return null;
-                              //     },
-                              //     //  focusNode: userNameFocusNode,
-                              //     passwordIcon: Icons.remove_red_eye,
-                              //     showICon: false,
-                              //     initialVaue: 'Jordan',
-                              //     fillColor: Color.fromARGB(255, 217, 214, 214),
-                              //     readInputOnly: true),
-                              // textFormFiled(
-                              //   labelName: 'City',
-                              //   icon: Icons.person,
-                              //   saveFunction: (entredValue) => {
-                              //     formFieldValues = UserCredintial(
-                              //         id: formFieldValues.id,
-                              //         firstName: formFieldValues.firstName,
-                              //         lastName: formFieldValues.lastName,
-                              //         mobilePhone: formFieldValues.mobilePhone,
-                              //         country: formFieldValues.country,
-                              //         city: entredValue!,
-                              //         area: formFieldValues.area,
-                              //         password: formFieldValues.password)
-                              //   },
-                              //   validationFunction: (entredValue) {
-                              //     if (entredValue != null &&
-                              //         entredValue.isEmpty) {
-                              //       return 'Please enter the city';
-                              //     }
-                              //     return null;
-                              //   },
-                              //   //  focusNode: userNameFocusNode,
-                              //   passwordIcon: Icons.remove_red_eye,
-                              //   showICon: false,
-                              //   fillColor: Colors.purple[100],
-                              // ),
-                              // textFormFiled(
-                              //   labelName: 'Area',
-                              //   icon: Icons.person,
-                              //   saveFunction: (entredValue) => {
-                              //     formFieldValues = UserCredintial(
-                              //         id: formFieldValues.id,
-                              //         firstName: formFieldValues.firstName,
-                              //         lastName: formFieldValues.lastName,
-                              //         mobilePhone: formFieldValues.mobilePhone,
-                              //         country: formFieldValues.country,
-                              //         city: formFieldValues.city,
-                              //         area: entredValue!,
-                              //         password: formFieldValues.password)
-                              //   },
-                              //   validationFunction: (entredValue) {
-                              //     if (entredValue != null &&
-                              //         entredValue.isEmpty) {
-                              //       return 'Please enter the area';
-                              //     }
-                              //     return null;
-                              //   },
-                              //   //  focusNode: userNameFocusNode,
-                              //   passwordIcon: Icons.remove_red_eye,
-                              //   showICon: false,
-                              //   fillColor: Colors.purple[100],
-                              // ),
                               textFormFiled(
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
-                                  // formFieldValues = UserCredintial(
-                                  //     id: formFieldValues.id,
-                                  //     firstName: formFieldValues.firstName,
-                                  //     lastName: formFieldValues.lastName,
-                                  //     country: formFieldValues.country,
-                                  //     city: formFieldValues.city,
-                                  //     area: formFieldValues.area,
-                                  //     mobilePhone: formFieldValues.mobilePhone,
-                                  //     password: entredValue!)
                                   formFieldValues = UserSignUp(
                                       userId: formFieldValues.userId,
                                       email: formFieldValues.email,
@@ -394,7 +249,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                   }
                                   return null;
                                 },
-                                // focusNode: passwordFocusNode,
                                 buttonController: passwordController,
                                 secureKeyboard: passwordShowkeyboard,
                                 passwordIcon: passwordShowkeyboard

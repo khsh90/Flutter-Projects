@@ -1,4 +1,4 @@
-
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,8 +7,11 @@ import 'package:provider/provider.dart';
 
 import '../model/userlogin.dart';
 import '../pages/signup.dart';
+import '../pages/userjobsoverviewpage.dart';
 
 class SigninWidget extends StatefulWidget {
+  const SigninWidget({super.key});
+
   @override
   State<SigninWidget> createState() => _SigninWidgetState();
 }
@@ -23,7 +26,7 @@ class _SigninWidgetState extends State<SigninWidget> {
         actions: [
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 99, 22, 112)),
+                  backgroundColor: const Color.fromARGB(255, 99, 22, 112)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -41,7 +44,8 @@ class _SigninWidgetState extends State<SigninWidget> {
     return ElevatedButton(
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(300, 45), backgroundColor: btnColor,
+        fixedSize: const Size(300, 45),
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -52,42 +56,26 @@ class _SigninWidgetState extends State<SigninWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // UserCredintial formFieldValues = UserCredintial(mobilePhone: 0, password: '');
   UserLogin formFieldValues = UserLogin(email: '', password: '');
 
-  void formFeildLoginButton() {
+  Future<void> formFeildLoginButton() async {
     final valid = _formKey.currentState?.validate();
 
     if (!valid!) {
       return;
     }
     _formKey.currentState?.save();
-
-    Provider.of<AuthStateProvider>(context, listen: false).login(
-        email: formFieldValues.email, password: formFieldValues.password);
-  }
-
-  final userNameFocusNode = FocusNode();
-  final passwordFocusNode = FocusNode();
-  void getFocus() {
-    if (userNameFocusNode.hasFocus) {
-      setState(() {});
+    try {
+      Provider.of<AuthStateProvider>(context, listen: false)
+          .login(
+              email: formFieldValues.email, password: formFieldValues.password)
+          .then((value) => Navigator.of(context)
+              .pushReplacementNamed(UserjobsoverviewPage.route));
+    } on AppwriteException catch (e) {
+      rethrow;
+    } catch (e) {
+      rethrow;
     }
-    if (passwordFocusNode.hasFocus) {
-      setState(() {});
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    userNameFocusNode.addListener(getFocus);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    userNameFocusNode.removeListener(getFocus);
   }
 
   bool passwordShowkeyboard = true;
@@ -97,7 +85,7 @@ class _SigninWidgetState extends State<SigninWidget> {
     required IconData icon,
     required void Function(String?)? saveFunction,
     required String? Function(String?)? validationFunction,
-    required FocusNode focusNode,
+    //  required FocusNode focusNode,
     bool secureKeyboard = false,
     required IconData passwordIcon,
     bool showICon = true,
@@ -109,7 +97,6 @@ class _SigninWidgetState extends State<SigninWidget> {
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
           keyboardType: keyboardInputType,
-          focusNode: focusNode,
           obscureText: secureKeyboard,
           decoration: InputDecoration(
               hintText: hintText,
@@ -123,7 +110,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                       icon: Icon(passwordIcon))),
               prefixIcon: Icon(
                 icon,
-                color: focusNode.hasFocus ? Colors.black : Colors.purple,
+                color: Colors.black,
               ),
               filled: true,
               fillColor: Colors.purple[100],
@@ -138,8 +125,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                 ),
               ),
               labelText: labelName,
-              labelStyle: TextStyle(
-                  color: focusNode.hasFocus ? Colors.black : Colors.purple)),
+              labelStyle: const TextStyle(color: Colors.black)),
           onSaved: saveFunction,
           validator: validationFunction),
     );
@@ -199,16 +185,9 @@ class _SigninWidgetState extends State<SigninWidget> {
                         child: Column(
                           children: [
                             textFormFiled(
-                                // labelName: 'Mobile phone',
                                 labelName: 'Email',
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
-                                      // formFieldValues = UserCredintial(
-                                      //   id: formFieldValues.id,
-                                      //     mobilePhone:
-                                      //         int.tryParse(entredValue!)!,
-                                      //     password: formFieldValues.password)
-
                                       formFieldValues = UserLogin(
                                           email: entredValue!,
                                           password: formFieldValues.password)
@@ -216,32 +195,18 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 validationFunction: (entredValue) {
                                   if (entredValue != null &&
                                       entredValue.isEmpty) {
-                                    // return 'Please enter mobile Phone';
                                     return 'Please enter an email';
                                   }
-                                  // if (int.tryParse(entredValue!) == null) {
-                                  //   return 'Please enter a mobile number';
-                                  // }
-                                  // if (entredValue.length != 10) {
-                                  //   return 'mobile phone shall be with 10 didgits';
-                                  // }
 
                                   return null;
                                 },
-                                focusNode: userNameFocusNode,
                                 showICon: false,
                                 passwordIcon: Icons.remove_red_eye,
-                                // keyboardInputType: TextInputType.phone,
                                 hintText: 'like test@test.com'),
                             textFormFiled(
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
-                                      // formFieldValues = UserCredintial(
-                                      //     id: formFieldValues.id,
-                                      //     mobilePhone:
-                                      //         formFieldValues.mobilePhone,
-                                      //     password: entredValue!)
                                       formFieldValues = UserLogin(
                                           email: formFieldValues.email,
                                           password: entredValue!)
@@ -251,12 +216,9 @@ class _SigninWidgetState extends State<SigninWidget> {
                                       entredValue.isEmpty) {
                                     return 'Please enter a password';
                                   }
-                                  if (entredValue!.length > 9) {
-                                    return 'Password must be more than 8 charchter';
-                                  }
+
                                   return null;
                                 },
-                                focusNode: passwordFocusNode,
                                 secureKeyboard: passwordShowkeyboard,
                                 passwordIcon: passwordShowkeyboard
                                     ? Icons.remove_red_eye

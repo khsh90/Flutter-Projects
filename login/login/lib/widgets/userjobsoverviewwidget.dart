@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:login/pages/userdetailspage.dart';
+import 'package:login/provider/databasestateprovider.dart';
+import 'package:provider/provider.dart';
 
 //import '../objectbox.g.dart';
 
 class UserJobsOverviewWidget extends StatelessWidget {
-  final int id;
+  final String id;
   final String jobName;
   final int yearsOfexperiance;
- // final Store store;
-  // final String customerFirstName;
-  // final String customerLastName;
+ 
 
-  UserJobsOverviewWidget({
+  const UserJobsOverviewWidget({super.key, 
     required this.id,
     required this.jobName,
     required this.yearsOfexperiance,
-    // required this.customerFirstName,
-    // required this.customerLastName,
-    //required this.store,
+ 
   });
 
   @override
@@ -36,15 +35,19 @@ class UserJobsOverviewWidget extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed(UserDetailsPage.route, arguments: id);
+                    },
                     icon: const Icon(
                       Icons.edit,
                       color: Colors.blue,
                     )),
                 IconButton(
-                    onPressed: () {
-                      // Provider.of<UserDetailsPovider>(context, listen: false)
-                      //     .deleteUSerJob(store, id);
+                    onPressed: () async {
+                      await Provider.of<DatabaseStateProvider>(context,
+                              listen: false)
+                          .deleteDocument(id: id);
                     },
                     icon: const Icon(
                       Icons.delete,

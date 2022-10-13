@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/widgets/welcomewidget.dart';
 
-import '../widgets/appDrawer.dart';
+import '../widgets/appdrawer.dart';
 
 class WelcomeApp extends StatelessWidget {
   Widget cutomElevatedButton(

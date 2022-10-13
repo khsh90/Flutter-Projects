@@ -1,45 +1,76 @@
-import 'dart:convert';
-
 import 'package:appwrite/appwrite.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:appwrite/models.dart' as s;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:login/core/res/applicationcons.dart';
 //import 'package:login/objectbox.g.dart';
 
 class AuthStateProvider with ChangeNotifier {
-  Client client = Client();
-  late Account account;
+  bool isLoggedIn = false;
+
+  bool get isLoggedin => isLoggedIn;
+  // static Future<void> pop({bool? animated}) async {
+  //   await SystemChannels.platform
+  //       .invokeMethod<void>('SystemNavigator.pop', animated);
+  // }
 
   AuthStateProvider() {
-    _init();
+    getUserSession();
   }
 
-  void _init() {
-    client
-        .setEndpoint(ApplicationConst.apiEndpoint) // Your Appwrite Endpoint
-        .setProject(ApplicationConst.projectId) // Your project ID
-        .setSelfSigned(status: true);
+  // Future<void> _init() async {
+  //   // ApplicationConst.client
+  //   //     .setEndpoint(ApplicationConst.apiEndpoint) // Your Appwrite Endpoint
+  //   //     .setProject(ApplicationConst.projectId) // Your project ID
+  //   //     .setSelfSigned(status: false);
 
-    account = Account(client);
-    checkLogin();
+  //   //ApplicationConst.account = Account(ApplicationConst.client);
 
+  //   //await getUserSession();
+
+  //   notifyListeners();
+  // }
+
+  Future<void> getUserSession() async {
+    try {
+      await ApplicationConst.account.getSession(sessionId: 'current');
+      isLoggedIn = true;
+    } on AppwriteException catch (error) {
+      rethrow;
+    } catch (e) {}
     notifyListeners();
-  }
-
-  Future<void> checkLogin() async {
-    final result = await account.get();
-    print(result.toMap());
   }
 
   Future<void> login({required String email, required String password}) async {
     try {
-      final result =
-          await account.createEmailSession(email: email, password: password);
-
-      print(result.toMap());
+      await ApplicationConst.account
+          .createEmailSession(email: email, password: password);
+      // await getUserSession();
+      // print(result.toMap());
       notifyListeners();
+    } on AppwriteException catch (e) {
+      rethrow;
     } catch (e) {
-      print(e);
+      rethrow;
     }
+  }
+
+  Future<void> logout() async {
+    await ApplicationConst.account.deleteSessions();
+
+    notifyListeners();
+  }
+
+  Future<String> get getUserName async {
+    final result = await ApplicationConst.account.get();
+
+    return result.name;
+  }
+
+  Future<String> get getUserEmail async {
+    final result = await ApplicationConst.account.get();
+
+    return result.email;
   }
 
   Future<void> signUp(
@@ -47,7 +78,7 @@ class AuthStateProvider with ChangeNotifier {
       required String password,
       required String name}) async {
     try {
-      final result = await account.create(
+      final result = await ApplicationConst.account.create(
           userId: ID.unique(), email: email, password: password, name: name);
 
       print('user created :${result.toMap()}');
