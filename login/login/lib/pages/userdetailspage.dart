@@ -8,7 +8,6 @@ class UserDetailsPage extends StatefulWidget {
   static String route = '/UserDetailsPage';
 
   const UserDetailsPage({super.key});
-  //final Store store;
 
   @override
   State<UserDetailsPage> createState() => _UserDetailsPageState();
@@ -19,8 +18,34 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   UserProfessionModel formFieldValues = UserProfessionModel(
       documentId: '', userProfession: '', yearsOfExperiance: 0);
 
-  
+  Map<String, String> initData = {'profession': '', 'yearsOfExperiance': ''};
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+    final documentId =
+        ModalRoute.of(context)?.settings.arguments.toString() ?? ' ';
+
+    print(documentId);
+    //print(formFieldValues.documentId);
+
+    if (documentId == null) {
+      formFieldValues =
+          Provider.of<DatabaseStateProvider>(context).findById(documentId);
+
+      initData = {
+        '\$id': formFieldValues.documentId,
+        'profession': formFieldValues.userProfession,
+        'yearsOfExperiance': formFieldValues.yearsOfExperiance.toString()
+      };
+    } else {}
+
+    super.didChangeDependencies();
+  }
+
   Widget textFormFiled({
+    String? initialValue,
     required String labelName,
     required IconData icon,
     required void Function(String?)? saveFunction,
@@ -35,6 +60,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
+          initialValue: initialValue,
           keyboardType: keyboardInputType,
           maxLines: maxLineLength,
           obscureText: secureKeyboard,
@@ -72,7 +98,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return ElevatedButton(
       onPressed: btnFunction,
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(300, 45), backgroundColor: btnColor,
+        fixedSize: const Size(300, 45),
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
@@ -88,9 +115,23 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       return;
     }
     _formKey.currentState?.save();
-    Provider.of<DatabaseStateProvider>(context, listen: false)
-        .createDocument(userProfessionModel: formFieldValues);
-    Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
+
+    if (formFieldValues.documentId.isEmpty) {
+      Provider.of<DatabaseStateProvider>(context, listen: false)
+          .createDocument(userProfessionModel: formFieldValues)
+          .then((_) => Navigator.of(context)
+              .pushReplacementNamed(UserjobsoverviewPage.route));
+
+      print('document created');
+    }
+    if (formFieldValues.documentId.isNotEmpty) {
+      Provider.of<DatabaseStateProvider>(context, listen: false)
+          .updateItem(formFieldValues.documentId, formFieldValues)
+          .then((_) => Navigator.of(context)
+              .pushReplacementNamed(UserjobsoverviewPage.route));
+
+      print('document updated');
+    }
   }
 
   @override
@@ -118,11 +159,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
               child: Column(
                 children: [
                   textFormFiled(
+                      initialValue: initData['profession'],
                       labelName: 'profession',
                       icon: Icons.precision_manufacturing_outlined,
                       saveFunction: (entredValue) => {
-                           
-
                             formFieldValues = UserProfessionModel(
                                 documentId: formFieldValues.documentId,
                                 userProfession: entredValue!,
@@ -138,10 +178,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       showICon: false,
                       passwordIcon: Icons.remove_red_eye),
                   textFormFiled(
+                      initialValue: initData['yearsOfExperiance'],
                       labelName: 'Years of experiance',
                       icon: Icons.work,
                       saveFunction: (entredValue) => {
-                         
                             formFieldValues = UserProfessionModel(
                                 documentId: formFieldValues.documentId,
                                 userProfession: formFieldValues.userProfession,
