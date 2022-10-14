@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/core/res/applicationcons.dart';
+import 'package:login/pages/editprofession.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
 import 'package:login/pages/userdetailspage.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
               UserjobsoverviewPage.route: (context) =>
                   const UserjobsoverviewPage(),
               UserProfilePage.route: ((context) => const UserProfilePage()),
+              EditProfession.route: (context) => const EditProfession(),
             },
           ),
         ));

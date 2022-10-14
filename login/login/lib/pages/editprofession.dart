@@ -4,21 +4,41 @@ import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/provider/databasestateprovider.dart';
 import 'package:provider/provider.dart';
 
-class UserDetailsPage extends StatefulWidget {
-  static String route = '/UserDetailsPage';
+class EditProfession extends StatefulWidget {
+  static String route = '/editProfession';
 
-  const UserDetailsPage({super.key});
+  const EditProfession({super.key});
 
   @override
-  State<UserDetailsPage> createState() => _UserDetailsPageState();
+  State<EditProfession> createState() => _EditProfessionState();
 }
 
-class _UserDetailsPageState extends State<UserDetailsPage> {
+class _EditProfessionState extends State<EditProfession> {
   final _formKey = GlobalKey<FormState>();
   UserProfessionModel formFieldValues = UserProfessionModel(
       documentId: '', userProfession: '', yearsOfExperiance: 0);
 
   Map<String, String> initData = {'profession': '', 'yearsOfExperiance': ''};
+  String documentId = '';
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    documentId = ModalRoute.of(context)!.settings.arguments.toString();
+
+    if (documentId != null) {
+      print('documentId=$documentId');
+
+      formFieldValues =
+          Provider.of<DatabaseStateProvider>(context).findById(documentId);
+
+      initData = {
+        'profession': formFieldValues.userProfession,
+        'yearsOfExperiance': formFieldValues.yearsOfExperiance.toString()
+      };
+    }
+
+    super.didChangeDependencies();
+  }
 
   Widget textFormFiled({
     String? initialValue,
@@ -92,29 +112,19 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     }
     _formKey.currentState?.save();
 
-    if (formFieldValues.documentId.isEmpty) {
-      Provider.of<DatabaseStateProvider>(context, listen: false)
-          .createDocument(userProfessionModel: formFieldValues)
-          .then((_) => Navigator.of(context)
-              .pushReplacementNamed(UserjobsoverviewPage.route));
+    Provider.of<DatabaseStateProvider>(context, listen: false)
+        .updateItem(formFieldValues.documentId, formFieldValues)
+        .then((_) => Navigator.of(context)
+            .pushReplacementNamed(UserjobsoverviewPage.route));
 
-      print('document created');
-    }
-    if (formFieldValues.documentId.isNotEmpty) {
-      Provider.of<DatabaseStateProvider>(context, listen: false)
-          .updateItem(formFieldValues.documentId, formFieldValues)
-          .then((_) => Navigator.of(context)
-              .pushReplacementNamed(UserjobsoverviewPage.route));
-
-      print('document updated');
-    }
+    print('document updated');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Job details '),
+          title: const Text('Job edit page '),
         ),
         body: SingleChildScrollView(
             child: Column(
@@ -191,7 +201,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   ),
                   cutomElevatedButton(
                       btnColor: const Color.fromARGB(255, 99, 22, 112),
-                      btnName: 'Save',
+                      btnName: 'Update',
                       btnFunction: formFeildLoginButton),
                   const SizedBox(
                     height: 10,

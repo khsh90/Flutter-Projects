@@ -80,7 +80,7 @@ class DatabaseStateProvider with ChangeNotifier {
       String id, UserProfessionModel newUserProfModl) async {
     final prefessionIndex = _userPofessionModel
         .indexWhere((eachProfession) => eachProfession.documentId == id);
-    if (prefessionIndex > 0) {
+    if (prefessionIndex >= 0) {
       await ApplicationConst.databases.updateDocument(
           databaseId: ApplicationConst.jobDatabaseId,
           collectionId: ApplicationConst.jobCollectionId,
