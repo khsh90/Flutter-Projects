@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as s;
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/core/res/applicationcons.dart';
@@ -18,19 +19,6 @@ class AuthStateProvider with ChangeNotifier {
     getUserSession();
   }
 
-  // Future<void> _init() async {
-  //   // ApplicationConst.client
-  //   //     .setEndpoint(ApplicationConst.apiEndpoint) // Your Appwrite Endpoint
-  //   //     .setProject(ApplicationConst.projectId) // Your project ID
-  //   //     .setSelfSigned(status: false);
-
-  //   //ApplicationConst.account = Account(ApplicationConst.client);
-
-  //   //await getUserSession();
-
-  //   notifyListeners();
-  // }
-
   Future<void> getUserSession() async {
     try {
       await ApplicationConst.account.getSession(sessionId: 'current');
@@ -39,6 +27,13 @@ class AuthStateProvider with ChangeNotifier {
       rethrow;
     } catch (e) {}
     notifyListeners();
+  }
+
+  Future<s.Session> getUserSessionIfAuthinticate() async {
+    final userSession =
+        await ApplicationConst.account.getSession(sessionId: 'current');
+    print(userSession.toMap());
+    return userSession;
   }
 
   Future<void> login({required String email, required String password}) async {

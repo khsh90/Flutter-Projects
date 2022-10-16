@@ -3,6 +3,7 @@ import 'package:login/core/res/applicationcons.dart';
 import 'package:login/pages/editprofession.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
+import 'package:login/pages/splash_screen.dart';
 import 'package:login/pages/userdetailspage.dart';
 import 'package:login/pages/userProfilepage.dart';
 import 'package:login/pages/userjobsoverviewpage.dart';
@@ -28,8 +29,19 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<AuthStateProvider>(
           builder: (context, value, _) => MaterialApp(
-            home:
-                value.isLoggedin ? const UserjobsoverviewPage() : WelcomeApp(),
+            home: FutureBuilder(
+              future: value.getUserSessionIfAuthinticate(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SplashScreen();
+                }
+                if (snapshot.hasError) {
+                  return WelcomeApp();
+                } else {
+                  return const UserjobsoverviewPage();
+                }
+              },
+            ),
             routes: {
               SigninPage.route: (context) => SigninPage(),
               SignUPPage.route: (context) => SignUPPage(),
@@ -37,7 +49,7 @@ class MyApp extends StatelessWidget {
               UserjobsoverviewPage.route: (context) =>
                   const UserjobsoverviewPage(),
               UserProfilePage.route: ((context) => const UserProfilePage()),
-              EditProfession.route: (context) => const EditProfession(),
+              EditProfession.route: ((context) => const EditProfession())
             },
           ),
         ));
