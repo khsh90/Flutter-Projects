@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:login/core/res/applicationcons.dart';
 import 'package:login/pages/editprofession.dart';
@@ -36,6 +38,10 @@ class MyApp extends StatelessWidget {
                   return SplashScreen();
                 }
                 if (snapshot.hasError) {
+                  Text('Error');
+                  try {} on SocketException catch (e) {
+                    print(e.message);
+                  } catch (e) {}
                   return WelcomeApp();
                 } else {
                   return const UserjobsoverviewPage();
@@ -49,7 +55,7 @@ class MyApp extends StatelessWidget {
               UserjobsoverviewPage.route: (context) =>
                   const UserjobsoverviewPage(),
               UserProfilePage.route: ((context) => const UserProfilePage()),
-              EditProfession.route: ((context) => const EditProfession())
+              EditProfession.route: ((context) => const EditProfession()),
             },
           ),
         ));

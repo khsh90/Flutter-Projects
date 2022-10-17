@@ -17,8 +17,8 @@ class SigninWidget extends StatefulWidget {
 }
 
 class _SigninWidgetState extends State<SigninWidget> {
-  void showAlertMsg(String messgae) {
-    showDialog(
+  Future<void> showAlertMsg(String messgae) {
+    return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Please attention'),
@@ -65,16 +65,17 @@ class _SigninWidgetState extends State<SigninWidget> {
       return;
     }
     _formKey.currentState?.save();
+
     try {
-      Provider.of<AuthStateProvider>(context, listen: false)
-          .login(
-              email: formFieldValues.email, password: formFieldValues.password)
-          .then((value) => Navigator.of(context)
-              .pushReplacementNamed(UserjobsoverviewPage.route));
+      await Provider.of<AuthStateProvider>(context, listen: false).login(
+          email: formFieldValues.email, password: formFieldValues.password);
+      Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
     } on AppwriteException catch (e) {
-      rethrow;
+      await showAlertMsg('${e.message}');
     } catch (e) {
-      rethrow;
+      showAlertMsg('$e');
+
+      // return showAlertMsg(e.toString());
     }
   }
 

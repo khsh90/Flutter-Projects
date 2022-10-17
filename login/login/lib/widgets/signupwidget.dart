@@ -1,7 +1,10 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/model/Usersignup.dart';
+import 'package:login/model/userlogin.dart';
 import 'package:login/pages/signin.dart';
+import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/provider/authstate.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +16,8 @@ class SignupWidget extends StatefulWidget {
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
-  void showAlertMsg(String messgae) {
-    showDialog(
+  Future<void> showAlertMsg(String messgae) {
+    return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Please attention'),
@@ -63,14 +66,19 @@ class _SignupWidgetState extends State<SignupWidget> {
       return;
     }
     _formKey.currentState?.save();
-
-    Provider.of<AuthStateProvider>(context, listen: false)
-        .signUp(
-            email: formFieldValues.email,
-            password: formFieldValues.password,
-            name: formFieldValues.name)
-        .then((_) =>
-            Navigator.of(context).pushReplacementNamed(SigninPage.route));
+    try {
+      await Provider.of<AuthStateProvider>(context, listen: false).signUp(
+          email: formFieldValues.email,
+          password: formFieldValues.password,
+          name: formFieldValues.name);
+      await showAlertMsg(
+          'Your account has been created sucessfully please click on ok to enter with your account');
+      Navigator.of(context).pushReplacementNamed(SigninPage.route);
+    } on AppwriteException catch (e) {
+      showAlertMsg('${e.message}');
+    } catch (e) {
+      showAlertMsg('$e');
+    }
   }
 
   final userNameFocusNode = FocusNode();

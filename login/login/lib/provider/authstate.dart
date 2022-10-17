@@ -75,10 +75,10 @@ class AuthStateProvider with ChangeNotifier {
     try {
       final result = await ApplicationConst.account.create(
           userId: ID.unique(), email: email, password: password, name: name);
-
-      print('user created :${result.toMap()}');
+    } on AppwriteException catch (e) {
+      rethrow;
     } catch (e) {
-      print(e);
+      rethrow;
     }
     notifyListeners();
   }
