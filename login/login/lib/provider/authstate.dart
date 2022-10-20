@@ -9,46 +9,37 @@ import 'package:login/core/res/applicationcons.dart';
 class AuthStateProvider with ChangeNotifier {
   bool isLoggedIn = false;
 
-  bool get isLoggedin => isLoggedIn;
-  // static Future<void> pop({bool? animated}) async {
-  //   await SystemChannels.platform
-  //       .invokeMethod<void>('SystemNavigator.pop', animated);
+  AuthStateProvider() {
+    //  getUserSession();
+  }
+
+  // Future<void> getUserSession() async {
+  //   try {
+  //     await ApplicationConst.account.getSession(sessionId: 'current');
+  //   } on AppwriteException catch (error) {
+  //     rethrow;
+  //   } catch (e) {}
+  //   notifyListeners();
   // }
 
-  AuthStateProvider() {
-    getUserSession();
-  }
+  // Future<s.Session> getUserSessionIfAuthinticate() async {
+  //   final userSession =
+  //       await ApplicationConst.account.getSession(sessionId: 'current');
+  //   print(userSession.toMap());
+  //   return userSession;
+  // }
 
-  Future<void> getUserSession() async {
-    try {
-      await ApplicationConst.account.getSession(sessionId: 'current');
-      isLoggedIn = true;
-    } on AppwriteException catch (error) {
-      rethrow;
-    } catch (e) {}
-    notifyListeners();
-  }
-
-  Future<s.Session> getUserSessionIfAuthinticate() async {
-    final userSession =
-        await ApplicationConst.account.getSession(sessionId: 'current');
-    print(userSession.toMap());
-    return userSession;
-  }
-
-  Future<void> login({required String email, required String password}) async {
-    try {
-      await ApplicationConst.account
-          .createEmailSession(email: email, password: password);
-      // await getUserSession();
-      // print(result.toMap());
-      notifyListeners();
-    } on AppwriteException catch (e) {
-      rethrow;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // Future<void> login({required String email, required String password}) async {
+  //   try {
+  //     await ApplicationConst.account
+  //         .createEmailSession(email: email, password: password);
+  //     notifyListeners();
+  //   } on AppwriteException catch (e) {
+  //     rethrow;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   Future<void> logout() async {
     await ApplicationConst.account.deleteSessions();

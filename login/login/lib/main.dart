@@ -19,45 +19,44 @@ void main() {
   ApplicationConst.init();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: ((context) => AuthStateProvider())),
-          ChangeNotifierProvider(create: ((context) => DatabaseStateProvider()))
-        ],
-        child: Consumer<AuthStateProvider>(
-          builder: (context, value, _) => MaterialApp(
-            home: FutureBuilder(
-              future: value.getUserSessionIfAuthinticate(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SplashScreen();
-                }
-                if (snapshot.hasError) {
-                  Text('Error');
-                  try {} on SocketException catch (e) {
-                    print(e.message);
-                  } catch (e) {}
-                  return WelcomeApp();
-                } else {
-                  return const UserjobsoverviewPage();
-                }
-              },
-            ),
-            routes: {
-              SigninPage.route: (context) => SigninPage(),
-              SignUPPage.route: (context) => SignUPPage(),
-              UserDetailsPage.route: (context) => const UserDetailsPage(),
-              UserjobsoverviewPage.route: (context) =>
-                  const UserjobsoverviewPage(),
-              UserProfilePage.route: ((context) => const UserProfilePage()),
-              EditProfession.route: ((context) => const EditProfession()),
-            },
-          ),
-        ));
+      providers: [
+        ChangeNotifierProvider(create: ((context) => AuthStateProvider())),
+        ChangeNotifierProvider(create: ((context) => DatabaseStateProvider()))
+      ],
+      child: MaterialApp(
+        home: FutureBuilder(
+          future: ApplicationConst.account.get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SplashScreen();
+            } else if (snapshot.hasData) {
+              return const UserjobsoverviewPage();
+            } else {
+              return WelcomeApp();
+            }
+          },
+        ),
+        routes: {
+          SigninPage.route: (context) => SigninPage(),
+          SignUPPage.route: (context) => SignUPPage(),
+          UserDetailsPage.route: (context) => const UserDetailsPage(),
+          UserjobsoverviewPage.route: (context) => const UserjobsoverviewPage(),
+          UserProfilePage.route: ((context) => const UserProfilePage()),
+          EditProfession.route: ((context) => const EditProfession()),
+        },
+      ),
+    );
   }
 }

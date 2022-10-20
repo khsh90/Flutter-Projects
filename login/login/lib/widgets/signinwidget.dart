@@ -5,18 +5,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/provider/authstate.dart';
 import 'package:provider/provider.dart';
 
+import '../core/res/applicationcons.dart';
 import '../model/userlogin.dart';
 import '../pages/signup.dart';
 import '../pages/userjobsoverviewpage.dart';
 
 class SigninWidget extends StatefulWidget {
-  const SigninWidget({super.key});
+  //const SigninWidget({super.key});
 
+  SigninWidget();
   @override
   State<SigninWidget> createState() => _SigninWidgetState();
 }
 
 class _SigninWidgetState extends State<SigninWidget> {
+  bool isLoading = false;
+  bool isEmailHasData = false;
+  bool isPasswordHasData = false;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
   Future<void> showAlertMsg(String messgae) {
     return showDialog(
       context: context,
@@ -39,7 +47,7 @@ class _SigninWidgetState extends State<SigninWidget> {
   Widget cutomElevatedButton({
     required Color btnColor,
     required String btnName,
-    required void Function() btnFunction,
+    required void Function()? btnFunction,
   }) {
     return ElevatedButton(
       onPressed: btnFunction,
@@ -50,7 +58,11 @@ class _SigninWidgetState extends State<SigninWidget> {
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         elevation: 3,
       ),
-      child: Text(btnName),
+      child: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Text(btnName),
     );
   }
 
@@ -65,27 +77,55 @@ class _SigninWidgetState extends State<SigninWidget> {
       return;
     }
     _formKey.currentState?.save();
+    setState(() {
+      setState(() {
+        isLoading = true;
+      });
+    });
 
     try {
-      await Provider.of<AuthStateProvider>(context, listen: false).login(
-          email: formFieldValues.email, password: formFieldValues.password);
-      Navigator.of(context).pushReplacementNamed(UserjobsoverviewPage.route);
+      await ApplicationConst.account
+          .createEmailSession(
+              email: formFieldValues.email, password: formFieldValues.password)
+          .then((_) => Navigator.of(context)
+              .pushReplacementNamed(UserjobsoverviewPage.route));
+      setState(() {
+        setState(() {
+          isLoading = false;
+        });
+      });
     } on AppwriteException catch (e) {
       await showAlertMsg('${e.message}');
+      setState(() {
+        setState(() {
+          isLoading = false;
+          ;
+        });
+      });
     } catch (e) {
       showAlertMsg('$e');
-
-      // return showAlertMsg(e.toString());
+      setState(() {
+        setState(() {
+          isLoading = false;
+        });
+      });
     }
+    setState(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   bool passwordShowkeyboard = true;
 
   Widget textFormFiled({
     required String labelName,
+    TextEditingController? controller,
     required IconData icon,
     required void Function(String?)? saveFunction,
     required String? Function(String?)? validationFunction,
+    TextInputAction? textInputAction,
     //  required FocusNode focusNode,
     bool secureKeyboard = false,
     required IconData passwordIcon,
@@ -97,6 +137,8 @@ class _SigninWidgetState extends State<SigninWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
+          controller: controller,
+          textInputAction: textInputAction,
           keyboardType: keyboardInputType,
           obscureText: secureKeyboard,
           decoration: InputDecoration(
@@ -130,6 +172,36 @@ class _SigninWidgetState extends State<SigninWidget> {
           onSaved: saveFunction,
           validator: validationFunction),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+
+    emailController.addListener(() {
+      final isEmailActive = emailController.text.isNotEmpty;
+      print(isEmailActive);
+      setState(() => isEmailHasData = isEmailActive);
+    });
+
+    passwordController.addListener(() {
+      final isPasswordActive = passwordController.text.isNotEmpty;
+
+      print(isPasswordActive);
+      setState(() => isPasswordHasData = isPasswordActive);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -186,7 +258,10 @@ class _SigninWidgetState extends State<SigninWidget> {
                         child: Column(
                           children: [
                             textFormFiled(
+                                controller: emailController,
+                                textInputAction: TextInputAction.next,
                                 labelName: 'Email',
+                                keyboardInputType: TextInputType.emailAddress,
                                 icon: Icons.person,
                                 saveFunction: (entredValue) => {
                                       formFieldValues = UserLogin(
@@ -205,6 +280,8 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 passwordIcon: Icons.remove_red_eye,
                                 hintText: 'like test@test.com'),
                             textFormFiled(
+                                controller: passwordController,
+                                textInputAction: TextInputAction.done,
                                 labelName: 'Password',
                                 icon: Icons.lock,
                                 saveFunction: (entredValue) => {
@@ -239,7 +316,9 @@ class _SigninWidgetState extends State<SigninWidget> {
                       cutomElevatedButton(
                           btnColor: const Color.fromARGB(255, 99, 22, 112),
                           btnName: 'Login',
-                          btnFunction: formFeildLoginButton),
+                          btnFunction: (isEmailHasData && isPasswordHasData)
+                              ? formFeildLoginButton
+                              : null),
                       const SizedBox(
                         height: 10,
                       ),
