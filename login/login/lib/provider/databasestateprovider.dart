@@ -27,8 +27,8 @@ class DatabaseStateProvider with ChangeNotifier {
   }
 
   Future<void> getListOfDocument() async {
-    final result = await ApplicationConst.databases.listDocuments(
-      databaseId: ApplicationConst.jobDatabaseId,
+    final result = await ApplicationConst.database.listDocuments(
+      databaseId: ApplicationConst.databaseId,
       collectionId: ApplicationConst.jobCollectionId,
     );
     final List<UserProfessionModel> loadedUserProfessions = [];
@@ -50,8 +50,8 @@ class DatabaseStateProvider with ChangeNotifier {
 
   Future<void> createDocument(
       {required UserProfessionModel userProfessionModel}) async {
-    await ApplicationConst.databases.createDocument(
-      databaseId: ApplicationConst.jobDatabaseId,
+    await ApplicationConst.database.createDocument(
+      databaseId: ApplicationConst.databaseId,
       collectionId: ApplicationConst.jobCollectionId,
       documentId: "unique()",
       data: {
@@ -68,8 +68,8 @@ class DatabaseStateProvider with ChangeNotifier {
         _userPofessionModel.indexWhere((eachItem) => eachItem.documentId == id);
     _userPofessionModel.removeAt(itemIndex);
 
-    await ApplicationConst.databases.deleteDocument(
-        databaseId: ApplicationConst.jobDatabaseId,
+    await ApplicationConst.database.deleteDocument(
+        databaseId: ApplicationConst.databaseId,
         collectionId: ApplicationConst.jobCollectionId,
         documentId: id);
 
@@ -81,8 +81,8 @@ class DatabaseStateProvider with ChangeNotifier {
     final prefessionIndex = _userPofessionModel
         .indexWhere((eachProfession) => eachProfession.documentId == id);
     if (prefessionIndex >= 0) {
-      await ApplicationConst.databases.updateDocument(
-          databaseId: ApplicationConst.jobDatabaseId,
+      await ApplicationConst.database.updateDocument(
+          databaseId: ApplicationConst.databaseId,
           collectionId: ApplicationConst.jobCollectionId,
           documentId: id,
           data: {

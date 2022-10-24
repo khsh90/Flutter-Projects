@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:login/pages/completeprofile.dart';
 import 'package:login/pages/userdetailspage.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/userProfilepage.dart';
 import 'package:login/provider/authstate.dart';
+import 'package:login/provider/completeprofileprovider.dart';
 import 'package:login/provider/databasestateprovider.dart';
 import 'package:login/widgets/appdrawer.dart';
 import 'package:login/widgets/userjobsoverviewwidget.dart';
 import 'package:provider/provider.dart';
-
-
 
 class UserjobsoverviewPage extends StatefulWidget {
   static String route = '/userjobsoverviewPage';
@@ -21,11 +21,21 @@ class UserjobsoverviewPage extends StatefulWidget {
 
 class _UserjobsoverviewPageState extends State<UserjobsoverviewPage> {
   @override
- 
+  Future<void> didChangeDependencies() async {
+    await Provider.of<CompleteProfileProvider>(context, listen: false)
+        .getListOfDocument();
+
+    final xx = Provider.of<CompleteProfileProvider>(context, listen: false)
+        .completeprofileData;
+
+    if (xx.isEmpty) {
+      Navigator.of(context).pushReplacementNamed(CompleteProfilePage.route);
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // var isLog =
-    //     Provider.of<AuthStateProvider>(context, listen: false).isLoggedin;
     return Scaffold(
       appBar: AppBar(
         title: const Text('User professions'),
@@ -75,9 +85,9 @@ class _UserjobsoverviewPageState extends State<UserjobsoverviewPage> {
               }
             }
           }),
-      drawer: const AppDrawer(),
+      //  drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushReplacementNamed(
+        onPressed: () => Navigator.of(context).pushNamed(
           UserDetailsPage.route,
         ),
         child: const Icon(Icons.add),

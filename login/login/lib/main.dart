@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:login/core/res/applicationcons.dart';
+import 'package:login/pages/completeprofile.dart';
 import 'package:login/pages/editprofession.dart';
 import 'package:login/pages/signin.dart';
 import 'package:login/pages/signup.dart';
@@ -11,6 +12,7 @@ import 'package:login/pages/userProfilepage.dart';
 import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/pages/weclome.dart';
 import 'package:login/provider/authstate.dart';
+import 'package:login/provider/completeprofileprovider.dart';
 import 'package:login/provider/databasestateprovider.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +34,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((context) => AuthStateProvider())),
-        ChangeNotifierProvider(create: ((context) => DatabaseStateProvider()))
+        ChangeNotifierProvider(create: (context) => AuthStateProvider()),
+        ChangeNotifierProvider(create: (context) => DatabaseStateProvider()),
+        ChangeNotifierProvider(create: (context) => CompleteProfileProvider()),
       ],
       child: MaterialApp(
         home: FutureBuilder(
@@ -55,6 +58,7 @@ class _MyAppState extends State<MyApp> {
           UserjobsoverviewPage.route: (context) => const UserjobsoverviewPage(),
           UserProfilePage.route: ((context) => const UserProfilePage()),
           EditProfession.route: ((context) => const EditProfession()),
+          CompleteProfilePage.route: ((context) => const CompleteProfilePage()),
         },
       ),
     );
