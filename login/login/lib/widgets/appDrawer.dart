@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/pages/completeprofile.dart';
 import 'package:login/pages/userdetailspage.dart';
 import 'package:login/pages/userjobsoverviewpage.dart';
 
@@ -44,10 +45,10 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(UserjobsoverviewPage.route);
+              Navigator.of(context).pushNamed(CompleteProfilePage.route);
             },
             leading: const Icon(Icons.work),
-            title: const Text('User jobs overview '),
+            title: const Text('Complete profile'),
           ),
         ],
       ),

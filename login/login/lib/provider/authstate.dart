@@ -59,18 +59,21 @@ class AuthStateProvider with ChangeNotifier {
     return result.email;
   }
 
-  Future<void> signUp(
-      {required String email,
-      required String password,
-      required String name}) async {
-    try {
-      final result = await ApplicationConst.account.create(
-          userId: ID.unique(), email: email, password: password, name: name);
-    } on AppwriteException catch (e) {
-      rethrow;
-    } catch (e) {
-      rethrow;
-    }
-    notifyListeners();
-  }
+  // Future<void> signUp(
+  //     {required String email,
+  //     required String password,
+  //     required String name}) async {
+  //   try {
+  //     final result = await ApplicationConst.account.create(
+  //         userId: ID.unique(), email: email, password: password, name: name);
+
+  //     result.toMap();
+  //     print(result);
+  //   } on AppwriteException catch (e) {
+  //     rethrow;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  //   notifyListeners();
+  // }
 }

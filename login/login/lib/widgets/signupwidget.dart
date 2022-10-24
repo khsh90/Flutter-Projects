@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login/core/res/applicationcons.dart';
@@ -24,6 +25,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   bool isNameHasData = false;
   bool isPasswordHasData = false;
   bool isLoading = false;
+  Map<String, dynamic> data = {'x1': 0, 'x2': 'testData'};
   Future<void> showAlertMsg(String messgae) {
     return showDialog(
       context: context,
@@ -81,16 +83,18 @@ class _SignupWidgetState extends State<SignupWidget> {
     setState(() => isLoading = true);
     try {
       await ApplicationConst.account.create(
-          userId: ID.unique(),
-          email: formFieldValues.email,
-          password: formFieldValues.password,
-          name: formFieldValues.name);
+        userId: ID.unique(),
+        email: formFieldValues.email,
+        password: formFieldValues.password,
+        name: formFieldValues.name,
+      );
 
       await ApplicationConst.account
           .createEmailSession(
               email: formFieldValues.email, password: formFieldValues.password)
           .then((_) => Navigator.of(context)
               .pushReplacementNamed(UserjobsoverviewPage.route));
+
       setState(() => isLoading = false);
 
       // await showAlertMsg(

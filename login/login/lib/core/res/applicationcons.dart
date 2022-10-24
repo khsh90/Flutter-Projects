@@ -6,10 +6,11 @@ class ApplicationConst {
   // static const String apiEndpoint = 'http://46.185.128.40:2025/v1';
   static Client client = Client();
 
-  static const jobDatabaseId = '633a812040fe583bce0a';
+  static const databaseId = '633a812040fe583bce0a';
   static const jobCollectionId = '633a8134751799d382e5';
+  static const userProfileCollectionId = '6353a266b0530babaa88';
   static late Account account;
-  static late Databases databases;
+  static late Databases database;
   static void init() {
     client = Client()
         .setEndpoint(apiEndpoint) // Your Appwrite Endpoint
@@ -17,6 +18,6 @@ class ApplicationConst {
         .setSelfSigned(status: true);
 
     account = Account(client);
-    databases = Databases(client);
+    database = Databases(client);
   }
 }
