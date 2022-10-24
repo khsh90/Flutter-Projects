@@ -66,6 +66,8 @@ class AuthStateProvider with ChangeNotifier {
     try {
       final result = await ApplicationConst.account.create(
           userId: ID.unique(), email: email, password: password, name: name);
+
+        
     } on AppwriteException catch (e) {
       rethrow;
     } catch (e) {
