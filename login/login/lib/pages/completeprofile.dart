@@ -214,8 +214,14 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                                 passwordIcon: Icons.remove_red_eye,
                                 hintText: 'like shafa badran'),
                             Container(
+                              padding: EdgeInsets.all(4),
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 10),
+                              // decoration: BoxDecoration(
+                              //   color: Colors.purple[100],
+                              //   borderRadius: BorderRadius.circular(20),
+                              //   border: Border.all(style: BorderStyle.solid),
+                              // ),
                               child: DropdownSearch<String>(
                                 items: const [
                                   'Amman',
@@ -223,14 +229,22 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                                   'Karak',
                                   'Ajloun',
                                 ],
-                                onChanged: (newValue) => print(newValue),
+                                onSaved: (newValue) => print(newValue),
                                 popupProps: const PopupPropsMultiSelection.menu(
                                     showSearchBox: true),
                                 dropdownDecoratorProps:
                                     const DropDownDecoratorProps(
                                   dropdownSearchDecoration: InputDecoration(
-                                      labelText: 'Areas',
-                                      hintText: 'Select areas'),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      prefixIcon: Icon(Icons.location_city),
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      hintText: 'Select areas',
+                                      hintStyle:
+                                          TextStyle(color: Colors.black)),
                                 ),
                               ),
                             )
