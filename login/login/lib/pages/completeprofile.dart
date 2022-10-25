@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:login/model/completeprofilemodel.dart';
@@ -212,6 +213,27 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                                 showICon: false,
                                 passwordIcon: Icons.remove_red_eye,
                                 hintText: 'like shafa badran'),
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 10),
+                              child: DropdownSearch<String>(
+                                items: const [
+                                  'Amman',
+                                  'Madaba',
+                                  'Karak',
+                                  'Ajloun',
+                                ],
+                                onChanged: (newValue) => print(newValue),
+                                popupProps: const PopupPropsMultiSelection.menu(
+                                    showSearchBox: true),
+                                dropdownDecoratorProps:
+                                    const DropDownDecoratorProps(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      labelText: 'Areas',
+                                      hintText: 'Select areas'),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
