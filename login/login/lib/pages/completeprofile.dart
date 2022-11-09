@@ -1,12 +1,17 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:login/core/res/applicationcons.dart';
 import 'package:login/model/completeprofilemodel.dart';
 import 'package:login/pages/userProfilepage.dart';
 import 'package:login/pages/userjobsoverviewpage.dart';
 import 'package:login/provider/completeprofileprovider.dart';
 import 'package:login/widgets/appDrawer.dart';
+import 'package:login/widgets/dropdownwidget.dart';
 import 'package:provider/provider.dart';
 
 class CompleteProfilePage extends StatefulWidget {
@@ -18,8 +23,11 @@ class CompleteProfilePage extends StatefulWidget {
 }
 
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
+  String? selectedCity;
   CompleteProfileModel completeProfileSingleData =
-      CompleteProfileModel(id: '', city: '');
+      CompleteProfileModel(id: '', city: '', area: '');
+
+  List<String> defaultAreas = [];
 
   Future<void> showAlertMsg(String messgae) {
     return showDialog(
@@ -140,9 +148,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Complete your profile'),
-        ),
+        // appBar: AppBar(
+        //   title: const Text('Complete your profile'),
+        // ),
         body: SizedBox(
           // color: Colors.red,
           height: double.infinity,
@@ -192,61 +200,201 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            textFormFiled(
-                                textInputAction: TextInputAction.next,
-                                labelName: 'City',
-                                keyboardInputType: TextInputType.emailAddress,
-                                icon: Icons.area_chart,
-                                saveFunction: (entredValue) {
-                                  completeProfileSingleData =
-                                      CompleteProfileModel(
-                                          id: completeProfileSingleData.id,
-                                          city: entredValue!);
-                                },
-                                validationFunction: (entredValue) {
-                                  if (entredValue != null &&
-                                      entredValue.isEmpty) {
-                                    return 'Please enter City';
+                            // textFormFiled(
+                            //     textInputAction: TextInputAction.next,
+                            //     labelName: 'City',
+                            //     keyboardInputType: TextInputType.emailAddress,
+                            //     icon: Icons.area_chart,
+                            //     saveFunction: (entredValue) {
+                            //       completeProfileSingleData =
+                            //           CompleteProfileModel(
+                            //               id: completeProfileSingleData.id,
+                            //               city: entredValue!);
+                            //     },
+                            //     validationFunction: (entredValue) {
+                            //       if (entredValue != null &&
+                            //           entredValue.isEmpty) {
+                            //         return 'Please enter City';
+                            //       }
+                            //       return null;
+                            //     },
+                            //     showICon: false,
+                            //     passwordIcon: Icons.remove_red_eye,
+                            //     hintText: 'like shafa badran'),
+                            // Container(
+                            //     padding: const EdgeInsets.all(4),
+                            //     margin: const EdgeInsets.symmetric(
+                            //         horizontal: 30, vertical: 10),
+                            //     child: DropdownSearch<String>(
+                            //         items: ApplicationConst.citites,
+                            //         onSaved: (entredValue) =>
+                            //             completeProfileSingleData =
+                            //                 CompleteProfileModel(
+                            //                     id: completeProfileSingleData
+                            //                         .id,
+                            //                     city: entredValue!),
+                            //         validator: (entredValue) {
+                            //           if (entredValue == null) {
+                            //             return 'الرجاء ادخال المدينة';
+                            //           }
+                            //           return null;
+                            //         },
+                            //         popupProps: PopupProps.menu(
+                            //           constraints: const BoxConstraints(
+                            //             maxHeight: 300,
+                            //           ),
+                            //           menuProps: const MenuProps(
+                            //             shadowColor: Colors.pink,
+                            //             shape: RoundedRectangleBorder(
+                            //               borderRadius: BorderRadius.vertical(
+                            //                 bottom: Radius.circular(20),
+                            //               ),
+                            //             ),
+                            //             backgroundColor:
+                            //                 Color.fromRGBO(225, 190, 231, 1),
+                            //           ),
+                            //           listViewProps: const ListViewProps(
+                            //               itemExtent: 50,
+                            //               padding: EdgeInsets.only(right: 16)),
+                            //           itemBuilder:
+                            //               (context, item, isSelected) => Column(
+                            //             children: [
+                            //               const Divider(
+                            //                 height: 3,
+                            //               ),
+                            //               const SizedBox(
+                            //                 height: 12,
+                            //               ),
+                            //               Container(
+                            //                 alignment: Alignment.bottomRight,
+                            //                 child: Text(
+                            //                   item,
+                            //                   style: GoogleFonts.lalezar(
+                            //                       fontSize: 20),
+                            //                 ),
+                            //               ),
+                            //             ],
+                            //           ),
+                            //           showSelectedItems: true,
+                            //           scrollbarProps:
+                            //               const ScrollbarProps(thickness: 2),
+                            //           showSearchBox: true,
+                            //           searchFieldProps: TextFieldProps(
+                            //               decoration: InputDecoration(
+                            //                   suffixIcon:
+                            //                       const Icon(Icons.search),
+                            //                   hintTextDirection:
+                            //                       TextDirection.rtl,
+                            //                   hintText: 'ابحث عن المدينة',
+                            //                   hintStyle: GoogleFonts.cairo(
+                            //                       fontSize: 18,
+                            //                       fontWeight: FontWeight.bold),
+                            //                   border: const OutlineInputBorder(
+                            //                       borderRadius:
+                            //                           BorderRadius.all(
+                            //                               Radius.circular(
+                            //                                   20))))),
+                            //         ),
+                            //         dropdownDecoratorProps:
+                            //             DropDownDecoratorProps(
+                            //           baseStyle: const TextStyle(
+                            //             fontSize: 19,
+                            //           ),
+                            //           dropdownSearchDecoration: InputDecoration(
+                            //             label: Text(
+                            //               'المدينة',
+                            //               style: GoogleFonts.lalezar(
+                            //                 fontSize: 20,
+                            //               ),
+                            //             ),
+                            //             filled: true,
+                            //             fillColor: const Color.fromRGBO(
+                            //                 225, 190, 231, 1),
+                            //             enabledBorder: const OutlineInputBorder(
+                            //                 borderSide: BorderSide(
+                            //                   width: 1,
+                            //                 ),
+                            //                 borderRadius: BorderRadius.all(
+                            //                     Radius.circular(20))),
+                            //             prefixIcon: const Icon(
+                            //               Icons.location_city,
+                            //               color: Colors.black,
+                            //             ),
+                            //             labelStyle: const TextStyle(
+                            //                 color: Colors.black),
+                            //             // hintText: 'المدينة',
+                            //             // hintStyle:
+                            //             //     GoogleFonts.cairo(fontSize: 20),
+                            //           ),
+                            //         ))),
+
+                            DropDownWidget(
+                                items: ApplicationConst.citites,
+                                onSaved: (entredValue) =>
+                                    completeProfileSingleData =
+                                        CompleteProfileModel(
+                                            id: completeProfileSingleData.id,
+                                            city: entredValue!,
+                                            area:
+                                                completeProfileSingleData.area),
+                                validator: (entredValue) {
+                                  if (entredValue == null) {
+                                    return 'الرجاء ادخال المدينة';
                                   }
                                   return null;
                                 },
-                                showICon: false,
-                                passwordIcon: Icons.remove_red_eye,
-                                hintText: 'like shafa badran'),
-                            Container(
-                              padding: EdgeInsets.all(4),
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 10),
-                              // decoration: BoxDecoration(
-                              //   color: Colors.purple[100],
-                              //   borderRadius: BorderRadius.circular(20),
-                              //   border: Border.all(style: BorderStyle.solid),
-                              // ),
-                              child: DropdownSearch<String>(
-                                items: const [
-                                  'Amman',
-                                  'Madaba',
-                                  'Karak',
-                                  'Ajloun',
-                                ],
-                                onSaved: (newValue) => print(newValue),
-                                popupProps: const PopupPropsMultiSelection.menu(
-                                    showSearchBox: true),
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      prefixIcon: Icon(Icons.location_city),
-                                      labelStyle:
-                                          TextStyle(color: Colors.black),
-                                      hintText: 'Select areas',
-                                      hintStyle:
-                                          TextStyle(color: Colors.black)),
-                                ),
-                              ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value == 'عمان') {
+                                      defaultAreas =
+                                          ApplicationConst.ammanAreas;
+                                    }
+
+                                    selectedCity = value;
+                                    print(selectedCity);
+                                  });
+                                },
+                                hintText: 'ابحث عن المدينة',
+                                label: Text(
+                                  'المدينة',
+                                  style: GoogleFonts.lalezar(
+                                    fontSize: 20,
+                                  ),
+                                )),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Visibility(
+                              visible: selectedCity == 'عمان' ? true : false,
+                              child: DropDownWidget(
+                                  items: defaultAreas,
+                                  onSaved: (entredValue) =>
+                                      completeProfileSingleData =
+                                          CompleteProfileModel(
+                                              id: completeProfileSingleData.id,
+                                              city: completeProfileSingleData
+                                                  .city,
+                                              area: entredValue!),
+                                  validator: (entredValue) {
+                                    if (entredValue == null &&
+                                        selectedCity == 'عمان') {
+                                      return 'الرجاء ادخال المنطقة';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      print(selectedCity);
+                                      print(value);
+                                    });
+                                  },
+                                  hintText: 'ابحث عن المنطقة',
+                                  label: Text(
+                                    'المنطقة',
+                                    style: GoogleFonts.lalezar(
+                                      fontSize: 20,
+                                    ),
+                                  )),
                             )
                           ],
                         ),

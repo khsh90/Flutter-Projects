@@ -19,6 +19,7 @@ class CompleteProfileProvider with ChangeNotifier {
       documentId: "unique()",
       data: {
         'city': completeProfileModel.city,
+        'area': completeProfileModel.area
       },
     );
 
@@ -36,9 +37,9 @@ class CompleteProfileProvider with ChangeNotifier {
 
     for (var eachProfileData in extractedData) {
       loadedUserProfessions.add(CompleteProfileModel(
-        id: eachProfileData['\$id'],
-        city: eachProfileData['city'],
-      ));
+          id: eachProfileData['\$id'],
+          city: eachProfileData['city'],
+          area: eachProfileData['area']));
     }
 
     _completeprofileData = loadedUserProfessions;
